@@ -1,10 +1,9 @@
 ---
 date: 2019-06-27
-source: "https://github.com/XDean/Share/blob/master/doc/database/database-normalize.md"
 tags:
-  - "Database"
+    - "Database"
 categories:
-  - "Coding"
+    - "Coding"
 ---
 
 # Database Normalize 数据库正则化
