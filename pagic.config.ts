@@ -1,4 +1,4 @@
-import {PagicConfig} from 'https://deno.land/x/pagic@v1.2.0/src/Pagic.ts'
+import {PagicConfig} from './_deps.ts'
 
 export default {
   srcDir: 'src',
