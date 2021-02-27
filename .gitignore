@@ -1,0 +1,9 @@
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+# pagic
+
+dist
