@@ -1,15 +1,26 @@
-import {Server, Flags} from "./deps.ts";
+import {Command} from "./deps.ts";
+import * as etc from "./etc/mod.ts";
+import {runServer} from "./server.ts";
 
-const args = Flags.parse(Deno.args);
-console.log(args)
-const server: Server.Server = Server.serve({
-  port: 8000,
-});
-
-console.log("http://localhost:8000/");
-
-for await (const request of server) {
-  request.respond({
-    body: `Hello World!!`,
-  });
+type Options = {
+  port: number
+  configs: string[]
 }
+
+const {options} = await new Command<Options>()
+  .name("xdean-blog")
+  .version("0.1.0")
+  .description("XDean Blog Backend")
+  .option('-p, --port <port:number>', 'Port Number', {default: etc.Default.port})
+  .option("-f, --configs <configs:string[]>", "comma separated list of config files", {default: []})
+  .parse(Deno.args);
+
+etc.loadConfig({
+  port: options.port,
+})
+
+await etc.loadConfigFiles(options.configs)
+
+console.log('config loaded')
+
+runServer()
