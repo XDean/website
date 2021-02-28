@@ -1,9 +1,6 @@
-import {React} from '../_deps.ts';
+import {React, Blog} from '../_deps.ts';
 
-import type {PagicLayout, PageProps} from 'https://deno.land/x/pagic@v1.2.0/src/Pagic.ts'
-import LayoutBase from 'https://deno.land/x/pagic@v1.2.0/src/themes/blog/_layout_base.tsx';
-import Main from 'https://deno.land/x/pagic@v1.2.0/src/themes/blog/_main.tsx';
-import Posts from 'https://deno.land/x/pagic@v1.2.0/src/themes/blog/posts/_posts.tsx';
+import type {PagicLayout, PageProps} from '../_deps.ts'
 
 const Layout: PagicLayout = (props: PageProps) => {
   if (props.outputPath === 'index.html') {
@@ -16,11 +13,11 @@ const Layout: PagicLayout = (props: PageProps) => {
       })
     }
     return (
-      <LayoutBase {...copy} Main={Posts}/>
+      <Blog.LayoutBase {...copy} Main={Blog.Posts}/>
     );
   } else {
     return (
-      <LayoutBase {...props} Main={Main}/>
+      <Blog.LayoutBase {...props} Main={Blog.Main}/>
     );
   }
 };
