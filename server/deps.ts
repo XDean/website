@@ -8,4 +8,5 @@ export * as server from 'https://deno.land/std@0.88.0/http/server.ts';
 
 export * from "https://deno.land/x/deepmerge@1.0.3/mod.ts"
 
-export * as MarkdownIt from " https://dev.jspm.io/markdown-it@12.0.4"
+export {Marked} from "https://deno.land/x/markdown@v2.0.0/mod.ts"
+export { DOMParser, Element } from "https://deno.land/x/deno_dom@v0.1.6-alpha/deno-dom-wasm.ts";
