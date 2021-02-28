@@ -4,6 +4,9 @@ import * as etc from './etc/mod.ts'
 
 export function runServer() {
   const router = new Router();
+  router.get('/ping', ctx => {
+    ctx.response.body = 'pong'
+  })
   initRouter(router);
 
   const app = new Application();

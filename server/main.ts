@@ -1,5 +1,6 @@
 import {Command} from "./deps.ts";
 import * as etc from "./etc/mod.ts";
+import * as posts from "./posts/mod.ts";
 import {runServer} from "./server.ts";
 
 type Options = {
@@ -22,5 +23,7 @@ etc.loadConfig({
 await etc.loadConfigFiles(options.configs)
 
 console.log('config loaded')
+
+await posts.init()
 
 runServer()
