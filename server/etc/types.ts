@@ -3,4 +3,7 @@ export type Config = {
   posts: {
     dir: string
   }
+  store: {
+    dir: string
+  }
 }

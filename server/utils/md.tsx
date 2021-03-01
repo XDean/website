@@ -1,13 +1,13 @@
-import {Marked, DOMParser, path} from '../deps.ts'
+import {datetime, DOMParser, Marked, path} from '../deps.ts'
 import {getGitLog} from "./git.ts";
 
 export type MarkdownInfo = {
   path: string
   title: string
-  summary: string
+  summary: string[]
   image: string
-  created: Date | string
-  updated: Date | string
+  created: Date
+  updated: Date
   author: string
   contributors: string[]
   categories: string[]
@@ -26,9 +26,9 @@ export async function readMarkdownInfo(file: string): Promise<MarkdownInfo> {
   const image = doc.querySelector('img')?.getAttribute('src') || ""
 
   const maxLine = 5;
-  const maxLen = 1024;
+  const maxLen = 512;
   const paragraphs = doc.querySelectorAll('p');
-  const lines: string[] = [];
+  const summary: string[] = [];
   let leftLength = maxLen;
   for (let paragraph of paragraphs) {
     let line = paragraph.textContent.trim();
@@ -38,14 +38,18 @@ export async function readMarkdownInfo(file: string): Promise<MarkdownInfo> {
     if (line.length > leftLength) {
       line = line.substring(0, leftLength);
     }
-    lines.push(line);
+    summary.push(line);
     leftLength -= line.length;
-    if (lines.length >= maxLine || leftLength == 0) {
+    if (summary.length >= maxLine || leftLength == 0) {
       break
     }
   }
-  const summary = lines.join("\n")
-  const gitLog = await getGitLog(file);
+  const gitLog = await getGitLog(file)
+
+  const meta = mdResult.meta
+  if ('date' in meta) {
+    meta.created = meta.date
+  }
 
   return {
     path: file,
@@ -58,6 +62,6 @@ export async function readMarkdownInfo(file: string): Promise<MarkdownInfo> {
     updated: gitLog.date || "",
     tags: [],
     categories: [],
-    ...mdResult.meta,
+    ...meta,
   }
 }

@@ -30,7 +30,7 @@ export async function getGitLog(
   });
   const gitLogAuthorOutput = await gitLogAuthorProcess.output(); // "piped" must be set
   const gitLogAuthor = new TextDecoder().decode(gitLogAuthorOutput).trim();
-  gitLogAuthorProcess.stderr.close();
+  gitLogAuthorProcess.stderr?.close();
   gitLogAuthorProcess.close();
 
   if (gitLogAuthor === '') {
@@ -53,7 +53,7 @@ export async function getGitLog(
   const gitLogDate = new TextDecoder().decode(gitLogDateOutput).trim();
   // Will throw error if not close stderr:
   // AssertionError: Test case is leaking resources.
-  gitLogDateProcess.stderr.close();
+  gitLogDateProcess.stderr?.close();
   gitLogDateProcess.close();
 
   if (gitLogDate === '') {
