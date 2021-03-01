@@ -6,6 +6,7 @@ export const Default: Config = {
     dir: 'posts'
   },
   static: {
+    serve: true,
     dir: "web/static",
   },
 }

@@ -1,9 +1,9 @@
-import {React, ReactDOM} from './deps.ts';
+import {React, react, ReactDOM} from './deps.ts';
 import App from './App.tsx';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <react.StrictMode>
     <App />
-  </React.StrictMode>,
+  </react.StrictMode>,
   document.getElementById('root')
 );

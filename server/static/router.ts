@@ -2,6 +2,9 @@ import {oak} from '../deps.ts'
 import {Global} from "../etc/global.ts";
 
 export function init(router: oak.Router) {
+  if (!Global.static.serve) {
+    return
+  }
   router
     .get('/', async ctx => {
       await oak.send(ctx, 'index.html', {
@@ -9,8 +12,7 @@ export function init(router: oak.Router) {
       });
     })
     .get('/static/:path(.*)', async ctx => {
-      const query = oak.helpers.getQuery(ctx, { mergeParams: true });
-      await oak.send(ctx, query.path, {
+      await oak.send(ctx, ctx.request.url.pathname, {
         root: Global.static.dir,
       });
     })

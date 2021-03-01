@@ -4,6 +4,7 @@ export type Config = {
     dir: string
   }
   static:{
+    serve:boolean
     dir: string
   }
 }
