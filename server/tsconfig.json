@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "typeRoots": [
+      "types/deno.d.ts"
+    ],
+    "plugins": [
+      {
+        "name": "typescript-deno-plugin",
+        "enable": true,
+        "importmap": "import_map.json"
+      }
+    ]
+  }
+}
