@@ -1,5 +1,6 @@
 import {oak} from './deps.ts'
 import {initRouter} from './posts/router.ts'
+import * as staticRouter from './static/router.ts'
 import * as etc from './etc/mod.ts'
 
 export function runServer() {
@@ -8,6 +9,7 @@ export function runServer() {
     ctx.response.body = 'pong'
   })
   initRouter(router);
+  staticRouter.init(router)
 
   const app = new oak.Application();
   app.use(async (ctx, next) => {

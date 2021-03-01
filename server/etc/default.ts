@@ -5,7 +5,7 @@ export const Default: Config = {
   posts: {
     dir: 'posts'
   },
-  store: {
-    dir: '.store'
-  }
+  static: {
+    dir: "web/static",
+  },
 }

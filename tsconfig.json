@@ -1,5 +1,14 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "noImplicitAny": false,
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es6",
+      "es2016"
+    ],
     "typeRoots": [
       "types/deno.d.ts"
     ],

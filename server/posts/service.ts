@@ -18,17 +18,20 @@ export function getInfo(file: string): MarkdownInfo | undefined {
   return infos.find(info => info.path == file)
 }
 
-export function getInfos(size: number, page: number): MarkdownInfo[] {
+export function getInfos(size: number, page: number): { total: number, content: MarkdownInfo[] } {
   const start = Math.min(size * page, infos.length);
   const end = Math.min(size * (page + 1), infos.length);
-  return infos.slice(start, end)
+  return {
+    total: infos.length,
+    content: infos.slice(start, end),
+  }
 }
 
 export async function getContent(file: string): Promise<string | undefined> {
   const info = getInfo(file);
-  if (!!info){
+  if (!!info) {
     return await Deno.readTextFile(info.path)
-  }else{
+  } else {
     return undefined
   }
 }
