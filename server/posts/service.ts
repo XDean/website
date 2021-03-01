@@ -24,6 +24,15 @@ export function getInfos(size: number, page: number): MarkdownInfo[] {
   return infos.slice(start, end)
 }
 
+export async function getContent(file: string): Promise<string | undefined> {
+  const info = getInfo(file);
+  if (!!info){
+    return await Deno.readTextFile(info.path)
+  }else{
+    return undefined
+  }
+}
+
 export async function watch() {
 
 }
