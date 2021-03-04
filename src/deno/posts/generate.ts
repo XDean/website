@@ -10,8 +10,9 @@ export async function generateInfoMetas() {
   for await (let post of posts) {
     infos.push(await readPostMeta(post))
   }
-  infos.sort((a, b) => b.created.getTime() - a.created.getTime())
+  infos.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
   await Deno.writeTextFile('posts/meta.json', JSON.stringify(infos))
+  console.log('generate meta.json success')
 }
 
 async function* scanPosts(folder: string) {

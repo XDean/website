@@ -3,8 +3,8 @@ export type PostMeta = {
   title: string
   summary: string[]
   image: string
-  created: Date
-  updated: Date
+  created: string
+  updated: string
   author: string
   contributors: string[]
   categories: string[]
@@ -13,6 +13,7 @@ export type PostMeta = {
 }
 
 export type PostMetaGroupType = 'year' | 'category' | 'tag'
+export const PostMetaGroupTypes: PostMetaGroupType[] = ['year', 'category', 'tag']
 
 export type PostMetaGroup = {
   name: string
