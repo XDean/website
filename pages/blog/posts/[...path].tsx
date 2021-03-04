@@ -1,6 +1,6 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
 import path from "path";
-import {walkFiles} from "../../util/util";
+import {walkFiles} from "../../../src/util/util";
 import {promises as fs} from "fs";
 import {useState} from "react";
 import MarkdownIt from 'markdown-it'
@@ -38,7 +38,8 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
             .trim()
             .toLowerCase()
             .replace(/ /g, '-')
-            .replace(/\W/g, '')
+            .replace(/[　`~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, '')
+            .replace(/[\uff00-\uffff]/g, '')
         ),
       permalink: true,
       permalinkSpace: true,
@@ -55,6 +56,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
       content: rendered,
       meta: JSON.stringify(meta),
     },
+    revalidate: 10,
   }
 }
 
@@ -67,7 +69,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   }
   return {
     paths: paths,
-    fallback: false,
+    fallback: true,
   }
 }
 
