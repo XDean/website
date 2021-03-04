@@ -1,6 +1,6 @@
 [
   {
-    "path": "posts\\topics\\spring-boot\\jpa\\envers\\1.md",
+    "path": "posts/topics/spring-boot/jpa/envers/1.md",
     "title": "Spring Boot JPA - Hibernate Envers",
     "summary": [
       "虽然Spring Data JPA有默认的Auditing功能，但是功能还是相对单薄。",
@@ -34,7 +34,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\extra\\5-async.md",
+    "path": "posts/topics/spring-boot/extra/5-async.md",
     "title": "Spring Boot 番外 (05) - 异步 Async",
     "summary": [
       "在Java中，异步操作通常需要自己开启线程或者管理线程池。",
@@ -68,7 +68,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\extra\\4-caching.md",
+    "path": "posts/topics/spring-boot/extra/4-caching.md",
     "title": "Spring Boot 番外 (04) - 缓存 Cache",
     "summary": [
       "对于程序员，缓存一定不是一个陌生的概念。\n在我们编写的程序中，数据的处理和传递无时无刻不在发生着。\n而其中总会存在着一些的重复的操作和数据。",
@@ -103,7 +103,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\extra\\3-encrypt.md",
+    "path": "posts/topics/spring-boot/extra/3-encrypt.md",
     "title": "Spring Boot 番外 (03) - 敏感信息加密 Encrypt",
     "summary": [
       "在所有的应用中，我们会需要一些配置信息，其中难免会有一些敏感信息。\n如果明文将他们放到仓库里，这些信息就会泄露。而如果我们不放在仓库里，又会给我们的部署带来麻烦。\n因此，加密敏感信息就成了必要的需求了。",
@@ -142,7 +142,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\6.md",
+    "path": "posts/topics/spring-boot/6.md",
     "title": "Spring Boot (06) - Auto Configuration 自动配置 与 Starter 启动器",
     "summary": [
       "前面几节讲解了Spring容器以及Bean的用法。\n其实至此Spring的核心功能已经结束了，从本节往后所有的功能不过是在容器之内所做的拓展。\n对于Spring Boot自己来说，最重要的功能就是Auto Configuration(自动配置)了。",
@@ -170,7 +170,7 @@
     "prev": "5.md"
   },
   {
-    "path": "posts\\2019\\ui-task-optimize\\ui-task-optimize.md",
+    "path": "posts/2019/ui-task-optimize/ui-task-optimize.md",
     "title": "UI事件线程任务调度优化",
     "summary": [
       "一般UI框架都是单线程事件模型。一个典型的UI线程如图",
@@ -203,7 +203,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\extra\\2-custom-condition.md",
+    "path": "posts/topics/spring-boot/extra/2-custom-condition.md",
     "title": "Spring Boot 番外 (02) - 自定义Condition",
     "summary": [
       "Spring Boot提供了Condition接口来自定义Conditional。它只有一个方法",
@@ -238,7 +238,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\extra\\1-custom-scope.md",
+    "path": "posts/topics/spring-boot/extra/1-custom-scope.md",
     "title": "Spring Boot 番外 (01) - 自定义Scope",
     "summary": [
       "ConfigurableBeanFactory提供了接口來进行自定义Scope的注册",
@@ -272,7 +272,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\5.md",
+    "path": "posts/topics/spring-boot/5.md",
     "title": "Spring Boot (05) - Bean的配置与生命周期",
     "summary": [
       "Spring Boot提供了一系列的注解来帮助我们配置Bean，从而正确地找到合适地依赖项。",
@@ -319,7 +319,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\4.md",
+    "path": "posts/topics/spring-boot/4.md",
     "title": "Spring Boot (04) - Bean的发现",
     "summary": [
       "上文讲到如何将Bean注册到容器中。整个过程看上去像是魔法一样，没有任何耦合，只是加了一个注解就完成了。",
@@ -362,7 +362,7 @@
     ]
   },
   {
-    "path": "posts\\2019\\go-enc-config.md",
+    "path": "posts/2019/go-enc-config.md",
     "title": "Go - 配置文件加密",
     "summary": [
       "任何应用都不可避免地要使用配置文件，而一些配置信息包含敏感信息，如果明文放在配置文件中上传到远程仓库里显然是不合适地。",
@@ -398,7 +398,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\3.md",
+    "path": "posts/topics/spring-boot/3.md",
     "title": "Spring Boot (03) - 容器与Bean",
     "summary": [
       "在开篇\"Spring Boot是什么\"一节，我们讲到Spring Boot是一个容器。\n如果你有心翻看Spring Boot Starter的依赖，你会发现除了包含基础设施的spring-core项目外，最主要的项目便是spring-context，直译为上下文，亦即容器。",
@@ -441,7 +441,7 @@
     ]
   },
   {
-    "path": "posts\\topics\\spring-boot\\2.md",
+    "path": "posts/topics/spring-boot/2.md",
     "title": "Spring Boot (02) - 元注解",
     "summary": [
       "在Spring Boot中大量使用注解来简化配置。\n但是随着注解的增加，重复的注解本身又变得繁琐。",
@@ -484,7 +484,7 @@
     "next": "3.md"
   },
   {
-    "path": "posts\\topics\\spring-boot\\1.md",
+    "path": "posts/topics/spring-boot/1.md",
     "title": "Spring Boot (01) - Hello World",
     "summary": [
       "尽管网上已经有许许多多的Spring Boot教程，但是其侧重点总是在如何搭建和配置WEB服务而非Spring Boot本身。\n本教程将着重于Spring Boot本身，一方面介绍核心特性的用法，一方面结合源码一步步揭开Spring Boot的\"魔法\"。",
@@ -522,7 +522,7 @@
     "next": "2.md"
   },
   {
-    "path": "posts\\2019\\database-normalize.md",
+    "path": "posts/2019/database-normalize.md",
     "title": "Database Normalize 数据库正则化",
     "summary": [
       "Database normalization is the process of structuring a relational database in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity. It was first proposed by Edgar F. Codd as an integral part of his relational model.\nNormalization entails organizing the columns (attributes) and tables (relations) of a database to ensure that their dependencies are properly enforced by database integrity constraints. It is accomplished by applying some formal rules e"
@@ -544,7 +544,7 @@
     "date": "2019-06-27T00:00:00.000Z"
   },
   {
-    "path": "posts\\2018\\java-memory-model.md",
+    "path": "posts/2018/java-memory-model.md",
     "title": "理解Java内存模型",
     "summary": [
       "几天前我在stackoverflow上遇到了一个有趣的问题，我们从这个问题开谈起",
@@ -571,7 +571,7 @@
     "date": "2018-10-12T00:00:00.000Z"
   },
   {
-    "path": "posts\\2018\\lambda\\3-samples-and-hints.md",
+    "path": "posts/2018/lambda/3-samples-and-hints.md",
     "title": "Lambda表达式(3) - 建议用法与示例",
     "summary": [],
     "image": "",
@@ -593,7 +593,7 @@
     "prev": "2-lambda-vs-method-reference.md"
   },
   {
-    "path": "posts\\2018\\lambda\\2-lambda-vs-method-reference.md",
+    "path": "posts/2018/lambda/2-lambda-vs-method-reference.md",
     "title": "Lambda表达式(2) - VS 方法引用",
     "summary": [],
     "image": "",
@@ -616,7 +616,7 @@
     "next": "3-samples-and-hints.md"
   },
   {
-    "path": "posts\\2018\\lambda\\1-lambda-vs-anonymous.md",
+    "path": "posts/2018/lambda/1-lambda-vs-anonymous.md",
     "title": "Lambda表达式(1) - VS 匿名内部类",
     "summary": [],
     "image": "",
@@ -638,7 +638,7 @@
     "next": "2-lambda-vs-method-reference.md"
   },
   {
-    "path": "posts\\2018\\rxjava\\4-BackPressure.md",
+    "path": "posts/2018/rxjava/4-BackPressure.md",
     "title": "理解RxJava与响应式(4) - 背压",
     "summary": [
       "我们还是以吮指原味鸡为例，KFC分为后厨和前台。后厨产鸡(producer)，前台卖鸡(consumer)，由不同的人(thread)来负责。",
@@ -666,7 +666,7 @@
     "prev": "3-Scheduler.md"
   },
   {
-    "path": "posts\\2018\\rxjava\\3-Scheduler.md",
+    "path": "posts/2018/rxjava/3-Scheduler.md",
     "title": "理解RxJava与响应式(3) - 线程调度",
     "summary": [
       "RxJava 为我们提供了两个调度操作符subscribeOn和observeOn.",
@@ -692,7 +692,7 @@
     "next": "4-BackPressure.md"
   },
   {
-    "path": "posts\\2018\\rxjava\\2-Operator.md",
+    "path": "posts/2018/rxjava/2-Operator.md",
     "title": "理解RxJava与响应式(2) - 操作符",
     "summary": [
       "继续刚才KFC的例子。\n我们都知道吮指原味鸡来自于鸡的不同部位，分别有鸡腿，鸡胸和鸡肋。",
@@ -721,7 +721,7 @@
     "next": "2-Operator.md"
   },
   {
-    "path": "posts\\2018\\rxjava\\1-Reactive-API.md",
+    "path": "posts/2018/rxjava/1-Reactive-API.md",
     "title": "理解RxJava与响应式(1) - 响应式流",
     "summary": [
       "Reactive-streams 是 RxJava的唯一依赖，它是一项响应式编程API标准，已被java标准库收录。",

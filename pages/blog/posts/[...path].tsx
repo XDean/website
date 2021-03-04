@@ -1,11 +1,10 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
 import path from "path";
-import {walkFiles} from "../../../src/util/util";
 import {promises as fs} from "fs";
-import {useState} from "react";
 import MarkdownIt from 'markdown-it'
 import MarkdownItAnchor from 'markdown-it-anchor'
 import gm from 'gray-matter'
+import {getPostMeta, getPostMetas} from "../../../src/posts/service";
 
 type Props = {
   content: string
@@ -27,8 +26,9 @@ const Post = (props: Props) => {
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
   const postFile = path.join(process.cwd(), 'posts', ...ctx.params.path)
+  const postMeta = await getPostMeta(path.join('posts', ...ctx.params.path))
   const raw = await fs.readFile(postFile, 'utf-8')
-  const {content, data: rawMeta} = gm(raw)
+  const {content} = gm(raw) // remove front matter
   const md = MarkdownIt()
     .use(MarkdownItAnchor, {
       level: [2],
@@ -47,29 +47,25 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
       permalinkBefore: true,
     })
   const rendered = md.render(content)
-  const meta = {
-    // TODO git info
-    ...rawMeta
-  }
   return {
     props: {
       content: rendered,
-      meta: JSON.stringify(meta),
+      meta: JSON.stringify(postMeta),
     },
-    revalidate: 10,
   }
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const postsDir = path.join(process.cwd(), 'posts');
-  const filenames = await walkFiles(postsDir, {ext: ['md']})
-  const paths = []
-  for await (const f of filenames) {
-    paths.push({params: {path: f}})
-  }
+  const metas = await getPostMetas()
   return {
-    paths: paths,
-    fallback: true,
+    paths: metas.map(m => {
+      return ({
+        params: {
+          path: m.path.substring('posts/'.length).split('/')
+        }
+      });
+    }),
+    fallback: false,
   }
 }
 
