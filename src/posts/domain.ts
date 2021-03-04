@@ -11,3 +11,10 @@ export type PostMeta = {
   tags: string[]
   [key: string]: any
 }
+
+export type PostMetaGroupType = 'year' | 'category' | 'tag'
+
+export type PostMetaGroup = {
+  name: string
+  count: number
+}

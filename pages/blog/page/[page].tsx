@@ -1,13 +1,6 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
-import path from "path";
-import {walkFiles} from "../../../src/util/util";
-import {promises as fs} from "fs";
-import {useState} from "react";
-import MarkdownIt from 'markdown-it'
-import MarkdownItAnchor from 'markdown-it-anchor'
-import gm from 'gray-matter'
 import {getPostMetas} from "../../../src/posts/service";
-import {PostMeta} from "../../../src/posts/meta";
+import {PostMeta} from "../../../src/posts/domain";
 import {useRouter} from "next/router";
 
 const pageSize = 10
@@ -23,7 +16,7 @@ type Params = {
   page: string
 }
 
-const Post = (props: Props) => {
+const Page = (props: Props) => {
   const router = useRouter()
   if (router.isFallback) {
     return <div>Loading...</div>
@@ -73,4 +66,4 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 }
 
 
-export default Post
+export default Page

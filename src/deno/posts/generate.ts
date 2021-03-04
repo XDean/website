@@ -1,6 +1,6 @@
 import {fs} from '../deps.ts'
 import {readPostMeta} from "./meta.ts";
-import {PostMeta} from "../../posts/meta.ts";
+import {PostMeta} from "../../posts/domain.ts";
 
 let infos: PostMeta[] = []
 

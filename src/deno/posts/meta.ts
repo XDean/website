@@ -1,6 +1,6 @@
 import {datetime, md, dom, path, slash} from '../deps.ts'
 import {getGitLog} from "./git.ts";
-import {PostMeta} from "../../posts/meta.ts"
+import {PostMeta} from "../../posts/domain.ts"
 
 
 export async function readPostMeta(file: string): Promise<PostMeta> {
