@@ -5,9 +5,11 @@ import {promises as fs} from "fs";
 import {useState} from "react";
 import MarkdownIt from 'markdown-it'
 import MarkdownItAnchor from 'markdown-it-anchor'
+import gm from 'gray-matter'
 
 type Props = {
   content: string
+  meta: string
 }
 
 type Params = {
@@ -16,14 +18,17 @@ type Params = {
 
 const Post = (props: Props) => {
   return (
-    <div dangerouslySetInnerHTML={{__html: props.content}}>
-    </div>
+    <>
+      <p>{props.meta}</p>
+      <div dangerouslySetInnerHTML={{__html: props.content}}/>
+    </>
   )
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
   const postFile = path.join(process.cwd(), 'posts', ...ctx.params.path)
-  const content = await fs.readFile(postFile, 'utf-8')
+  const raw = await fs.readFile(postFile, 'utf-8')
+  const {content, data: rawMeta} = gm(raw)
   const md = MarkdownIt()
     .use(MarkdownItAnchor, {
       level: [2],
@@ -40,10 +45,15 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
       permalinkSymbol: '§',
       permalinkBefore: true,
     })
-  const res = md.render(content)
+  const rendered = md.render(content)
+  const meta = {
+    // TODO git info
+    ...rawMeta
+  }
   return {
     props: {
-      content: res
+      content: rendered,
+      meta: JSON.stringify(meta),
     },
   }
 }
