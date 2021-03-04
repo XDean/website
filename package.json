@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate-post-meta": "deno run --allow-read --allow-write --allow-run --unstable ./src/deno/posts/generate.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

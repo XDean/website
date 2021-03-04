@@ -1,21 +1,9 @@
 import {datetime, md, dom, path} from '../deps.ts'
 import {getGitLog} from "./git.ts";
+import {PostMeta} from "../../posts/meta.ts"
 
-export type MarkdownInfo = {
-  path: string
-  title: string
-  summary: string[]
-  image: string
-  created: Date
-  updated: Date
-  author: string
-  contributors: string[]
-  categories: string[]
-  tags: string[]
-  [key: string]: any
-}
 
-export async function readMarkdownInfo(file: string): Promise<MarkdownInfo> {
+export async function readPostMeta(file: string): Promise<PostMeta> {
   const decoder = new TextDecoder("utf-8")
   const markdown = decoder.decode(await Deno.readFile(file))
 

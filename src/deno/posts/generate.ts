@@ -1,13 +1,14 @@
 import {fs} from '../deps.ts'
-import {MarkdownInfo, readMarkdownInfo} from "./md.ts";
+import {readPostMeta} from "./meta.ts";
+import {PostMeta} from "../../posts/meta.ts";
 
-let infos: MarkdownInfo[] = []
+let infos: PostMeta[] = []
 
 export async function generateInfoMetas() {
   infos = []
   const posts = scanPosts('posts')
   for await (let post of posts) {
-    infos.push(await readMarkdownInfo(post))
+    infos.push(await readPostMeta(post))
   }
   infos.sort((a, b) => b.created.getTime() - a.created.getTime())
   await Deno.writeTextFile('posts/meta.json', JSON.stringify(infos))
