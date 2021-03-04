@@ -1,52 +1,66 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
+import {getPostByGroup, getPostMetaGroup, getPostMetas} from "../../../../../src/posts/service";
+import {PostMeta, PostMetaGroupType} from "../../../../../src/posts/domain";
+import {getPage, PageData} from "../../../../../src/util/util";
 import {useRouter} from "next/router";
-import {groupByCategory, getPostMetas} from "../../../../../src/posts/service";
 
-const pageSize = 10
+const pageSize = 30
 
 type Params = {
-  category: string
+  type: PostMetaGroupType
+  name: string
+  page: string
 }
 
 type Props = {
-  categories: {
-    [key: string]: number
-  }
+  params: Params
+  data: PageData<PostMeta>
 }
 
-const Post = (props: Props) => {
+const Page = (props: Props) => {
+  const router = useRouter()
+  if (router.isFallback) {
+    return <div>loading...</div>
+  }
   return (
     <>
-      {Object.entries(props.categories).map(e => (
-        <div key={e[0]}>
-          {e[0]} - {e[1]}
-        </div>
-      ))}
-    </>
-  )
-}
+      <p>{props.params.name}</p>
+      {props.data.data.map(e => {
+        const date = new Date(e.created);
+        return (
+          <div key={e.path}>
+            <a href={`/blog/${e.path}`}>
+              {date.getFullYear()}-{date.getMonth()}-{date.getDay()} - {e.title}
+            </a>
+          </div>
+        );
+      })}
+        </>
+        )
+      }
 
-export const getStaticProps: GetStaticProps<Props> = async ctx => {
-  const metas = await getPostMetas()
-
+export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
+  console.log('hahah', ctx)
+  const metas = await getPostByGroup(ctx.params.type, ctx.params.name)
+  const pageNumber = Number(ctx.params.page);
+  const pageData = getPage(metas, pageNumber, pageSize)
+  if (pageData === null) {
+    return {notFound: true}
+  }
   return {
     props: {
-      categories: {},
-    } as Props,
+      data: pageData,
+      params: ctx.params,
+    },
   }
 }
+
 
 export const getStaticPaths: GetStaticPaths<Params> = async ctx => {
-  const categories = await groupByCategory()
   return {
-    paths: categories.map(c => ({
-      params: {
-        category: c.name,
-      }
-    })),
-    fallback: false
+    paths: [],
+    fallback: true,
   }
 }
 
-
-export default Post
+export default Page

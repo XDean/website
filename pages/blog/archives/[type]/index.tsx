@@ -11,13 +11,13 @@ type Props = {
   groups: PostMetaGroup[]
 }
 
-const Post = (props: Props) => {
+const Page = (props: Props) => {
   return (
     <>
       <p>{props.type}</p>
       {props.groups.map(e => (
-        <div key={e.count}>
-          <a href={`${props.type}/${e.name}`}>
+        <div key={e.name}>
+          <a href={`${e.name}`}>
             {e.name} - {e.count}
           </a>
         </div>
@@ -28,7 +28,11 @@ const Post = (props: Props) => {
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
   const groups = await getPostMetaGroup(ctx.params.type)
-  groups.sort((a, b) => a.count - b.count)
+  if (ctx.params.type === "year") {
+    groups.sort((a, b) => b.name > a.name ? 1 : -1)
+  } else {
+    groups.sort((a, b) => b.count - a.count)
+  }
   return {
     props: {
       type: ctx.params.type,
@@ -49,4 +53,4 @@ export const getStaticPaths: GetStaticPaths<Params> = async ctx => {
 }
 
 
-export default Post
+export default Page

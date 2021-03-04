@@ -23,6 +23,17 @@ export async function getPostMetaGroup(type: PostMetaGroupType) {
   }
 }
 
+export async function getPostByGroup(type: PostMetaGroupType, value: string) {
+  switch (type) {
+    case "year":
+      return getByYear(value)
+    case "category":
+      return getByCategory(value)
+    case "tag":
+      return getByTag(value)
+  }
+}
+
 async function groupByCategory(): Promise<PostMetaGroup[]> {
   const metas = await getPostMetas()
   const categories: PostMetaGroup[] = []
@@ -65,7 +76,7 @@ export async function groupByYear(): Promise<PostMetaGroup[]> {
   const metas = await getPostMetas()
   const tags: PostMetaGroup[] = []
   for (const meta of metas) {
-    const year = meta.created.getFullYear()
+    const year = new Date(meta.created).getFullYear()
     const find = tags.find(c => c.name === year.toString())
     if (find) {
       find.count++
@@ -77,4 +88,19 @@ export async function groupByYear(): Promise<PostMetaGroup[]> {
     }
   }
   return tags
+}
+
+export async function getByCategory(c: string) {
+  const metas = await getPostMetas()
+  return metas.filter(m => m.categories.includes(c))
+}
+
+export async function getByTag(t: string) {
+  const metas = await getPostMetas()
+  return metas.filter(m => m.tags.includes(t))
+}
+
+export async function getByYear(year: string) {
+  const metas = await getPostMetas()
+  return metas.filter(m => new Date(m.created).getFullYear().toString() === year)
 }

@@ -2,15 +2,11 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {getPostMetas} from "../../../src/posts/service";
 import {PostMeta} from "../../../src/posts/domain";
 import {useRouter} from "next/router";
+import {getPage, PageData} from "../../../src/util/util";
 
 const pageSize = 10
 
-type Props = {
-  page: number
-  first: boolean
-  last: boolean
-  metas: PostMeta[]
-}
+type Props = PageData<PostMeta>
 
 type Params = {
   page: string
@@ -23,36 +19,33 @@ const Page = (props: Props) => {
   }
   return (
     <>
-      {props.metas.map(m => (
+      <div><a href={'../1'}>Home</a></div>
+      <div><a href={'/blog/archives/tag'}>标签</a></div>
+      <div><a href={'/blog/archives/category'}>分类</a></div>
+      <div><a href={'/blog/archives/year'}>归档</a></div>
+      {props.data.map(m => (
         <div key={m.path}>
           <a href={`/blog/${m.path}`}>{m.title}</a>
         </div>
       ))}
       <p/>
-      {!props.first && <div><a href={`/blog/page/${props.page - 1}`}>上一页</a></div>}
-      {!props.last && <div><a href={`/blog/page/${props.page + 1}`}>下一页</a></div>}
+      {!props.first && <div><a href={`../${props.page - 1}`}>上一页</a></div>}
+      {!props.last && <div><a href={`../${props.page + 1}`}>下一页</a></div>}
     </>
   )
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
   const metas = await getPostMetas()
-  const maxPage = Math.ceil(metas.length / pageSize)
-  const page = Number(ctx.params.page)
-  console.log(page, maxPage)
-  if (isNaN(page) || page < 1 || page > maxPage) {
+  const pageNumber = Number(ctx.params.page);
+  const pageData = getPage(metas, pageNumber, pageSize)
+  if (pageData === null) {
     return {
       notFound: true
     }
   }
-  const pageMetas = metas.slice((page - 1) * pageSize, Math.min(page * pageSize, metas.length))
   return {
-    props: {
-      page: page,
-      first: page === 1,
-      last: page === maxPage,
-      metas: pageMetas,
-    },
+    props: pageData,
   }
 }
 
