@@ -1,6 +1,5 @@
 import {promises as fs} from "fs";
 import path from "path";
-import {options} from "colorette";
 
 export async function* walkFiles(dir: string, options: {
   ext: string[]
