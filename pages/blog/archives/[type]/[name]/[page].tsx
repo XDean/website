@@ -40,7 +40,6 @@ const Page = (props: Props) => {
       }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
-  console.log('hahah', ctx)
   const metas = await getPostByGroup(ctx.params.type, ctx.params.name)
   const pageNumber = Number(ctx.params.page);
   const pageData = getPage(metas, pageNumber, pageSize)
