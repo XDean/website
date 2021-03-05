@@ -20,7 +20,7 @@ const Page = (props: Props) => {
   }
   return (
     <>
-      <div><Link href={'../1'}>Home</Link></div>
+      <div><Link href={'1'}>Home</Link></div>
       <div><Link href={'/blog/archives/tag'}>标签</Link></div>
       <div><Link href={'/blog/archives/category'}>分类</Link></div>
       <div><Link href={'/blog/archives/year'}>归档</Link></div>
@@ -30,8 +30,8 @@ const Page = (props: Props) => {
         </div>
       ))}
       <p/>
-      {!props.first && <div><Link href={`../${props.page - 1}`}>上一页</Link></div>}
-      {!props.last && <div><Link href={`../${props.page + 1}`}>下一页</Link></div>}
+      {!props.first && <div><Link href={`${props.page - 1}`}>上一页</Link></div>}
+      {!props.last && <div><Link href={`${props.page + 1}`}>下一页</Link></div>}
     </>
   )
 }

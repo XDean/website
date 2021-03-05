@@ -1,9 +1,10 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getPostByGroup, getPostMetaGroup, getPostMetas} from "../../../../../src/posts/service";
+import {getPostByGroup} from "../../../../../src/posts/service";
 import {PostMeta, PostMetaGroupType} from "../../../../../src/posts/domain";
 import {getPage, PageData} from "../../../../../src/util/util";
 import {useRouter} from "next/router";
 import Link from 'next/link'
+
 const pageSize = 30
 
 type Params = {
@@ -30,14 +31,16 @@ const Page = (props: Props) => {
         return (
           <div key={e.path}>
             <Link href={`/blog/${e.path}`}>
-              {date.getFullYear()}-{date.getMonth()}-{date.getDay()} - {e.title}
+              <a>
+                {date.getFullYear()}-{date.getMonth()}-{date.getDay()} - {e.title}
+              </a>
             </Link>
           </div>
         );
       })}
-        </>
-        )
-      }
+    </>
+  )
+}
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
   const metas = await getPostByGroup(ctx.params.type, ctx.params.name)

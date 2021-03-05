@@ -18,7 +18,7 @@ const Page = (props: Props) => {
       <p>{props.type}</p>
       {props.groups.map(e => (
         <div key={e.name}>
-          <Link href={`${e.name}`}>
+          <Link href={`${props.type}/${e.name}`}>
             <a>
             {e.name} - {e.count}
             </a>
