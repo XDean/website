@@ -1,10 +1,10 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
 import path from "path";
 import {promises as fs} from "fs";
-import MarkdownIt from 'markdown-it'
-import MarkdownItAnchor from 'markdown-it-anchor'
 import gm from 'gray-matter'
 import {getPostMeta, getPostMetas} from "../../../src/posts/service";
+import {PostView} from "../../../src/components/blog";
+import {useMemo} from "react";
 
 type Props = {
   content: string
@@ -16,10 +16,10 @@ type Params = {
 }
 
 const Post = (props: Props) => {
+  const meta = useMemo(() => JSON.parse(props.meta), [props.meta])
   return (
     <>
-      <p>{props.meta}</p>
-      <div dangerouslySetInnerHTML={{__html: props.content}}/>
+      <PostView content={props.content} meta={meta}/>
     </>
   )
 }
@@ -29,27 +29,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
   const postMeta = await getPostMeta(path.join('posts', ...ctx.params.path))
   const raw = await fs.readFile(postFile, 'utf-8')
   const {content} = gm(raw) // remove front matter
-  const md = MarkdownIt()
-    .use(MarkdownItAnchor, {
-      level: [2],
-      slugify: (hash: string) =>
-        encodeURIComponent(
-          hash
-            .trim()
-            .toLowerCase()
-            .replace(/ /g, '-')
-            .replace(/[　`~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, '')
-            .replace(/[\uff00-\uffff]/g, '')
-        ),
-      permalink: true,
-      permalinkSpace: true,
-      permalinkSymbol: '§',
-      permalinkBefore: true,
-    })
-  const rendered = md.render(content)
   return {
     props: {
-      content: rendered,
+      content: content,
       meta: JSON.stringify(postMeta),
     },
   }
