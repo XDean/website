@@ -1,6 +1,7 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getPostMetaGroup} from "../../../../src/posts/service";
-import {PostMeta, PostMetaGroup, PostMetaGroupType} from "../../../../src/posts/domain";
+import {PostMetaGroup, PostMetaGroupType} from "../../../../src/posts/domain";
+import Link from 'next/link'
 
 type Params = {
   type: PostMetaGroupType
@@ -17,9 +18,11 @@ const Page = (props: Props) => {
       <p>{props.type}</p>
       {props.groups.map(e => (
         <div key={e.name}>
-          <a href={`${e.name}`}>
+          <Link href={`${e.name}`}>
+            <a>
             {e.name} - {e.count}
-          </a>
+            </a>
+          </Link>
         </div>
       ))}
     </>
@@ -37,7 +40,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
     props: {
       type: ctx.params.type,
       groups: groups,
-    } as Props,
+    },
   }
 }
 

@@ -3,7 +3,7 @@ import {getPostByGroup, getPostMetaGroup, getPostMetas} from "../../../../../src
 import {PostMeta, PostMetaGroupType} from "../../../../../src/posts/domain";
 import {getPage, PageData} from "../../../../../src/util/util";
 import {useRouter} from "next/router";
-
+import Link from 'next/link'
 const pageSize = 30
 
 type Params = {
@@ -29,9 +29,9 @@ const Page = (props: Props) => {
         const date = new Date(e.created);
         return (
           <div key={e.path}>
-            <a href={`/blog/${e.path}`}>
+            <Link href={`/blog/${e.path}`}>
               {date.getFullYear()}-{date.getMonth()}-{date.getDay()} - {e.title}
-            </a>
+            </Link>
           </div>
         );
       })}
