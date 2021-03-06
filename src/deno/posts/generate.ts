@@ -6,12 +6,12 @@ let infos: PostMeta[] = []
 
 export async function generateInfoMetas() {
   infos = []
-  const posts = scanPosts('posts')
+  const posts = scanPosts('public/blog/posts')
   for await (let post of posts) {
     infos.push(await readPostMeta(post))
   }
   infos.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
-  await Deno.writeTextFile('posts/meta.json', JSON.stringify(infos))
+  await Deno.writeTextFile('public/blog/meta.json', JSON.stringify(infos))
   console.log('generate meta.json success')
 }
 

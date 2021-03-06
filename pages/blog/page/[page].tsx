@@ -26,7 +26,7 @@ const Page = (props: Props) => {
       <div><Link href={'/blog/archives/year'}>归档</Link></div>
       {props.data.map(m => (
         <div key={m.path}>
-          <Link href={`/blog/${m.path}`}>{m.title}</Link>
+          <Link href={m.link}>{m.title}</Link>
         </div>
       ))}
       <p/>

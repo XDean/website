@@ -1,4 +1,4 @@
-import {datetime, md, dom, path, slash} from '../deps.ts'
+import {dom, fs, md, slash, path} from '../deps.ts'
 import {getGitLog} from "./git.ts";
 import {PostMeta} from "../../posts/domain.ts"
 
@@ -10,7 +10,7 @@ export async function readPostMeta(file: string): Promise<PostMeta> {
   const mdResult = md.Marked.parse(markdown)
   const doc = new dom.DOMParser().parseFromString(mdResult.content, 'text/html')!
 
-  const title = doc.querySelector('h1')?.textContent || path.basename(file)
+  const title = doc.querySelector('h1')?.textContent || ''
   const image = doc.querySelector('img')?.getAttribute('src') || ""
 
   const maxLine = 5;
@@ -41,6 +41,7 @@ export async function readPostMeta(file: string): Promise<PostMeta> {
 
   return {
     path: slash(file),
+    link: pathToLink(file),
     title,
     summary,
     image,
@@ -52,4 +53,20 @@ export async function readPostMeta(file: string): Promise<PostMeta> {
     categories: [],
     ...meta,
   }
+}
+
+function pathToLink(file: string) {
+  file = slash(file)
+  if (file.startsWith('public/')) {
+    file = file.substring('public/'.length)
+  }
+  const ext = path.extname(file)
+  if (ext === '.md') {
+    file = file.substring(0, file.length - 3)
+  }
+  const base = path.basename(file)
+  if (base === 'index' || base === 'README') {
+    file = path.dirname(file)
+  }
+  return '/' + slash(file)
 }

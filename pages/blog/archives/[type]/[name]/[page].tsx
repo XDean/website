@@ -30,7 +30,7 @@ const Page = (props: Props) => {
         const date = new Date(e.created);
         return (
           <div key={e.path}>
-            <Link href={`/blog/${e.path}`}>
+            <Link href={e.link}>
               <a>
                 {date.getFullYear()}-{date.getMonth()}-{date.getDay()} - {e.title}
               </a>

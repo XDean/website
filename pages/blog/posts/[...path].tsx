@@ -25,8 +25,8 @@ const Post = (props: Props) => {
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
-  const postFile = path.join(process.cwd(), 'posts', ...ctx.params.path)
-  const postMeta = await getPostMeta(path.join('posts', ...ctx.params.path))
+  const postMeta = await getPostMeta(path.join('/blog/posts', ...ctx.params.path))
+  const postFile = path.join(process.cwd(), postMeta.path)
   const raw = await fs.readFile(postFile, 'utf-8')
   const {content} = gm(raw) // remove front matter
   return {
@@ -43,7 +43,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
     paths: metas.map(m => {
       return ({
         params: {
-          path: m.path.substring('posts/'.length).split('/')
+          path: m.link.substring('/blog/posts/'.length).split('/')
         }
       });
     }),

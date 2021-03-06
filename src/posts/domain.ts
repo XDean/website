@@ -1,5 +1,6 @@
 export type PostMeta = {
   path: string
+  link: string
   title: string
   summary: string[]
   image: string
