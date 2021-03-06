@@ -13,13 +13,17 @@ function MyApp({Component, pageProps}) {
         <title>XDean</title>
       </Head>
       <ThemeProvider theme={MyTheme}>
-        <CssBaseline/>
-        <HeaderView/>
-        <Divider style={{marginBottom: 20}}/>
-        <Component {...pageProps} />
-        <Divider style={{margin: '20px auto 0 auto', width: "60%"}}/>
-        <div style={{margin: '10px auto 30px auto', width: 'max-content'}}>
-          <FooterView/>
+        <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+          <CssBaseline/>
+          <HeaderView/>
+          <Divider style={{marginBottom: 20}}/>
+          <main style={{flexGrow: 1}}>
+            <Component {...pageProps} />
+          </main>
+          <Divider style={{margin: '20px auto 0 auto', width: "60%"}}/>
+          <div style={{margin: '10px auto 30px auto', width: 'max-content'}}>
+            <FooterView/>
+          </div>
         </div>
       </ThemeProvider>
     </>
