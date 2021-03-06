@@ -12,7 +12,7 @@ export const HeaderView = () => {
         </Button>
       </Link>
       <Link href={'/blog'}>
-        <Button variant={"text"} style={{marginLeft: 50}}>
+        <Button variant={"text"} style={{marginLeft: 30}}>
           <Typography variant={'h5'}>
             Blog
           </Typography>

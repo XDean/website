@@ -5,6 +5,7 @@ import {useRouter} from "next/router";
 import {getPage, PageData} from "../../../src/util/util";
 import Link from 'next/link'
 import {PostsView} from "../../../src/components/blog/Posts";
+import {Loading} from "../../../src/components/util/Loading";
 
 const pageSize = 10
 
@@ -19,7 +20,7 @@ type Params = {
 const Page = (props: Props) => {
   const router = useRouter()
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return <Loading/>
   }
   return (
     <PostsView data={props.data}/>

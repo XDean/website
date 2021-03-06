@@ -5,6 +5,7 @@ import {getPage, PageData} from "../../../../../src/util/util";
 import {useRouter} from "next/router";
 import Link from 'next/link'
 import {ArchiveView} from "../../../../../src/components/blog/Archive";
+import {Loading} from "../../../../../src/components/util/Loading";
 
 const pageSize = 20
 
@@ -22,7 +23,7 @@ type Props = {
 const Page = (props: Props) => {
   const router = useRouter()
   if (router.isFallback) {
-    return <div>loading...</div>
+    return <Loading/>
   }
   return <ArchiveView type={props.params.type} name={props.params.name} data={props.data}/>
 }
