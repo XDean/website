@@ -15,8 +15,11 @@ function MyApp({Component, pageProps}) {
       <ThemeProvider theme={MyTheme}>
         <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
           <CssBaseline/>
-          <HeaderView/>
-          <Divider style={{marginBottom: 20}}/>
+          <div style={{position: 'fixed', backgroundColor: '#fafafa', zIndex: 100, width: '100%'}}>
+            <HeaderView/>
+            <Divider/>
+          </div>
+          <div style={{marginTop: 90}}/>
           <main style={{flexGrow: 1}}>
             <Component {...pageProps} />
           </main>
