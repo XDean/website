@@ -1,6 +1,7 @@
-import {CssBaseline, Divider} from "@material-ui/core";
+import {CssBaseline, Divider, ThemeProvider} from "@material-ui/core";
 import {HeaderView} from "../src/components/Header";
 import Head from "next/head";
+import MyTheme from '../src/theme/theme'
 
 function MyApp({Component, pageProps}) {
   return (
@@ -10,10 +11,12 @@ function MyApp({Component, pageProps}) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
         <title>XDean</title>
       </Head>
-      <CssBaseline/>
-      <HeaderView/>
-      <Divider/>
-      <Component {...pageProps} />
+      <ThemeProvider theme={MyTheme}>
+        <CssBaseline/>
+        <HeaderView/>
+        <Divider/>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </>
   )
 }
