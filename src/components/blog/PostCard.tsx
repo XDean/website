@@ -6,6 +6,7 @@ import NextLink from 'next/link'
 import {useRouter} from "next/router";
 import path from "path";
 import {isURL} from "../../util/util";
+import {MyLink} from "../util/Link";
 
 type Props = {
   meta: PostMeta
@@ -31,13 +32,11 @@ export const PostCard = (props: Props) => {
   return (
     <Card style={{display: 'flex'}}>
       <CardContent style={{flexGrow: 2, width: 0}}>
-        <NextLink href={props.meta.link}>
-          <Link style={{cursor: 'pointer'}} color={"inherit"}>
-            <Typography component="h2" variant="h5">
-              {props.meta.title}
-            </Typography>
-          </Link>
-        </NextLink>
+        <MyLink href={props.meta.link}>
+          <Typography component="h2" variant="h5">
+            {props.meta.title}
+          </Typography>
+        </MyLink>
         <Typography variant="subtitle1" color="textSecondary" style={{display: 'flex', alignItems: 'center'}}>
           {format(new Date(props.meta.created), 'yyyy-MM-dd')}
           {props.meta.tags.map(tag => (

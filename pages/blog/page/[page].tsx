@@ -22,15 +22,7 @@ const Page = (props: Props) => {
     return <div>Loading...</div>
   }
   return (
-    <>
-      <div><Link href={'1'}>Home</Link></div>
-      <div><Link href={'/blog/archives/tag'}>标签</Link></div>
-      <div><Link href={'/blog/archives/category'}>分类</Link></div>
-      <div><Link href={'/blog/archives/year'}>归档</Link></div>
-      <div style={{maxWidth: 900, margin:'0 auto'}}>
-        <PostsView data={props.data}/>
-      </div>
-    </>
+    <PostsView data={props.data}/>
   )
 }
 
