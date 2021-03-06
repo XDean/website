@@ -48,7 +48,7 @@ export async function readPostMeta(file: string): Promise<PostMeta> {
     author: gitLog.author || "",
     contributors: gitLog.contributors,
     created: gitLog.date.toString() || "",
-    updated: gitLog.date.toString() || "",
+    updated: gitLog.updated?.toString() || "",
     tags: [],
     categories: [],
     ...meta,

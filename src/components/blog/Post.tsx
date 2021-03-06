@@ -6,6 +6,7 @@ import {PostMeta} from "../../posts/domain";
 import {useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
+import {Divider} from "@material-ui/core";
 
 export type PostProps = {
   content: string
@@ -16,13 +17,24 @@ export type PostProps = {
 
 export const PostView = (props: PostProps) => {
   const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content])
+  const hasToc = props.meta.toc !== false
   return (
-    <div style={{width: 1100}}>
-      <h1>{title}</h1>
-      <div dangerouslySetInnerHTML={{__html: toc}}/>
-      <article className={'markdown-body'} dangerouslySetInnerHTML={{__html: content}}/>
-      {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
-      {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
+    <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw'}}>
+      {hasToc && (
+        <>
+          <div style={{position: 'relative'}}>
+            <div dangerouslySetInnerHTML={{__html: toc}} style={{position: 'fixed', maxWidth: 200}}/>
+            <div dangerouslySetInnerHTML={{__html: toc}} style={{opacity: 0, maxWidth: 200}}/>
+          </div>
+          <Divider orientation={"vertical"} style={{marginLeft: 10, marginRight: 10}}/>
+        </>
+      )}
+      <div style={{width: 0, flexGrow: 1}}>
+        <h1>{title}</h1>
+        <article className={'markdown-body'} dangerouslySetInnerHTML={{__html: content}}/>
+        {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
+        {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
+      </div>
     </div>
   )
 }
@@ -34,7 +46,7 @@ function renderMarkdown(content: string, meta: PostMeta) {
         .trim()
         .toLowerCase()
         .replace(/ /g, '-')
-        .replace(/[　`~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, '')
+        .replace(/[ `~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, '')
         .replace(/[\uff00-\uffff]/g, '')
     );
   const env: any = {}
