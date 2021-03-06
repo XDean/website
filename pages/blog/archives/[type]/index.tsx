@@ -1,7 +1,7 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getPostMetaGroup} from "../../../../src/posts/service";
 import {PostMetaGroup, PostMetaGroupType} from "../../../../src/posts/domain";
-import Link from 'next/link'
+import {ArchivesView} from "../../../../src/components/blog/Archives";
 
 type Params = {
   type: PostMetaGroupType
@@ -13,20 +13,7 @@ type Props = {
 }
 
 const Page = (props: Props) => {
-  return (
-    <>
-      <p>{props.type}</p>
-      {props.groups.map(e => (
-        <div key={e.name}>
-          <Link href={`${props.type}/${e.name}`}>
-            <a>
-            {e.name} - {e.count}
-            </a>
-          </Link>
-        </div>
-      ))}
-    </>
-  )
+  return <ArchivesView {...props}/>
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {

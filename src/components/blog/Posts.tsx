@@ -19,8 +19,8 @@ export const PostsView = (props: Props) => {
   }, [])
 
   return (
-    <div style={{maxWidth: 900, margin: '0 auto'}}>
-      <div style={{marginLeft:10, marginBottom:10}}>
+    <div style={{width: 900}}>
+      <div style={{marginLeft:10, marginBottom:20}}>
         <BlogHeaderView/>
       </div>
       {page.data.map(m => (
