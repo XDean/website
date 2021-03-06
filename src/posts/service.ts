@@ -7,9 +7,19 @@ export async function getPostMetas(): Promise<PostMeta[]> {
   return JSON.parse(raw) as PostMeta[]
 }
 
-export async function getPostMeta(p: string): Promise<PostMeta> {
+export async function getPostMetaByLink(link: string): Promise<PostMeta> {
   const metas = await getPostMetas()
-  return metas.find(m => path.normalize(p) === path.normalize(m.link))
+  return metas.find(m => path.normalize(link) === path.normalize(m.link))
+}
+
+export async function getPostMetaByPath(p: string): Promise<PostMeta> {
+  const metas = await getPostMetas()
+  return metas.find(m => path.normalize(p) === path.normalize(m.path))
+}
+
+export async function getPostMetaRel(meta: PostMeta, rel:string): Promise<PostMeta> {
+  const p = path.join(path.dirname(meta.path), rel)
+  return getPostMetaByPath(p)
 }
 
 export async function getPostMetaGroup(type: PostMetaGroupType) {

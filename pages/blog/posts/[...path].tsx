@@ -2,13 +2,15 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import path from "path";
 import {promises as fs} from "fs";
 import gm from 'gray-matter'
-import {getPostMeta, getPostMetas} from "../../../src/posts/service";
+import {getPostMetaByLink, getPostMetaRel, getPostMetas} from "../../../src/posts/service";
 import {PostView} from "../../../src/components/blog";
-import {useMemo} from "react";
+import {PostMeta} from "../../../src/posts/domain";
 
 type Props = {
   content: string
-  meta: string
+  meta: PostMeta
+  prev?: PostMeta
+  next?: PostMeta
 }
 
 type Params = {
@@ -16,24 +18,30 @@ type Params = {
 }
 
 const Post = (props: Props) => {
-  const meta = useMemo(() => JSON.parse(props.meta), [props.meta])
   return (
     <>
-      <PostView content={props.content} meta={meta}/>
+      <PostView {...props}/>
     </>
   )
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
-  const postMeta = await getPostMeta(path.join('/blog/posts', ...ctx.params.path))
+  const postMeta = await getPostMetaByLink(path.join('/blog/posts', ...ctx.params.path))
   const postFile = path.join(process.cwd(), postMeta.path)
   const raw = await fs.readFile(postFile, 'utf-8')
   const {content} = gm(raw) // remove front matter
+  const props: Props = {
+    content: content,
+    meta: postMeta,
+  }
+  if (postMeta.prev) {
+    props.prev = await getPostMetaRel(postMeta, postMeta.prev)
+  }
+  if (postMeta.next) {
+    props.next = await getPostMetaRel(postMeta, postMeta.next)
+  }
   return {
-    props: {
-      content: content,
-      meta: JSON.stringify(postMeta),
-    },
+    props: props,
   }
 }
 

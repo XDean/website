@@ -10,6 +10,8 @@ export type PostMeta = {
   contributors: string[]
   categories: string[]
   tags: string[]
+  prev?: string
+  next?: string
   [key: string]: any
 }
 

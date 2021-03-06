@@ -4,10 +4,13 @@ import MarkdownItTitle from "markdown-it-title";
 import MarkdownItToc from "markdown-it-toc-done-right";
 import {PostMeta} from "../../posts/domain";
 import {useMemo} from "react";
+import Link from 'next/link'
 
 export type PostProps = {
   content: string
   meta: PostMeta
+  prev?: PostMeta
+  next?: PostMeta
 }
 
 export const PostView = (props: PostProps) => {
@@ -17,6 +20,8 @@ export const PostView = (props: PostProps) => {
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{__html: toc}}/>
       <article dangerouslySetInnerHTML={{__html: content}}/>
+      {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
+      {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
     </>
   )
 }
