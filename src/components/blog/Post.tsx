@@ -17,7 +17,7 @@ export type PostProps = {
 export const PostView = (props: PostProps) => {
   const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content])
   return (
-    <div>
+    <div style={{width: 1100}}>
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{__html: toc}}/>
       <article className={'markdown-body'} dangerouslySetInnerHTML={{__html: content}}/>
