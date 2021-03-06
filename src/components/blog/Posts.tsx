@@ -1,6 +1,5 @@
 import {PostMeta} from "../../posts/domain";
 import {PageData} from "../../util/util";
-import Link from "next/link";
 import {PostCard} from "./PostCard";
 import {Pagination} from "@material-ui/lab";
 import {useCallback} from "react";

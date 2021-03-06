@@ -2,6 +2,7 @@ import {CssBaseline, Divider, ThemeProvider} from "@material-ui/core";
 import {HeaderView} from "../src/components/Header";
 import Head from "next/head";
 import MyTheme from '../src/theme/theme'
+import {FooterView} from "../src/components/Footer";
 
 function MyApp({Component, pageProps}) {
   return (
@@ -14,8 +15,12 @@ function MyApp({Component, pageProps}) {
       <ThemeProvider theme={MyTheme}>
         <CssBaseline/>
         <HeaderView/>
-        <Divider/>
+        <Divider style={{marginBottom: 20}}/>
         <Component {...pageProps} />
+        <Divider style={{margin: '20px auto 0 auto', width: "60%"}}/>
+        <div style={{margin: '10px auto 30px auto', width: 'max-content'}}>
+          <FooterView/>
+        </div>
       </ThemeProvider>
     </>
   )

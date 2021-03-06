@@ -1,5 +1,5 @@
 import {PostMeta} from "../../posts/domain";
-import {Card, CardContent, CardMedia, Link, Typography} from "@material-ui/core";
+import {Card, CardContent, CardMedia, Chip, Link, Typography} from "@material-ui/core";
 import {compareAsc, format} from 'date-fns'
 import {useMemo} from "react";
 import NextLink from 'next/link'
@@ -12,6 +12,7 @@ type Props = {
 }
 
 export const PostCard = (props: Props) => {
+  const router = useRouter()
   const summary = useMemo(() => props.meta.summary.join(' '), [props.meta]);
   const image = useMemo(() => {
     if (props.meta.image) {
@@ -23,6 +24,10 @@ export const PostCard = (props: Props) => {
       return null
     }
   }, [props.meta])
+
+  const onTagClick = (tag: string) => {
+    router.push(`/blog/archives/tag/${tag}`)
+  }
   return (
     <Card style={{display: 'flex'}}>
       <CardContent style={{flexGrow: 2, width: 0}}>
@@ -33,8 +38,12 @@ export const PostCard = (props: Props) => {
             </Typography>
           </Link>
         </NextLink>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography variant="subtitle1" color="textSecondary" style={{display: 'flex', alignItems: 'center'}}>
           {format(new Date(props.meta.created), 'yyyy-MM-dd')}
+          {props.meta.tags.map(tag => (
+            <Chip key={tag} label={tag} variant={"outlined"} size={"small"} style={{marginLeft: 5}}
+                  clickable onClick={() => onTagClick(tag)}/>
+          ))}
         </Typography>
         {summary && <Typography variant="subtitle1" paragraph>
           {summary}
