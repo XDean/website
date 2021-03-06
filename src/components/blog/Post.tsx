@@ -5,6 +5,7 @@ import MarkdownItToc from "markdown-it-toc-done-right";
 import {PostMeta} from "../../posts/domain";
 import {useMemo} from "react";
 import Link from 'next/link'
+import 'github-markdown-css/github-markdown.css'
 
 export type PostProps = {
   content: string
@@ -16,13 +17,13 @@ export type PostProps = {
 export const PostView = (props: PostProps) => {
   const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content])
   return (
-    <>
+    <div>
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{__html: toc}}/>
-      <article dangerouslySetInnerHTML={{__html: content}}/>
+      <article className={'markdown-body'} dangerouslySetInnerHTML={{__html: content}}/>
       {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
       {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
-    </>
+    </div>
   )
 }
 
@@ -37,7 +38,9 @@ function renderMarkdown(content: string, meta: PostMeta) {
         .replace(/[\uff00-\uffff]/g, '')
     );
   const env: any = {}
-  const mdRenderer = MarkdownIt()
+  const mdRenderer = MarkdownIt({
+    html: true
+  })
     .use(MarkdownItTitle)
     // .use(MarkdownItReplaceLink)
     .use(MarkdownItAnchor, {
