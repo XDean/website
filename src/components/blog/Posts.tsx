@@ -5,6 +5,7 @@ import {Pagination} from "@material-ui/lab";
 import {useCallback} from "react";
 import {useRouter} from "next/router";
 import {BlogHeaderView} from "./Header";
+import {MyPagination} from "../util/Pagination";
 
 type Props = {
   data: PageData<PostMeta>
@@ -27,8 +28,7 @@ export const PostsView = (props: Props) => {
           <PostCard key={m.path} meta={m}/>
         </div>
       ))}
-      <Pagination count={page.total} color={"primary"} variant={"outlined"} page={page.page} onChange={onPageChange}
-                  style={{width: 'fit-content', margin: '0 auto'}}/>
+      <MyPagination data={page} onChange={onPageChange}/>
     </div>
   )
 }
