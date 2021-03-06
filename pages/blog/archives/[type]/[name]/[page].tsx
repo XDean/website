@@ -4,8 +4,9 @@ import {PostMeta, PostMetaGroupType} from "../../../../../src/posts/domain";
 import {getPage, PageData} from "../../../../../src/util/util";
 import {useRouter} from "next/router";
 import Link from 'next/link'
+import {ArchiveView} from "../../../../../src/components/blog/Archive";
 
-const pageSize = 30
+const pageSize = 20
 
 type Params = {
   type: PostMetaGroupType
@@ -23,23 +24,7 @@ const Page = (props: Props) => {
   if (router.isFallback) {
     return <div>loading...</div>
   }
-  return (
-    <>
-      <p>{props.params.name}</p>
-      {props.data.data.map(e => {
-        const date = new Date(e.created);
-        return (
-          <div key={e.path}>
-            <Link href={e.link}>
-              <a>
-                {date.getFullYear()}-{date.getMonth()}-{date.getDay()} - {e.title}
-              </a>
-            </Link>
-          </div>
-        );
-      })}
-    </>
-  )
+  return <ArchiveView type={props.params.type} name={props.params.name} data={props.data}/>
 }
 
 export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {

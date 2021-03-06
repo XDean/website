@@ -37,7 +37,7 @@ export const ArchivesView = (props: Props) => {
   )
 }
 
-function typeToLabel(type: PostMetaGroupType) {
+export function typeToLabel(type: PostMetaGroupType) {
   switch (type) {
     case "year":
       return '年份';
