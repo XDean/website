@@ -4,10 +4,13 @@ import {PostMeta} from "../../../src/posts/domain";
 import {useRouter} from "next/router";
 import {getPage, PageData} from "../../../src/util/util";
 import Link from 'next/link'
+import {PostsView} from "../../../src/components/blog/Posts";
 
 const pageSize = 10
 
-type Props = PageData<PostMeta>
+type Props = {
+  data: PageData<PostMeta>
+}
 
 type Params = {
   page: string
@@ -24,14 +27,9 @@ const Page = (props: Props) => {
       <div><Link href={'/blog/archives/tag'}>标签</Link></div>
       <div><Link href={'/blog/archives/category'}>分类</Link></div>
       <div><Link href={'/blog/archives/year'}>归档</Link></div>
-      {props.data.map(m => (
-        <div key={m.path}>
-          <Link href={m.link}>{m.title}</Link>
-        </div>
-      ))}
-      <p/>
-      {!props.first && <div><Link href={`${props.page - 1}`}>上一页</Link></div>}
-      {!props.last && <div><Link href={`${props.page + 1}`}>下一页</Link></div>}
+      <div style={{maxWidth: 900, margin:'0 auto'}}>
+        <PostsView data={props.data}/>
+      </div>
     </>
   )
 }
@@ -46,7 +44,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
     }
   }
   return {
-    props: pageData,
+    props: {
+      data: pageData
+    },
   }
 }
 

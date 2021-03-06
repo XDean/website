@@ -28,6 +28,7 @@ export async function* walkFiles(dir: string, options: {
 }
 
 export type PageData<T> = {
+  total: number
   page: number
   first: boolean
   last: boolean
@@ -42,6 +43,7 @@ export function getPage<T>(arr: T[], page: number, size: number): PageData<T> | 
   const data = arr.slice((page - 1) * size, Math.min(page * size, arr.length))
   return {
     page: page,
+    total: maxPage,
     first: page === 1,
     last: page === maxPage,
     data: data,
