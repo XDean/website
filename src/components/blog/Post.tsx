@@ -6,7 +6,26 @@ import {PostMeta} from "../../posts/domain";
 import {useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
-import {Divider} from "@material-ui/core";
+import {createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
+
+const useStyles = makeStyles(theme => createStyles({
+  'toc': {
+    marginLeft: -20,
+    color: '#555',
+    '&& ol,ul': {
+      listStyle: 'none',
+      paddingInlineStart: 20,
+    },
+    '&& a': {
+      textDecoration: 'none',
+      color: 'inherit',
+      '&:hover': {
+        color: '#000',
+        textDecoration: 'underline',
+      }
+    }
+  }
+}))
 
 export type PostProps = {
   content: string
@@ -16,6 +35,7 @@ export type PostProps = {
 }
 
 export const PostView = (props: PostProps) => {
+  const classes = useStyles()
   const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content])
   const hasToc = props.meta.toc !== false
   return (
@@ -23,8 +43,12 @@ export const PostView = (props: PostProps) => {
       {hasToc && (
         <>
           <div style={{position: 'relative'}}>
-            <div dangerouslySetInnerHTML={{__html: toc}} style={{position: 'fixed', maxWidth: 200}}/>
-            <div dangerouslySetInnerHTML={{__html: toc}} style={{opacity: 0, maxWidth: 200}}/>
+            <div style={{position: 'fixed', maxWidth: 200, zIndex: 10, marginTop: 100}}>
+              <Typography variant={'h5'}>目录</Typography>
+              <div dangerouslySetInnerHTML={{__html: toc}} className={classes.toc}/>
+            </div>
+            <div dangerouslySetInnerHTML={{__html: toc}} style={{opacity: 0, maxWidth: 200}}
+                 className={classes.toc}/>
           </div>
           <Divider orientation={"vertical"} style={{marginLeft: 10, marginRight: 10}}/>
         </>
