@@ -20,7 +20,7 @@ export const PostsView = (props: Props) => {
   return (
     <>
       {page.data.map(m => (
-        <div style={{marginBottom: 20}}>
+        <div key={m.path} style={{marginBottom: 20}}>
           <PostCard key={m.path} meta={m}/>
         </div>
       ))}

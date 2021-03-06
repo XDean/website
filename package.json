@@ -13,7 +13,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@types/markdown-it": "^12.0.1",
-    "date-fns": "^2.18.0",
+    "date-fns": "^2.19.0",
     "github-markdown-css": "^4.0.0",
     "gray-matter": "^4.0.2",
     "markdown-it": "^12.0.4",

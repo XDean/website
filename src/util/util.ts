@@ -1,32 +1,3 @@
-import {promises as fs} from "fs";
-import path from "path";
-
-export async function* walkFiles(dir: string, options: {
-  ext: string[]
-} = {
-  ext: []
-}): AsyncIterableIterator<string[]> {
-  const filenames = await fs.readdir(dir)
-  for (const f of filenames) {
-    const p = path.join(dir, f)
-    const stat = await fs.lstat(p)
-    if (stat.isFile()) {
-      if (options.ext.length > 0) {
-        const ext = path.extname(p)
-        const match = options.ext.find(e => e === ext || '.' + e === ext)
-        if (!match) {
-          continue
-        }
-      }
-      yield [f]
-    } else if (stat.isDirectory()) {
-      for await (const sub of walkFiles(p, options)) {
-        yield [f, ...sub]
-      }
-    }
-  }
-}
-
 export type PageData<T> = {
   total: number
   page: number
@@ -47,5 +18,14 @@ export function getPage<T>(arr: T[], page: number, size: number): PageData<T> | 
     first: page === 1,
     last: page === maxPage,
     data: data,
+  }
+}
+
+export function isURL(url: string): boolean {
+  try {
+    const u = new URL(url);
+    return true
+  } catch (e) {
+    return false
   }
 }
