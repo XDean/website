@@ -9,6 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@types/markdown-it": "^12.0.1",
     "date-fns": "^2.18.0",
     "github-markdown-css": "^4.0.0",
@@ -20,7 +22,6 @@
     "markdown-it-title": "^3.0.0",
     "markdown-it-toc-done-right": "^4.2.0",
     "next": "10.0.7",
-    "normalize.css": "^8.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1"
   },
