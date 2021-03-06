@@ -58,8 +58,7 @@ function renderMarkdown(content: string, meta: PostMeta) {
       },
     })
   }
-
-  const mdHtml = mdRenderer.render(content, env);
+  const mdHtml = mdRenderer.render(content, env).replace(/^<h1[ >].*?<\/h1>/, '').trim();
   return {
     content: mdHtml,
     toc: env.toc,
