@@ -13,6 +13,8 @@ import 'highlight.js/styles/stackoverflow-light.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import innerText from 'react-innertext';
+import MathJax from 'react-mathjax';
+import RemarkMathPlugin from 'remark-math';
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -81,26 +83,31 @@ export const PostView = (props: PostProps) => {
           {title}
         </Typography>
         {/*<article className={clsx('markdown-body', classes.md)} dangerouslySetInnerHTML={{__html: content}}/>*/}
-        <ReactMarkdown className={clsx('markdown-body')} allowDangerousHtml
-                       plugins={[gfm]}
-                       renderers={{
-                         heading: function (props: { children: ReactElement[], level: number }) {
-                           if (props.level === 1) {
-                             return null
-                           }
-                           const slug = slugify(innerText(<>{props.children}</>))
-                           return React.createElement(`h${props.level}`, {
-                             id: slug,
-                             style: {
-                               paddingTop: 100,
-                               marginTop: -100,
-                             },
-                           }, props.children)
-                         }
-                       }}
-        >
-          {props.content}
-        </ReactMarkdown>
+        <MathJax.Provider>
+          <ReactMarkdown className={'markdown-body'} allowDangerousHtml
+                         linkTarget={'_blank'}
+                         plugins={[gfm, RemarkMathPlugin]}
+                         renderers={{
+                           heading: (props: { children: ReactElement[], level: number }) => {
+                             if (props.level === 1) {
+                               return null
+                             }
+                             const slug = slugify(innerText(<>{props.children}</>))
+                             return React.createElement(`h${props.level}`, {
+                               id: slug,
+                               style: {
+                                 paddingTop: 100,
+                                 marginTop: -100,
+                               },
+                             }, props.children)
+                           },
+                           math: props => <MathJax.Node formula={props.value}/>,
+                           inlineMath: props => <MathJax.Node inline formula={props.value}/>,
+                         }}
+          >
+            {props.content}
+          </ReactMarkdown>
+        </MathJax.Provider>
         {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
         {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
       </div>
