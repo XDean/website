@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import MarkdownItAnchor from "markdown-it-anchor";
 import MarkdownItTitle from "markdown-it-title";
+import MarkdownItHighlight from "markdown-it-highlightjs";
 import MarkdownItToc from "markdown-it-toc-done-right";
 import {PostMeta} from "../../posts/domain";
 import {useMemo} from "react";
@@ -8,7 +9,7 @@ import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
 import {createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
 import clsx from "clsx";
-import {MyLink} from "../util/Link";
+import 'highlight.js/styles/stackoverflow-light.css'
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -99,6 +100,7 @@ function renderMarkdown(content: string, meta: PostMeta) {
     html: true
   })
     .use(MarkdownItTitle)
+    .use(MarkdownItHighlight)
     // .use(MarkdownItReplaceLink)
     .use(MarkdownItAnchor, {
       level: [2, 3],
