@@ -79,15 +79,15 @@ export const PostView = (props: PostProps) => {
         <Typography variant={"h4"} id={'title'} className={classes.title}>
           {title}
         </Typography>
-        <Typography style={{display: 'flex', margin: '5px 0 25px 10px'}}>
+        <div style={{display: 'flex', margin: '5px 0 25px 10px'}}>
           <Tooltip title={hasUpdate ? `更新于: ${format(new Date(props.meta.updated), 'yyyy-MM-dd HH:mm:ss')}` : ''} arrow>
-            <span>
+            <Typography>
               {format(new Date(props.meta.created), 'yyyy-MM-dd')}{hasUpdate ? "*" : ""}
-            </span>
+            </Typography>
           </Tooltip>
           {props.meta.categories.map(c => <PostTag tag={c} key={c}/>)}
           {props.meta.tags.map(c => <PostTag tag={c} key={c}/>)}
-        </Typography>
+        </div>
         <MathJax.Provider>
           <ReactMarkdown className={'markdown-body'} allowDangerousHtml
                          linkTarget={'_blank'}
