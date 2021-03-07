@@ -13,7 +13,7 @@ export type MyLinkProps = {
 export const MyLink = ({href, next, mui, children}: PropsWithChildren<MyLinkProps>) => {
   return (
     <NextLink {...next} href={href}>
-      <Link color={"inherit"} {...mui} style={{cursor: 'pointer', ...mui?.style}}>
+      <Link color={"inherit"} {...mui} style={{cursor: 'pointer', ...mui?.style}} href={href}>
         {children}
       </Link>
     </NextLink>

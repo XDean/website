@@ -26,9 +26,6 @@ export const PostCard = (props: Props) => {
     }
   }, [props.meta])
 
-  const onTagClick = (tag: string) => {
-    router.push(`/blog/archives/tag/${tag}`)
-  }
   return (
     <Card style={{display: 'flex'}}>
       <CardContent style={{flexGrow: 2, width: 0}}>
@@ -40,8 +37,8 @@ export const PostCard = (props: Props) => {
         <Typography variant="subtitle1" color="textSecondary" style={{display: 'flex', alignItems: 'center'}}>
           {format(new Date(props.meta.created), 'yyyy-MM-dd')}
           {props.meta.tags.map(tag => (
-            <Chip key={tag} label={tag} variant={"outlined"} size={"small"} style={{marginLeft: 5}}
-                  clickable onClick={() => onTagClick(tag)}/>
+            <Chip key={tag} label={<MyLink href={`/blog/archives/tag/${tag}`}>{tag}</MyLink>} variant={"outlined"}
+                  size={"small"} style={{marginLeft: 5}} clickable/>
           ))}
         </Typography>
         {summary && <Typography variant="subtitle1" paragraph>
