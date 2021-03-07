@@ -15,6 +15,8 @@ import gfm from 'remark-gfm'
 import innerText from 'react-innertext';
 import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import {idea as syntaxStyle} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -75,7 +77,7 @@ export const PostView = (props: PostProps) => {
             <div dangerouslySetInnerHTML={{__html: toc}} style={{opacity: 0, maxWidth: 200}}
                  className={classes.toc}/>
           </div>
-          <Divider orientation={"vertical"} style={{marginLeft: 10, marginRight: 20}}/>
+          <Divider orientation={"vertical"} style={{marginLeft: 20, marginRight: 20}}/>
         </>
       )}
       <div style={{width: 0, flexGrow: 1}}>
@@ -100,6 +102,9 @@ export const PostView = (props: PostProps) => {
                                  marginTop: -100,
                                },
                              }, props.children)
+                           },
+                           code: ({language, value}) => {
+                             return <SyntaxHighlighter style={syntaxStyle} language={language} children={value} />
                            },
                            math: props => <MathJax.Node formula={props.value}/>,
                            inlineMath: props => <MathJax.Node inline formula={props.value}/>,
