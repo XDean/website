@@ -4,12 +4,15 @@ import MarkdownItTitle from "markdown-it-title";
 import MarkdownItHighlight from "markdown-it-highlightjs";
 import MarkdownItToc from "markdown-it-toc-done-right";
 import {PostMeta} from "../../posts/domain";
-import {useMemo} from "react";
+import React, {ReactElement, useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
 import {createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
 import clsx from "clsx";
 import 'highlight.js/styles/stackoverflow-light.css'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
+import innerText from 'react-innertext';
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -39,7 +42,7 @@ const useStyles = makeStyles(theme => createStyles({
   'title': {
     paddingTop: 200,
     marginTop: -200,
-  }
+  },
 }))
 
 export type PostProps = {
@@ -77,7 +80,27 @@ export const PostView = (props: PostProps) => {
         <Typography variant={"h4"} paragraph id={'title'} className={classes.title}>
           {title}
         </Typography>
-        <article className={clsx('markdown-body', classes.md)} dangerouslySetInnerHTML={{__html: content}}/>
+        {/*<article className={clsx('markdown-body', classes.md)} dangerouslySetInnerHTML={{__html: content}}/>*/}
+        <ReactMarkdown className={clsx('markdown-body')} allowDangerousHtml
+                       plugins={[gfm]}
+                       renderers={{
+                         heading: function (props: { children: ReactElement[], level: number }) {
+                           if (props.level === 1) {
+                             return null
+                           }
+                           const slug = slugify(innerText(<>{props.children}</>))
+                           return React.createElement(`h${props.level}`, {
+                             id: slug,
+                             style: {
+                               paddingTop: 100,
+                               marginTop: -100,
+                             },
+                           }, props.children)
+                         }
+                       }}
+        >
+          {props.content}
+        </ReactMarkdown>
         {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
         {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
       </div>
@@ -85,16 +108,19 @@ export const PostView = (props: PostProps) => {
   )
 }
 
+function slugify(hash: string) {
+  return encodeURIComponent(
+    hash
+      .trim()
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[ `~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, '')
+      .replace(/[\uff00-\uffff]/g, '')
+  );
+}
+
 function renderMarkdown(content: string, meta: PostMeta) {
-  const slugify = (hash: string) =>
-    encodeURIComponent(
-      hash
-        .trim()
-        .toLowerCase()
-        .replace(/ /g, '-')
-        .replace(/[ `~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, '')
-        .replace(/[\uff00-\uffff]/g, '')
-    );
+
   const env: any = {}
   const mdRenderer = MarkdownIt({
     html: true
