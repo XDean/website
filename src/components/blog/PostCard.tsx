@@ -7,6 +7,7 @@ import {useRouter} from "next/router";
 import path from "path";
 import {isURL} from "../../util/util";
 import {MyLink} from "../util/Link";
+import {PostTag} from "./PostTag";
 
 type Props = {
   meta: PostMeta
@@ -36,10 +37,7 @@ export const PostCard = (props: Props) => {
         </MyLink>
         <Typography variant="subtitle1" color="textSecondary" style={{display: 'flex', alignItems: 'center'}}>
           {format(new Date(props.meta.created), 'yyyy-MM-dd')}
-          {props.meta.tags.map(tag => (
-            <Chip key={tag} label={<MyLink href={`/blog/archives/tag/${tag}`}>{tag}</MyLink>} variant={"outlined"}
-                  size={"small"} style={{marginLeft: 5}} clickable/>
-          ))}
+          {props.meta.tags.map(tag => <PostTag key={tag} tag={tag}/>)}
         </Typography>
         {summary && <Typography variant="subtitle1" paragraph>
           {summary}
