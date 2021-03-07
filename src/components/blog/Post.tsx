@@ -7,10 +7,14 @@ import {useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
 import {createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
+import clsx from "clsx";
+import {MyLink} from "../util/Link";
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
     marginLeft: -20,
+  },
+  'tocContainer': {
     color: '#555',
     '&& ol,ul': {
       listStyle: 'none',
@@ -24,6 +28,16 @@ const useStyles = makeStyles(theme => createStyles({
         textDecoration: 'underline',
       }
     }
+  },
+  'md': {
+    '&& h2,h3': {
+      paddingTop: 100,
+      marginTop: -100,
+    }
+  },
+  'title': {
+    paddingTop: 200,
+    marginTop: -200,
   }
 }))
 
@@ -36,26 +50,33 @@ export type PostProps = {
 
 export const PostView = (props: PostProps) => {
   const classes = useStyles()
-  const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content])
+  const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta),
+    [props.content, classes])
   const hasToc = props.meta.toc !== false
   return (
     <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw'}}>
       {hasToc && (
         <>
-          <div style={{position: 'relative'}}>
+          <div style={{position: 'relative'}} className={classes.tocContainer}>
             <div style={{position: 'fixed', maxWidth: 200, zIndex: 10, marginTop: 100}}>
-              <Typography variant={'h5'}>目录</Typography>
+              <Typography variant={'h5'}>
+                <a href={'#title'}>
+                  目录
+                </a>
+              </Typography>
               <div dangerouslySetInnerHTML={{__html: toc}} className={classes.toc}/>
             </div>
             <div dangerouslySetInnerHTML={{__html: toc}} style={{opacity: 0, maxWidth: 200}}
                  className={classes.toc}/>
           </div>
-          <Divider orientation={"vertical"} style={{marginLeft: 10, marginRight: 10}}/>
+          <Divider orientation={"vertical"} style={{marginLeft: 10, marginRight: 20}}/>
         </>
       )}
       <div style={{width: 0, flexGrow: 1}}>
-        <h1>{title}</h1>
-        <article className={'markdown-body'} dangerouslySetInnerHTML={{__html: content}}/>
+        <Typography variant={"h4"} paragraph id={'title'} className={classes.title}>
+          {title}
+        </Typography>
+        <article className={clsx('markdown-body', classes.md)} dangerouslySetInnerHTML={{__html: content}}/>
         {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
         {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
       </div>
@@ -80,12 +101,8 @@ function renderMarkdown(content: string, meta: PostMeta) {
     .use(MarkdownItTitle)
     // .use(MarkdownItReplaceLink)
     .use(MarkdownItAnchor, {
-      level: [2],
+      level: [2, 3],
       slugify,
-      permalink: true,
-      permalinkSpace: true,
-      permalinkSymbol: '§',
-      permalinkBefore: true,
     })
   if (meta.toc !== false) {
     mdRenderer.use(MarkdownItToc, {
