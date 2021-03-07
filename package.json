@@ -23,8 +23,10 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-innertext": "^1.1.5",
+    "react-load-script": "0.0.6",
     "react-markdown": "^5.0.3",
     "react-mathjax": "^1.0.1",
+    "react-script-tag": "^1.1.2",
     "react-syntax-highlighter": "^15.4.3",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0"

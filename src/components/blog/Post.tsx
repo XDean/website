@@ -142,6 +142,19 @@ export const PostView = (props: PostProps) => {
             </div>
         </div>
         }
+        <div style={{marginTop: 30}}>
+          <Divider/>
+          <div dangerouslySetInnerHTML={{
+            __html: `<script src="https://utteranc.es/client.js"
+                  repo="XDean/blog-comment"
+                  issue-term="pathname"
+                  label="comment"
+                  theme="github-light"
+                  crossOrigin="anonymous"
+                  async>
+          </script>`
+          }}/>
+        </div>
       </div>
     </div>
   )
