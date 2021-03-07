@@ -16,6 +16,8 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {idea as syntaxStyle} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import {MyLink} from "../util/Link";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {PostTag} from "./PostTag";
+import {format} from "date-fns";
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -54,7 +56,7 @@ export const PostView = (props: PostProps) => {
   const {title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content, classes])
   const hasToc = props.meta.toc !== false
   return (
-    <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw'}}>
+    <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw', margin: '0 20px'}}>
       {hasToc && (
         <>
           <div style={{position: 'relative'}} className={classes.tocContainer}>
@@ -73,8 +75,13 @@ export const PostView = (props: PostProps) => {
         </>
       )}
       <div style={{width: 0, flexGrow: 1}}>
-        <Typography variant={"h4"} paragraph id={'title'} className={classes.title}>
+        <Typography variant={"h4"} id={'title'} className={classes.title}>
           {title}
+        </Typography>
+        <Typography style={{display: 'flex', margin: '5px 0 25px 10px'}}>
+          {format(new Date(props.meta.created), 'yyyy-MM-dd')}
+          {props.meta.categories.map(c => <PostTag tag={c} key={c}/>)}
+          {props.meta.tags.map(c => <PostTag tag={c} key={c}/>)}
         </Typography>
         <MathJax.Provider>
           <ReactMarkdown className={'markdown-body'} allowDangerousHtml

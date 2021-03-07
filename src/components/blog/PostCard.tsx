@@ -37,6 +37,7 @@ export const PostCard = (props: Props) => {
         </MyLink>
         <Typography variant="subtitle1" color="textSecondary" style={{display: 'flex', alignItems: 'center'}}>
           {format(new Date(props.meta.created), 'yyyy-MM-dd')}
+          {props.meta.categories.map(tag => <PostTag key={tag} tag={tag}/>)}
           {props.meta.tags.map(tag => <PostTag key={tag} tag={tag}/>)}
         </Typography>
         {summary && <Typography variant="subtitle1" paragraph>
