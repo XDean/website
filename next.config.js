@@ -1,20 +1,17 @@
 module.exports = {
-    async redirects() {
+    async rewrites() {
         return [
             {
                 source: '/',
                 destination: '/blog',
-                permanent: false,
             },
             {
                 source: '/blog',
                 destination: '/blog/page/1',
-                permanent: false,
             },
             {
                 source: '/blog/archives/:type/:name',
                 destination: '/blog/archives/:type/:name/1',
-                permanent: false,
             },
         ]
     },

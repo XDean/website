@@ -3,7 +3,6 @@ import {getPostMetas} from "../../../src/posts/service";
 import {PostMeta} from "../../../src/posts/domain";
 import {useRouter} from "next/router";
 import {getPage, PageData} from "../../../src/util/util";
-import Link from 'next/link'
 import {PostsView} from "../../../src/components/blog/Posts";
 import {Loading} from "../../../src/components/util/Loading";
 
