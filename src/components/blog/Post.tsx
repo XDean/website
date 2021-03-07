@@ -5,7 +5,7 @@ import {PostMeta} from "../../posts/domain";
 import React, {ReactElement, useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
-import {createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
+import {Button, createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
 import 'highlight.js/styles/stackoverflow-light.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -14,6 +14,8 @@ import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {idea as syntaxStyle} from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import {MyLink} from "../util/Link";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -102,8 +104,32 @@ export const PostView = (props: PostProps) => {
             {props.content}
           </ReactMarkdown>
         </MathJax.Provider>
-        {props.prev && <div><Link href={props.prev.link}><a>«&nbsp;&nbsp;{props.prev.title}</a></Link></div>}
-        {props.next && <div><Link href={props.next.link}><a>{props.next.title}&nbsp;&nbsp;»</a></Link></div>}
+        {(props.prev || props.next) &&
+        <div style={{display: 'flex', marginTop: 20}}>
+            <div style={{width: 0, flexGrow: 1}}>
+              {props.prev && (
+                <MyLink href={props.prev.link}>
+                  <Button variant={"outlined"}>
+                    <Typography variant={"h6"}>
+                      上一篇: {props.prev.title}
+                    </Typography>
+                  </Button>
+                </MyLink>
+              )}
+            </div>
+            <div style={{width: 0, flexGrow: 1, textAlign: 'right'}}>
+              {props.next && (
+                <MyLink href={props.next.link}>
+                  <Button variant={"outlined"}>
+                    <Typography variant={"h6"}>
+                      下一篇: {props.next.title}
+                    </Typography>
+                  </Button>
+                </MyLink>
+              )}
+            </div>
+        </div>
+        }
       </div>
     </div>
   )
