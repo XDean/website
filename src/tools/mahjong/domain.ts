@@ -1,36 +1,31 @@
-export class CardType {
-  constructor(
-    readonly name: string
-  ) {
-  }
+export interface CardType {
+  readonly name: string
+  readonly canShun: boolean
 }
 
 export interface Card {
-  type: CardType
-  point: number
+  readonly type: CardType
+  readonly point: number
 }
 
-export class MianType {
-  constructor(
-    readonly name: string
-  ) {
-  }
+export interface MianType {
+  readonly name: string
 }
 
 export interface Mian {
-  type: MianType
+  readonly type: MianType
 }
 
 export interface Hand {
-  cards: Card[]
-  public: Mian[]
+  readonly cards: Card[]
+  readonly public: Mian[]
 }
 
 export interface Fan {
-  name: string
-  score: number
+  readonly name: string
+  readonly score: number
 }
 
 export interface Hu {
-  fans: Fan[]
+  readonly fans: Fan[]
 }
