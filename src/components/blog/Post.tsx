@@ -1,14 +1,11 @@
 import MarkdownIt from "markdown-it";
-import MarkdownItAnchor from "markdown-it-anchor";
 import MarkdownItTitle from "markdown-it-title";
-import MarkdownItHighlight from "markdown-it-highlightjs";
 import MarkdownItToc from "markdown-it-toc-done-right";
 import {PostMeta} from "../../posts/domain";
 import React, {ReactElement, useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
 import {createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
-import clsx from "clsx";
 import 'highlight.js/styles/stackoverflow-light.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -37,12 +34,6 @@ const useStyles = makeStyles(theme => createStyles({
       }
     }
   },
-  'md': {
-    '&& h2,h3': {
-      paddingTop: 100,
-      marginTop: -100,
-    }
-  },
   'title': {
     paddingTop: 200,
     marginTop: -200,
@@ -58,8 +49,7 @@ export type PostProps = {
 
 export const PostView = (props: PostProps) => {
   const classes = useStyles()
-  const {content, title, toc} = useMemo(() => renderMarkdown(props.content, props.meta),
-    [props.content, classes])
+  const {title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content, classes])
   const hasToc = props.meta.toc !== false
   return (
     <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw'}}>
@@ -84,7 +74,6 @@ export const PostView = (props: PostProps) => {
         <Typography variant={"h4"} paragraph id={'title'} className={classes.title}>
           {title}
         </Typography>
-        {/*<article className={clsx('markdown-body', classes.md)} dangerouslySetInnerHTML={{__html: content}}/>*/}
         <MathJax.Provider>
           <ReactMarkdown className={'markdown-body'} allowDangerousHtml
                          linkTarget={'_blank'}
@@ -104,7 +93,7 @@ export const PostView = (props: PostProps) => {
                              }, props.children)
                            },
                            code: ({language, value}) => {
-                             return <SyntaxHighlighter style={syntaxStyle} language={language} children={value} />
+                             return <SyntaxHighlighter style={syntaxStyle} language={language} children={value}/>
                            },
                            math: props => <MathJax.Node formula={props.value}/>,
                            inlineMath: props => <MathJax.Node inline formula={props.value}/>,
@@ -138,12 +127,6 @@ function renderMarkdown(content: string, meta: PostMeta) {
     html: true
   })
     .use(MarkdownItTitle)
-    .use(MarkdownItHighlight)
-    // .use(MarkdownItReplaceLink)
-    .use(MarkdownItAnchor, {
-      level: [2, 3],
-      slugify,
-    })
   if (meta.toc !== false) {
     mdRenderer.use(MarkdownItToc, {
       containerClass: 'toc',
@@ -154,9 +137,8 @@ function renderMarkdown(content: string, meta: PostMeta) {
       },
     })
   }
-  const mdHtml = mdRenderer.render(content, env).replace(/^<h1[ >].*?<\/h1>/, '').trim();
+  mdRenderer.render(content, env);
   return {
-    content: mdHtml,
     toc: env.toc,
     title: env.title,
   }
