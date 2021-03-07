@@ -18,6 +18,7 @@ import {MyLink} from "../util/Link";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {PostTag} from "./PostTag";
 import {format} from "date-fns";
+import {GithubComment} from "../util/GithubComment";
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -144,16 +145,7 @@ export const PostView = (props: PostProps) => {
         }
         <div style={{marginTop: 30}}>
           <Divider/>
-          <div dangerouslySetInnerHTML={{
-            __html: `<script src="https://utteranc.es/client.js"
-                  repo="XDean/blog-comment"
-                  issue-term="pathname"
-                  label="comment"
-                  theme="github-light"
-                  crossOrigin="anonymous"
-                  async>
-          </script>`
-          }}/>
+          <GithubComment/>
         </div>
       </div>
     </div>

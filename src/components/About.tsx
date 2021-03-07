@@ -1,6 +1,7 @@
 import {Divider, Typography} from "@material-ui/core";
 import ReactMarkdown from "react-markdown";
 import {Image} from "@material-ui/icons";
+import {GithubComment} from "./util/GithubComment";
 
 export const AboutView = () => {
   return (
@@ -42,6 +43,7 @@ export const AboutView = () => {
                        image: props => <img {...props} style={{width: 32, marginRight: 10}}/>
                      }}
       />
+      <GithubComment/>
     </div>
   )
 }
