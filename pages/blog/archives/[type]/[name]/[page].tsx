@@ -52,7 +52,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async ctx => {
       const metas = await getPostByGroup(type, group.name)
       const totalPage = Math.ceil(metas.length / pageSize)
       for (let page = 0; page < totalPage; page++) {
-        paths.push({params: {type: type, name: group.name, page: page.toString()}})
+        paths.push({params: {type: type, name: group.name, page: (page + 1).toString()}})
       }
     }
   }
