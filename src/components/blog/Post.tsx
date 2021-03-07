@@ -5,7 +5,7 @@ import {PostMeta} from "../../posts/domain";
 import React, {ReactElement, useMemo} from "react";
 import Link from 'next/link'
 import 'github-markdown-css/github-markdown.css'
-import {Button, createStyles, Divider, makeStyles, Typography} from "@material-ui/core";
+import {Button, createStyles, Divider, makeStyles, Tooltip, Typography} from "@material-ui/core";
 import 'highlight.js/styles/stackoverflow-light.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -55,6 +55,7 @@ export const PostView = (props: PostProps) => {
   const classes = useStyles()
   const {title, toc} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content, classes])
   const hasToc = props.meta.toc !== false
+  const hasUpdate = props.meta.updated && props.meta.updated !== props.meta.created
   return (
     <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw', margin: '0 20px'}}>
       {hasToc && (
@@ -79,7 +80,11 @@ export const PostView = (props: PostProps) => {
           {title}
         </Typography>
         <Typography style={{display: 'flex', margin: '5px 0 25px 10px'}}>
-          {format(new Date(props.meta.created), 'yyyy-MM-dd')}
+          <Tooltip title={hasUpdate ? `更新于: ${format(new Date(props.meta.updated), 'yyyy-MM-dd HH:mm:ss')}` : ''} arrow>
+            <span>
+              {format(new Date(props.meta.created), 'yyyy-MM-dd')}{hasUpdate ? "*" : ""}
+            </span>
+          </Tooltip>
           {props.meta.categories.map(c => <PostTag tag={c} key={c}/>)}
           {props.meta.tags.map(c => <PostTag tag={c} key={c}/>)}
         </Typography>
