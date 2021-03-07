@@ -43,10 +43,11 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
+  const metas = await getPostMetas()
+  const totalPage = Math.ceil(metas.length / pageSize)
+  const paths = Array.from(Array(totalPage).keys()).map(p => ({params: {page: p.toString()}}));
   return {
-    paths: [
-      {params: {page: "1"}}
-    ],
+    paths: paths,
     fallback: true,
   }
 }

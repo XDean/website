@@ -1,6 +1,6 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
-import {getPostByGroup} from "../../../../../src/posts/service";
-import {PostMeta, PostMetaGroupType} from "../../../../../src/posts/domain";
+import {getPostByGroup, getPostMetaGroup, getPostMetas} from "../../../../../src/posts/service";
+import {PostMeta, PostMetaGroupType, PostMetaGroupTypes} from "../../../../../src/posts/domain";
 import {getPage, PageData} from "../../../../../src/util/util";
 import {useRouter} from "next/router";
 import Link from 'next/link'
@@ -45,8 +45,19 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ctx => {
 
 
 export const getStaticPaths: GetStaticPaths<Params> = async ctx => {
+  const paths = []
+  for (const type of PostMetaGroupTypes) {
+    const groups = await getPostMetaGroup(type)
+    for (const group of groups) {
+      const metas = await getPostByGroup(type, group.name)
+      const totalPage = Math.ceil(metas.length / pageSize)
+      for (let page = 0; page < totalPage; page++) {
+        paths.push({params: {type: type, name: group.name, page: page.toString()}})
+      }
+    }
+  }
   return {
-    paths: [],
+    paths: paths,
     fallback: true,
   }
 }
