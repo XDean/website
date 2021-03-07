@@ -86,8 +86,8 @@ export const PostView = (props: PostProps) => {
               {format(new Date(props.meta.created), 'yyyy-MM-dd')}{hasUpdate ? "*" : ""}
             </Typography>
           </Tooltip>
-          {props.meta.categories.map(c => <PostTag tag={c} key={c}/>)}
-          {props.meta.tags.map(c => <PostTag tag={c} key={c}/>)}
+          {props.meta.categories.map(c => <PostTag type={"category"} tag={c} key={c}/>)}
+          {props.meta.tags.map(c => <PostTag type={"tag"} tag={c} key={c}/>)}
         </div>
         <MathJax.Provider>
           <ReactMarkdown className={'markdown-body'} allowDangerousHtml
