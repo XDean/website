@@ -64,9 +64,5 @@ function pathToLink(file: string) {
   if (ext === '.md') {
     file = file.substring(0, file.length - 3)
   }
-  const base = path.basename(file)
-  if (base === 'index' || base === 'README') {
-    file = path.dirname(file)
-  }
   return '/' + slash(file)
 }
