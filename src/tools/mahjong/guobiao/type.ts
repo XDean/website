@@ -40,11 +40,11 @@ export class Tiles {
     return new Tiles(this.tiles.filter(t => t.type === type))
   }
 
-  filterPoint(point: number) {
-    return new Tiles(this.tiles.filter(t => t.point === point))
+  filterPoint(...points: TilePoint[]) {
+    return new Tiles(this.tiles.filter(t => points.indexOf(t.point) != -1))
   }
 
-  filterShunPoint(point: number) {
+  filterShunPoint(point: TilePoint) {
     return new Tiles(this.tiles.filter(t => t.point !== point && Math.abs(t.point - point) < 3))
   }
 
@@ -64,6 +64,16 @@ export class Tiles {
       }
     }
     return min
+  }
+
+  get distinct(): Tiles {
+    const result = []
+    for (let tile of this.tiles) {
+      if (result.indexOf(tile) === -1) {
+        result.push(tile)
+      }
+    }
+    return new Tiles(result)
   }
 }
 
@@ -176,17 +186,17 @@ export class QiDui {
   readonly type = 'qi-dui'
 
   constructor(
-    readonly tiles: Tile[],
+    readonly tiles: Tiles,
   ) {
     assert(tiles.length == 7)
   }
 }
 
-export class ZuheLong {
+export class ZuHeLong {
   readonly type = 'zu-he-long'
 
   constructor(
-    readonly tiles: Tile[],
+    readonly tiles: Tiles,
   ) {
     assert(tiles.length == 9)
   }
@@ -196,7 +206,7 @@ export class BuKao {
   readonly type = 'bu-kao'
 
   constructor(
-    readonly tiles: Tile[],
+    readonly tiles: Tiles,
   ) {
     assert(tiles.length == 14)
   }
@@ -206,4 +216,4 @@ export class Yao13 {
   readonly type = '13yao'
 }
 
-export type Mian = Dui | Shun | Ke | QiDui | BuKao | Yao13 | ZuheLong | Gang
+export type Mian = Dui | Shun | Ke | QiDui | BuKao | Yao13 | ZuHeLong | Gang

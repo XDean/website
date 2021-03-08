@@ -1,11 +1,9 @@
-import {Combination, Dui, Hand, Hu, Ke, Shun, Tile, Tiles} from "./type";
+import {Combination, Dui, Hand, Hu, Ke, Shun, Tile, TilePoint, Tiles, ZuHeLong} from "./type";
 
 export function calculate(hand: Hand): Hu {
   if (hand.count != 14) {
     throw 'hand count must be 14'
   }
-
-
   return new Hu(new Combination([]), [])
 }
 
@@ -18,9 +16,13 @@ function* findAllCombinations(tiles: Tiles): Generator<Combination> {
       // bukao, yao13
     }
   } else {
-    for (let [leftTiles, dui] of duis) {
-      const combs = findShunKeCombinations(leftTiles)
-      for (let comb of combs) {
+    for (let [left, dui] of duis) {
+      for (let [l, zhl] of findZuHeLong(left)) {
+        for (let sub of findShunKeCombinations(l)) {
+          yield sub.with(zhl).with(dui)
+        }
+      }
+      for (let comb of findShunKeCombinations(left)) {
         yield comb.with(dui)
       }
     }
@@ -31,13 +33,12 @@ function* findShunKeCombinations(tiles: Tiles): Generator<Combination> {
   if (tiles.length === 0) {
     return
   }
-  const first = tiles[0]
-  for (let [left, ke] of findKe(tiles, first)) {
+  for (let [left, ke] of findKe(tiles, tiles[0])) {
     for (let sub of findShunKeCombinations(left)) {
       yield sub.with(ke)
     }
   }
-  for (let [left, shun] of findShun(tiles, first)) {
+  for (let [left, shun] of findShun(tiles, tiles[0])) {
     for (let sub of findShunKeCombinations(left)) {
       yield sub.with(shun)
     }
@@ -89,4 +90,38 @@ function findKe(tiles: Tiles, tile: Tile): [Tiles, Ke][] {
   } else {
     return []
   }
+}
+
+function findZuHeLong(tiles: Tiles): [Tiles, ZuHeLong][] {
+  const distinct = tiles.distinct
+  const types = [
+    distinct.filterType('m'),
+    distinct.filterType('p'),
+    distinct.filterType('s'),
+  ]
+  if (types.some(t => t.length < 3)) {
+    return []
+  }
+  const groups = types.map(ts => {
+    const points: TilePoint[][] = [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+    return points.map(ps => ts.filterPoint(...ps))
+      .filter(t => t.length === 3)
+  })
+  if (groups.some(t => t.length === 0)) {
+    return []
+  }
+  for (let m of groups[0]) {
+    for (let p of groups[1]) {
+      for (let s of groups[2]) {
+        const mp = m.minPointTile.point
+        const pp = p.minPointTile.point
+        const sp = s.minPointTile.point
+        if (mp != pp && mp != sp && pp != sp) {
+          const [left, used] = tiles.split(...m.tiles, ...p.tiles, ...s.tiles)
+          return [[left, new ZuHeLong(used)]]
+        }
+      }
+    }
+  }
+  return []
 }
