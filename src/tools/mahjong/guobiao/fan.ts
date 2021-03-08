@@ -1,4 +1,4 @@
-import {Combination, Fan, FengList, Hand, QiDui, Tile, TilePoint, YuanList, Yuans} from "./type";
+import {Combination, Dui, Fan, FengList, Hand, QiDui, Tile, TilePoint, YaoJiuList, YuanList, Yuans} from "./type";
 
 export function calcFan(hand: Hand, comb: Combination): Fan[][] {
   return []
@@ -32,13 +32,13 @@ class FanCalc implements Fan {
 export const DaSiXi = new FanCalc({
   score: 88,
   name: '大四喜',
-  match: c => c.hasKe(...FengList),
+  match: c => c.hasKe(FengList),
 })
 
 export const DaSanYuan = new FanCalc({
   score: 88,
   name: '大三元',
-  match: c => c.hasKe(...YuanList),
+  match: c => c.hasKe(YuanList),
 })
 
 const LvList: Tile[] = [...([2, 3, 4, 6, 8].map(p => new Tile('s', p as TilePoint))), Yuans.fa]
@@ -84,3 +84,70 @@ export const ShiSanYao = new FanCalc({
   name: '十三幺',
   match: c => c.mians.filter(m => m.type === '13yao').length === 1,
 })
+
+export const QingYaoJiu = new FanCalc({
+  score: 64,
+  name: '清幺九',
+  match: c => c.toTiles.allIn(YaoJiuList),
+})
+
+export const XiaoSiXi = new FanCalc({
+  score: 64,
+  name: '小四喜',
+  match: c => {
+    const duis = c.mians.filter(m => m.type === 'dui')
+    if (duis.length === 0) {
+      return false
+    }
+    const dui = duis[0] as Dui
+    if (!dui.tile.in(FengList)) {
+      return false
+    }
+    const copy = [...FengList]
+    copy.splice(copy.indexOf(dui.tile))
+    return c.hasKe(copy);
+  },
+})
+
+export const XiaoSanYuan = new FanCalc({
+  score: 64,
+  name: '小三元',
+  match: c => {
+    const duis = c.mians.filter(m => m.type === 'dui')
+    if (duis.length === 0) {
+      return false
+    }
+    const dui = duis[0] as Dui
+    if (!dui.tile.in(YuanList)) {
+      return false
+    }
+    const copy = [...YuanList]
+    copy.splice(copy.indexOf(dui.tile))
+    return c.hasKe(copy);
+  },
+})
+
+export const ZiYiSe = new FanCalc({
+  score: 64,
+  name: '字一色',
+  match: c => c.toTiles.filterType('z').length === 14,
+})
+
+export const SiAnKe = new FanCalc({
+  score: 64,
+  name: '四暗刻',
+  match: c => c.mians.filter(m => m.type === 'ke' && !m.open).length === 4,
+})
+
+export const YiSeShuangLongHui = new FanCalc({
+  score: 64,
+  name: '一色双龙会',
+  match: c => {
+    const tiles = c.toTiles
+    return tiles.allMatch([1, 2, 3, 1, 2, 3, 5, 5, 7, 8, 9, 7, 8, 9].map(p => new Tile(tiles.last.type, p as TilePoint)));
+  },
+})
+
+
+
+

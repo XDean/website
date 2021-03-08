@@ -11,7 +11,7 @@ import {
   Tile,
   TilePoint,
   Tiles,
-  Yao13,
+  Yao13, YaoList,
   ZuHeLong
 } from "./type";
 import {calcFan} from "./fan";
@@ -175,15 +175,12 @@ function findQiDui(tiles: Tiles): QiDui | null {
 }
 
 function find13Yao(tiles: Tiles): Yao13 | null {
-  if (!tiles.tiles.every(t => t.point === 1 || t.point === 9 || t.type === 'z')) {
+  if (tiles.allIn(YaoList) && tiles.distinct.length === 13) {
+    const duis = findDui(tiles);
+    return new Yao13(duis[0][1].tile)
+  } else {
     return null
   }
-  const last = tiles.last;
-  const left = tiles.withoutLast
-  if (left.distinct.length != 13) {
-    return null
-  }
-  return new Yao13(last)
 }
 
 function findBuKao(tiles: Tiles): BuKao | null {

@@ -28,6 +28,10 @@ export class Tile {
     }
     return new Tile(this.type, (this.point + 1) as TilePoint)
   }
+
+  in(tiles: Tile[]) {
+    return tiles.indexOf(this) !== -1
+  }
 }
 
 export const Fengs = {
@@ -46,7 +50,7 @@ export const Yuans = {
 }
 export const YuanList: Tile[] = [Yuans.zhong, Yuans.fa, Yuans.bai]
 
-export const YaoList: Tile[] = [...FengList, ...YuanList,
+export const YaoJiuList: Tile[] = [
   new Tile('m', 1),
   new Tile('m', 9),
   new Tile('s', 1),
@@ -54,6 +58,7 @@ export const YaoList: Tile[] = [...FengList, ...YuanList,
   new Tile('p', 1),
   new Tile('p', 9),
 ]
+export const YaoList: Tile[] = [...FengList, ...YuanList, ...YaoJiuList]
 
 export class Tiles {
   constructor(
@@ -137,12 +142,7 @@ export class Tiles {
   }
 
   allIn(tiles: Tile[]) {
-    for (let tile of this.tiles) {
-      if (tiles.indexOf(tile) === -1) {
-        return false
-      }
-    }
-    return true
+    return this.tiles.every(t => t.in(tiles))
   }
 
   allMatch(tiles: Tile[]) {
@@ -192,7 +192,7 @@ export class Combination {
     return true
   }
 
-  hasKe(...tiles: Tile[]) {
+  hasKe(tiles: Tile[]) {
     for (let tile of tiles) {
       let found = false
       for (let mian of this.mians) {
