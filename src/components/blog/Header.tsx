@@ -3,7 +3,7 @@ import {Divider, Typography} from "@material-ui/core";
 
 const MenuLink = ({label, ...rest}: MyLinkProps & { label: string }) => {
   return (
-    <MyLink {...rest} mui={{style: {marginRight: 20}}}>
+    <MyLink {...rest} style={{marginRight: 20}}>
       <Typography variant={"h5"}>
         {label}
       </Typography>
