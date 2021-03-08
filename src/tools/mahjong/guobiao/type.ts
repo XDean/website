@@ -36,8 +36,8 @@ export class Tiles {
     return [new Tiles(copy), new Tiles(removed)]
   }
 
-  filterType(type: TileType) {
-    return new Tiles(this.tiles.filter(t => t.type === type))
+  filterType(...types: TileType[]) {
+    return new Tiles(this.tiles.filter(t => types.indexOf(t.type) != -1))
   }
 
   filterPoint(...points: TilePoint[]) {
@@ -74,6 +74,10 @@ export class Tiles {
       }
     }
     return new Tiles(result)
+  }
+
+  get last(): Tile {
+    return this.tiles[this.tiles.length - 1]
   }
 }
 
@@ -214,6 +218,11 @@ export class BuKao {
 
 export class Yao13 {
   readonly type = '13yao'
+
+  constructor(
+    readonly tile: Tile,
+  ) {
+  }
 }
 
 export type Mian = Dui | Shun | Ke | QiDui | BuKao | Yao13 | ZuHeLong | Gang

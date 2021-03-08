@@ -1,4 +1,4 @@
-import {Combination, Dui, Hand, Hu, Ke, Shun, Tile, TilePoint, Tiles, ZuHeLong} from "./type";
+import {BuKao, Combination, Dui, Hand, Hu, Ke, QiDui, Shun, Tile, TilePoint, Tiles, Yao13, ZuHeLong} from "./type";
 
 export function calculate(hand: Hand): Hu {
   if (hand.count != 14) {
@@ -8,30 +8,36 @@ export function calculate(hand: Hand): Hu {
 }
 
 function* findAllCombinations(tiles: Tiles): Generator<Combination> {
-  const duis = findDui(tiles);
-  if (duis.length === 0) {
-    if (tiles.length < 14) {
-      return
-    } else {
-      // bukao, yao13
+  if (tiles.length === 14) {
+    const yao = find13Yao(tiles);
+    if (!!yao) {
+      return new Combination([yao])
     }
-  } else {
-    for (let [left, dui] of duis) {
-      for (let [l, zhl] of findZuHeLong(left)) {
-        for (let sub of findShunKeCombinations(l)) {
-          yield sub.with(zhl).with(dui)
-        }
+    const bukao = findBuKao(tiles);
+    if (!!bukao) {
+      return new Combination([bukao])
+    }
+  }
+  const duis = findDui(tiles);
+  if (duis.length === 7) {
+    yield new Combination([new QiDui(tiles.distinct)])
+  }
+
+  for (let [left, dui] of duis) {
+    for (let [l, zhl] of findZuHeLong(left)) {
+      for (let sub of findShunKeCombinations(l)) {
+        yield sub.with(zhl).with(dui)
       }
-      for (let comb of findShunKeCombinations(left)) {
-        yield comb.with(dui)
-      }
+    }
+    for (let comb of findShunKeCombinations(left)) {
+      yield comb.with(dui)
     }
   }
 }
 
 function* findShunKeCombinations(tiles: Tiles): Generator<Combination> {
   if (tiles.length === 0) {
-    return
+    yield new Combination([])
   }
   for (let [left, ke] of findKe(tiles, tiles[0])) {
     for (let sub of findShunKeCombinations(left)) {
@@ -124,4 +130,39 @@ function findZuHeLong(tiles: Tiles): [Tiles, ZuHeLong][] {
     }
   }
   return []
+}
+
+function find13Yao(tiles: Tiles): Yao13 | null {
+  if (!tiles.tiles.every(t => t.point === 1 || t.point === 9 || t.type === 'z')) {
+    return null
+  }
+  const last = tiles.last;
+  const [left] = tiles.split(last)
+  if (left.distinct.length != 13) {
+    return null
+  }
+  return new Yao13(last)
+}
+
+function findBuKao(tiles: Tiles): BuKao | null {
+  if (tiles.distinct.length != 14) {
+    return null
+  }
+  if ([
+    tiles.filterType('s'),
+    tiles.filterType('m'),
+    tiles.filterType('p'),
+  ].every(ts => {
+    for (let [a, b] of ts.pairs()) {
+      const diff = Math.abs(a.point - b.point)
+      if (diff !== 3 && diff !== 6) {
+        return false
+      }
+    }
+    return true
+  })) {
+    return new BuKao(tiles)
+  } else {
+    return null
+  }
 }
