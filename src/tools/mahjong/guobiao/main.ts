@@ -1,10 +1,34 @@
-import {BuKao, Combination, Dui, Hand, Hu, Ke, QiDui, Shun, Tile, TilePoint, Tiles, Yao13, ZuHeLong} from "./type";
+import {
+  BuKao,
+  Combination,
+  Dui,
+  Hand,
+  Hu,
+  Ke,
+  Options,
+  QiDui,
+  Shun,
+  Tile,
+  TilePoint,
+  Tiles,
+  Yao13,
+  ZuHeLong
+} from "./type";
+import {calcFan} from "./fan";
 
-export function calculate(hand: Hand): Hu {
+export function calculate(hand: Hand): Hu[] {
   if (hand.count != 14) {
     throw 'hand count must be 14'
   }
-  return new Hu(new Combination([]), [])
+  const mingComb = new Combination(hand.mings.map(m => m.toMian()))
+  const result = []
+  for (let comb of findAllCombinations(hand.tiles)) {
+    const completeComb = mingComb.with(...comb.mians);
+    for (let fans of calcFan(hand, completeComb)) {
+      result.push(new Hu(completeComb, fans))
+    }
+  }
+  return result
 }
 
 function* findAllCombinations(tiles: Tiles): Generator<Combination> {
@@ -17,12 +41,12 @@ function* findAllCombinations(tiles: Tiles): Generator<Combination> {
     if (!!bukao) {
       return new Combination([bukao])
     }
+    const qidui = findQiDui(tiles);
+    if (!!qidui) {
+      yield new Combination([qidui])
+    }
   }
   const duis = findDui(tiles);
-  if (duis.length === 7) {
-    yield new Combination([new QiDui(tiles.distinct)])
-  }
-
   for (let [left, dui] of duis) {
     for (let [l, zhl] of findZuHeLong(left)) {
       for (let sub of findShunKeCombinations(l)) {
@@ -82,7 +106,6 @@ function* findShun(tiles: Tiles, tile: Tile): Generator<[Tiles, Shun]> {
     const diff = Math.abs(a.point - b.point)
     if (diff === 1 || diff === 2) {
       const [left] = tiles.split(a, b, tile)
-
       yield [left, new Shun(new Tiles([a, b, tile]).minPointTile)]
     }
   }
@@ -132,12 +155,31 @@ function findZuHeLong(tiles: Tiles): [Tiles, ZuHeLong][] {
   return []
 }
 
+function findQiDui(tiles: Tiles): QiDui | null {
+  const single = []
+  const pair = []
+  for (let tile of tiles.tiles) {
+    const index = single.indexOf(tile);
+    if (index === -1) {
+      single.push(tile)
+    } else {
+      single.splice(index)
+      pair.push(tile)
+    }
+  }
+  if (single.length === 0) {
+    return new QiDui(new Tiles(pair))
+  } else {
+    return null
+  }
+}
+
 function find13Yao(tiles: Tiles): Yao13 | null {
   if (!tiles.tiles.every(t => t.point === 1 || t.point === 9 || t.type === 'z')) {
     return null
   }
   const last = tiles.last;
-  const [left] = tiles.split(last)
+  const left = tiles.withoutLast
   if (left.distinct.length != 13) {
     return null
   }

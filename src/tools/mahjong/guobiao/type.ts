@@ -8,10 +8,52 @@ export type Options = {
 export type TileType = 'p' | 's' | 'm' | 'z'
 export type TilePoint = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
-export type Tile = {
-  type: TileType
-  point: TilePoint
+export class Tile {
+  constructor(
+    readonly type: TileType,
+    readonly point: TilePoint,
+  ) {
+  }
+
+  get prev() {
+    if (this.type === 'z' || this.point === 1) {
+      throw 'cannot get prev tile'
+    }
+    return new Tile(this.type, (this.point - 1) as TilePoint)
+  }
+
+  get next() {
+    if (this.type === 'z' || this.point === 9) {
+      throw 'cannot get next tile'
+    }
+    return new Tile(this.type, (this.point + 1) as TilePoint)
+  }
 }
+
+export const Fengs = {
+  dong: new Tile('z', 1),
+  nan: new Tile('z', 2),
+  xi: new Tile('z', 3),
+  bei: new Tile('z', 4),
+}
+
+export const FengList: Tile[] = [Fengs.dong, Fengs.nan, Fengs.xi, Fengs.bei]
+
+export const Yuans = {
+  zhong: new Tile('z', 5),
+  fa: new Tile('z', 6),
+  bai: new Tile('z', 7),
+}
+export const YuanList: Tile[] = [Yuans.zhong, Yuans.fa, Yuans.bai]
+
+export const YaoList: Tile[] = [...FengList, ...YuanList,
+  new Tile('m', 1),
+  new Tile('m', 9),
+  new Tile('s', 1),
+  new Tile('s', 9),
+  new Tile('p', 1),
+  new Tile('p', 9),
+]
 
 export class Tiles {
   constructor(
@@ -66,6 +108,16 @@ export class Tiles {
     return min
   }
 
+  get maxPointTile(): Tile {
+    let max = this.tiles[0]
+    for (let tile of this.tiles) {
+      if (tile.point > max.point) {
+        max = tile
+      }
+    }
+    return max
+  }
+
   get distinct(): Tiles {
     const result = []
     for (let tile of this.tiles) {
@@ -79,22 +131,43 @@ export class Tiles {
   get last(): Tile {
     return this.tiles[this.tiles.length - 1]
   }
+
+  get withoutLast(): Tiles {
+    return this.split(this.last)[0]
+  }
+
+  allIn(tiles: Tile[]) {
+    for (let tile of this.tiles) {
+      if (tiles.indexOf(tile) === -1) {
+        return false
+      }
+    }
+    return true
+  }
+
+  allMatch(tiles: Tile[]) {
+    const copy = [...tiles]
+    for (let tile of this.tiles) {
+      const index = tiles.indexOf(tile);
+      if (index === -1) {
+        return false
+      }
+      tiles.splice(index)
+    }
+    return true
+  }
 }
 
 export class Hand {
   constructor(
     readonly tiles: Tiles, // last one is last card
     readonly mings: Ming[] = [],
-    readonly options: Options,
+    readonly option: Options,
   ) {
   }
 
   get count() {
     return this.tiles.length + 3 * this.mings.length
-  }
-
-  get lastTile() {
-    return this.tiles[this.tiles.length - 1]
   }
 }
 
@@ -104,11 +177,41 @@ export class Combination {
   ) {
   }
 
-  with = (m: Mian) => new Combination([...this.mians, m])
+  with = (...ms: Mian[]) => new Combination([...this.mians, ...ms])
+
+  get toTiles(): Tiles {
+    return new Tiles(this.mians.flatMap(m => m.toTiles.tiles))
+  }
+
+  has(...mians: Mian[]) {
+    for (let mian of mians) {
+      if (this.mians.indexOf(mian) === -1) {
+        return false
+      }
+    }
+    return true
+  }
+
+  hasKe(...tiles: Tile[]) {
+    for (let tile of tiles) {
+      let found = false
+      for (let mian of this.mians) {
+        if (mian.type === 'ke' && mian.tile === tile) {
+          found = true
+          break
+        }
+      }
+      if (!found) {
+        return false
+      }
+    }
+    return true
+  }
 }
 
 export interface Fan {
-  score: number
+  readonly score: number
+  readonly name: string
 }
 
 export class Hu {
@@ -164,6 +267,14 @@ export class Shun {
     readonly open: boolean = false,
   ) {
   }
+
+  get name() {
+    return this.open ? '吃' : '顺'
+  }
+
+  get toTiles() {
+    return new Tiles([this.tile, this.tile.next, this.tile.next.next])
+  }
 }
 
 export class Ke {
@@ -175,54 +286,87 @@ export class Ke {
     readonly gang: boolean = false,
   ) {
   }
+
+  get name() {
+    return this.gang ? (this.open ? '明杠' : '暗杠') : (this.open ? '碰' : '暗刻')
+  }
+
+  get toTiles() {
+    return new Tiles([this.tile, this.tile, this.tile])
+  }
 }
 
 export class Dui {
   readonly type = 'dui'
+  readonly open = false
 
   constructor(
     readonly tile: Tile,
   ) {
   }
+
+  get toTiles() {
+    return new Tiles([this.tile, this.tile])
+  }
 }
 
 export class QiDui {
   readonly type = 'qi-dui'
+  readonly open = false
 
   constructor(
     readonly tiles: Tiles,
   ) {
     assert(tiles.length == 7)
   }
+
+  get toTiles() {
+    return new Tiles([...this.tiles.tiles, ...this.tiles.tiles])
+  }
 }
 
 export class ZuHeLong {
   readonly type = 'zu-he-long'
+  readonly open = false
 
   constructor(
     readonly tiles: Tiles,
   ) {
     assert(tiles.length == 9)
   }
+
+  get toTiles() {
+    return this.tiles
+  }
 }
 
 export class BuKao {
   readonly type = 'bu-kao'
+  readonly open = false
 
   constructor(
     readonly tiles: Tiles,
   ) {
     assert(tiles.length == 14)
   }
+
+  get toTiles() {
+    return this.tiles
+  }
 }
 
 export class Yao13 {
   readonly type = '13yao'
+  readonly open = false
 
   constructor(
     readonly tile: Tile,
   ) {
   }
+
+  get toTiles() {
+    return new Tiles([this.tile, ...YaoList])
+  }
 }
 
-export type Mian = Dui | Shun | Ke | QiDui | BuKao | Yao13 | ZuHeLong | Gang
+export type Mian = Dui | Shun | Ke | QiDui | BuKao | Yao13 | ZuHeLong
