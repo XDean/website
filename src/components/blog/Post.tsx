@@ -16,6 +16,7 @@ import {format} from "date-fns";
 import {GithubComment} from "../util/GithubComment";
 import MarkdownToc from 'markdown-toc-unlazy'
 import uslug from 'uslug'
+import {isURL} from "../../util/util";
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -119,6 +120,17 @@ export const PostView = (props: PostProps) => {
                            },
                            math: props => <MathJax.Node formula={props.value}/>,
                            inlineMath: props => <MathJax.Node inline formula={props.value}/>,
+                           link: props => {
+                             let href = props.href
+                             if (isURL(href)) {
+                               return <a {...props}/>
+                             } else {
+                               if (href.endsWith('.md')) {
+                                 href = href.substring(0, href.length - 3)
+                               }
+                               return <MyLink {...props} href={href}/>
+                             }
+                           }
                          }}
           >
             {props.content}
