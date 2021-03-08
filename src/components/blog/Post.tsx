@@ -1,8 +1,5 @@
-import MarkdownIt from "markdown-it";
-import MarkdownItTitle from "markdown-it-title";
-import MarkdownItToc from "markdown-it-toc-done-right";
 import {PostMeta} from "../../posts/domain";
-import React, {ReactElement, useMemo} from "react";
+import React, {ReactElement} from "react";
 import 'github-markdown-css/github-markdown.css'
 import {Button, createStyles, Divider, makeStyles, Tooltip, Typography} from "@material-ui/core";
 import 'highlight.js/styles/stackoverflow-light.css'
@@ -54,7 +51,6 @@ export type PostProps = {
 
 export const PostView = (props: PostProps) => {
   const classes = useStyles()
-  const {title} = useMemo(() => renderMarkdown(props.content, props.meta), [props.content, classes])
   const tocData = extractMarkdownToc(props.content)
   const hasToc = props.meta.toc !== false && tocData.content.length > 0
   const hasUpdate = props.meta.updated && props.meta.updated !== props.meta.created
@@ -88,7 +84,7 @@ export const PostView = (props: PostProps) => {
       }()}
       <div style={{width: 0, flexGrow: 1}}>
         <Typography variant={"h4"} id={'title'} className={classes.title}>
-          {title}
+          {props.meta.title}
         </Typography>
         <div style={{display: 'flex', margin: '5px 0 25px 10px'}}>
           <Tooltip title={hasUpdate ? `更新于: ${format(new Date(props.meta.updated), 'yyyy-MM-dd HH:mm:ss')}` : ''} arrow>
@@ -108,7 +104,8 @@ export const PostView = (props: PostProps) => {
                              if (props.level === 1) {
                                return null
                              }
-                             const slug = uslug(innerText(<>{props.children}</>))
+                             const text = innerText(<>{props.children}</>);
+                             const slug = uslug(text)
                              return React.createElement(`h${props.level}`, {
                                id: slug,
                                style: {
@@ -165,31 +162,7 @@ export const PostView = (props: PostProps) => {
 function extractMarkdownToc(content: string) {
   return MarkdownToc(content, {
     slugify: uslug,
-    maxDepth: 2,
+    maxdepth: 2,
     firsth1: false,
   })
-}
-
-function renderMarkdown(content: string, meta: PostMeta) {
-
-  const env: any = {}
-  const mdRenderer = MarkdownIt({
-    html: true
-  })
-    .use(MarkdownItTitle)
-  if (meta.toc !== false) {
-    mdRenderer.use(MarkdownItToc, {
-      containerClass: 'toc',
-      level: [2, 3],
-      uslug,
-      callback: (html: string) => {
-        env.toc = html;
-      },
-    })
-  }
-  mdRenderer.render(content, env);
-  return {
-    toc: env.toc,
-    title: env.title,
-  }
 }
