@@ -3,10 +3,14 @@ import assert from "assert";
 
 export type Options = {
   zimo: boolean
+  lastTile: boolean
+  gangShang:boolean
 }
 
 export type TileType = 'p' | 's' | 'm' | 'z'
+export const TileTypes: TileType[] = ['p', 's', 'm', 'z']
 export type TilePoint = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+export const TilePoints: TilePoint[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 export class Tile {
   constructor(
@@ -50,6 +54,8 @@ export const Yuans = {
 }
 export const YuanList: Tile[] = [Yuans.zhong, Yuans.fa, Yuans.bai]
 
+export const ZiList: Tile[] = [...FengList, ...YuanList]
+
 export const YaoJiuList: Tile[] = [
   new Tile('m', 1),
   new Tile('m', 9),
@@ -58,7 +64,7 @@ export const YaoJiuList: Tile[] = [
   new Tile('p', 1),
   new Tile('p', 9),
 ]
-export const YaoList: Tile[] = [...FengList, ...YuanList, ...YaoJiuList]
+export const YaoList: Tile[] = [...ZiList, ...YaoJiuList]
 
 export class Tiles {
   constructor(
@@ -84,11 +90,21 @@ export class Tiles {
   }
 
   filterType(...types: TileType[]) {
-    return new Tiles(this.tiles.filter(t => types.indexOf(t.type) != -1))
+    if (types.length === 0) {
+      types = [this.last.type]
+    }
+    return new Tiles(this.tiles.filter(t => types.indexOf(t.type) !== -1))
+  }
+
+  removeType(...types: TileType[]) {
+    if (types.length === 0) {
+      types = [this.last.type]
+    }
+    return new Tiles(this.tiles.filter(t => types.indexOf(t.type) === -1))
   }
 
   filterPoint(...points: TilePoint[]) {
-    return new Tiles(this.tiles.filter(t => points.indexOf(t.point) != -1))
+    return new Tiles(this.tiles.filter(t => points.indexOf(t.point) !== -1))
   }
 
   filterShunPoint(point: TilePoint) {
@@ -99,6 +115,16 @@ export class Tiles {
     for (let i = 0; i < this.tiles.length; i++) {
       for (let j = i + 1; j < this.tiles.length; j++) {
         yield [this.tiles[i], this.tiles[j]]
+      }
+    }
+  }
+
+  * triples() {
+    for (let i = 0; i < this.tiles.length; i++) {
+      for (let j = i + 1; j < this.tiles.length; j++) {
+        for (let k = j + 1; k < this.tiles.length; k++) {
+          yield [this.tiles[i], this.tiles[j], this.tiles[k]]
+        }
       }
     }
   }
@@ -145,16 +171,76 @@ export class Tiles {
     return this.tiles.every(t => t.in(tiles))
   }
 
-  allMatch(tiles: Tile[]) {
+  equals(tiles: Tile[]) {
     const copy = [...tiles]
     for (let tile of this.tiles) {
-      const index = tiles.indexOf(tile);
+      const index = copy.indexOf(tile);
       if (index === -1) {
         return false
       }
-      tiles.splice(index)
+      copy.splice(index)
     }
     return true
+  }
+
+  contains(tiles: Tile[]) {
+    const copy = [...this.tiles]
+    for (let tile of tiles) {
+      const index = copy.indexOf(tile);
+      if (index === -1) {
+        return false
+      }
+      copy.splice(index)
+    }
+    return true
+  }
+
+  hasSameTypeAndDiff(diff: number = 1) {
+    const min = this.minPointTile
+    for (let i = 0; i < this.length; i = i + diff) {
+      const p = min.point + i;
+      if (p > 9 || !new Tile(min.type, p as TilePoint).in(this.tiles)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  hasDiff(diff: number = 1) {
+    const min = this.minPointTile
+    for (let i = 0; i < this.length; i = i + diff) {
+      const p = min.point + i;
+      if (p > 9 || this.filterPoint(p as TilePoint).length === 0) {
+        return false
+      }
+    }
+    return true
+  }
+
+  get mostType() {
+    let maxLen = 0
+    let maxType = TileTypes[0]
+    for (let t of TileTypes) {
+      const len = this.filterType(t).length
+      if (len > maxLen) {
+        maxType = t
+        maxLen = len
+      }
+    }
+    return [maxType, maxLen]
+  }
+
+  get mostPoint() {
+    let maxLen = 0
+    let mostPoint = 0
+    for (let t of TilePoints) {
+      const len = this.filterType('s', 'p', 'm').filterPoint(t).length
+      if (len > maxLen) {
+        mostPoint = t
+        maxLen = len
+      }
+    }
+    return [mostPoint, maxLen]
   }
 }
 
