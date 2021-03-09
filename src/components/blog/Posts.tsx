@@ -1,7 +1,6 @@
 import {PostMeta} from "../../posts/domain";
 import {PageData} from "../../util/util";
 import {PostCard} from "./PostCard";
-import {Pagination} from "@material-ui/lab";
 import {useCallback} from "react";
 import {useRouter} from "next/router";
 import {BlogHeaderView} from "./Header";
@@ -19,7 +18,7 @@ export const PostsView = (props: Props) => {
   }, [])
 
   return (
-    <div style={{maxWidth: 900, minWidth: '50%'}}>
+    <div style={{width: 900, minWidth: '50%', margin: '0 50px'}}>
       <div style={{marginLeft: 10, marginBottom: 20}}>
         <BlogHeaderView/>
       </div>

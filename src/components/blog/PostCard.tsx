@@ -26,7 +26,6 @@ export const PostCard = (props: Props) => {
       return null
     }
   }, [props.meta])
-
   return (
     <Card style={{display: 'flex'}}>
       <CardContent style={{flexGrow: 2, width: 0}}>
@@ -44,7 +43,7 @@ export const PostCard = (props: Props) => {
           {summary}
         </Typography>}
       </CardContent>
-      {image && <CardMedia image={image} style={{flexGrow: 1, width: 0}}/>}
+      {image && <CardMedia image={image} style={{flexGrow: 1, width: 0, backgroundSize:'contain'}}/>}
     </Card>
   )
 }

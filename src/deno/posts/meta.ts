@@ -14,7 +14,7 @@ export async function readPostMeta(file: string): Promise<PostMeta> {
   const image = doc.querySelector('img')?.getAttribute('src') || ""
 
   const maxLine = 5;
-  const maxLen = 512;
+  const maxLen = 300;
   const paragraphs = doc.querySelectorAll('p');
   const summary: string[] = [];
   let leftLength = maxLen;
