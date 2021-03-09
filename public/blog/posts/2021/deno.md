@@ -7,9 +7,9 @@ categories:
   - Coding
 ---
 
-# 认识Deno
+# 认识Deno — 2020年最受瞩目的JS项目
 
-![](https://deno.land/logo.svg)
+![](deno-logo.png)
 
 2020年刚刚过去不久，对于现实世界来说是特殊的一年，对于Javascript世界也是特殊的一年。
 在Github Javascript排行榜上，Deno一举击败了蝉联5年冠军的Vue.js ，以`30.2k`star荣登榜首。
@@ -20,7 +20,7 @@ categories:
 简单的说，Deno(蒂诺)是一个Javascript运行时。
 
 这是你要问了，JS运行时，我们不是有Node了么？
-是的，Deno就是Node的————翻转, no-de => de-no。
+是的，Deno就是Node的——翻转, no-de => de-no。
 
 不止如此，Deno和Node还有同一个父亲，Ryan Dahl ([ry@github](https://github.com/ry))。
 虽然ry已经9年没有维护Node了，但是他仍是Node的Top 1贡献者。
