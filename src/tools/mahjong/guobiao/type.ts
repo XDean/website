@@ -4,7 +4,11 @@ import assert from "assert";
 export type Options = {
   zimo: boolean
   lastTile: boolean
-  gangShang:boolean
+  gangShang: boolean
+  juezhang: boolean
+  menfeng: TilePoint
+  quanfeng: TilePoint
+  hua: number
 }
 
 export type TileType = 'p' | 's' | 'm' | 'z'
@@ -242,6 +246,10 @@ export class Tiles {
     }
     return [mostPoint, maxLen]
   }
+
+  count(tile: Tile) {
+    return this.filterType(tile.type).filterPoint(tile.point).length
+  }
 }
 
 export class Hand {
@@ -292,6 +300,10 @@ export class Combination {
       }
     }
     return true
+  }
+
+  getMianWith(tile: Tile) {
+    return this.mians.filter(m => tile.in(m.toTiles.tiles))
   }
 }
 
