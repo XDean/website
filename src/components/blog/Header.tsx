@@ -3,10 +3,8 @@ import {Divider, Typography} from "@material-ui/core";
 
 const MenuLink = ({label, ...rest}: MyLinkProps & { label: string }) => {
   return (
-    <MyLink {...rest} style={{marginRight: 20}}>
-      <Typography variant={"h5"}>
-        {label}
-      </Typography>
+    <MyLink {...rest} className={'mr-1 md:mr-3 text-2xl md:text-3xl md:mt-4'}>
+      {label}
     </MyLink>
   )
 }
@@ -14,13 +12,13 @@ const MenuLink = ({label, ...rest}: MyLinkProps & { label: string }) => {
 export const BlogHeaderView = () => {
   return (
     <>
-      <div style={{display: 'flex'}}>
+      <div className={'flex ml-1'}>
         <MenuLink href={'/blog/page/1'} label={'首页'}/>
         <MenuLink href={'/blog/archives/tag'} label={'标签'}/>
         <MenuLink href={'/blog/archives/category'} label={'分类'}/>
         <MenuLink href={'/blog/archives/year'} label={'归档'}/>
       </div>
-      <Divider style={{marginTop: 10, marginBottom: 20}}/>
+      <Divider className={'mt-1'}/>
     </>
   )
 }

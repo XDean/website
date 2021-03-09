@@ -19,7 +19,7 @@ export const PostsView = (props: Props) => {
 
   return (
     <div style={{width: 900, minWidth: '50%', margin: '0 50px'}}>
-      <div style={{marginLeft: 10, marginBottom: 20}}>
+      <div className={'md:mt-2 mb-4'}>
         <BlogHeaderView/>
       </div>
       {page.data.map(m => (

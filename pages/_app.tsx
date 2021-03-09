@@ -13,31 +13,18 @@ function MyApp({Component, pageProps}) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
         <title>XDean</title>
       </Head>
-      <ThemeProvider theme={MyTheme}>
-        <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}} className={'font-mono'}>
-          <CssBaseline/>
-          <div style={{position: 'fixed', backgroundColor: '#fafafa', zIndex: 100, width: '100%'}}>
-            <HeaderView/>
-            <Divider/>
-          </div>
-          <div style={{marginTop: 90}}/>
-          <main
-            style={{
-              flexGrow: 1,
-              position: "relative",
-              width: '100%',
-              minWidth: "max-content",
-              display: 'flex',
-              justifyContent: "space-around"
-            }}>
-            <Component {...pageProps} />
-          </main>
-          <Divider style={{margin: '20px auto 0 auto', width: "60%"}}/>
-          <div style={{margin: '10px auto 30px auto', width: 'max-content'}}>
-            <FooterView/>
-          </div>
+      <div className={'flex flex-col m-h-screen w-full font-mono text-p bg-p'}>
+        <div className={'z-50 sticky top-0 w-full mb-3 md:mb-6'}>
+          <HeaderView/>
         </div>
-      </ThemeProvider>
+        <main className={"flex relative w-full m-w-max flex-grow flex-row justify-around color-p"}>
+          <Component {...pageProps} />
+        </main>
+        <Divider style={{margin: '20px auto 0 auto', width: "60%"}}/>
+        <div style={{margin: '10px auto 30px auto', width: 'max-content'}}>
+          <FooterView/>
+        </div>
+      </div>
     </>
   )
 }
