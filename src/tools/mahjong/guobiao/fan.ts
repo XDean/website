@@ -59,7 +59,7 @@ export const DaSanYuan = new FanCalc({
   match: c => c.hasKe(YuanList),
 })
 
-const LvList: Tile[] = [...([2, 3, 4, 6, 8].map(p => new Tile('s', p as TilePoint))), Yuans.fa]
+const LvList: Tile[] = [...([2, 3, 4, 6, 8].map(p => new Tile('t', p as TilePoint))), Yuans.fa]
 export const LvYiSe = new FanCalc({
   score: 88,
   name: '绿一色',
@@ -398,8 +398,8 @@ export const HuaLong = new FanCalc({
 })
 
 const TuiBuDaoList: Tile[] = [
-  ...([1, 2, 3, 4, 5, 8, 9].map(p => new Tile('p', p as TilePoint))),
-  ...([2, 4, 5, 6, 8, 9].map(p => new Tile('s', p as TilePoint))),
+  ...([1, 2, 3, 4, 5, 8, 9].map(p => new Tile('b', p as TilePoint))),
+  ...([2, 4, 5, 6, 8, 9].map(p => new Tile('t', p as TilePoint))),
   Yuans.bai,
 ]
 export const TuiBuDao = new FanCalc({

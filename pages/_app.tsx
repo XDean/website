@@ -21,7 +21,14 @@ function MyApp({Component, pageProps}) {
           </div>
           <div style={{marginTop: 90}}/>
           <main
-            style={{flexGrow: 1, position: "relative", width: '100%', display: 'flex', justifyContent: "space-around"}}>
+            style={{
+              flexGrow: 1,
+              position: "relative",
+              width: '100%',
+              minWidth: "max-content",
+              display: 'flex',
+              justifyContent: "space-around"
+            }}>
             <Component {...pageProps} />
           </main>
           <Divider style={{margin: '20px auto 0 auto', width: "60%"}}/>

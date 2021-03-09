@@ -11,8 +11,9 @@ export type Options = {
   hua: number
 }
 
-export type TileType = 'p' | 's' | 'm' | 'z'
-export const TileTypes: TileType[] = ['p', 's', 'm', 'z']
+export type TileType = 'b' | 't' | 'w' | 'z'
+export const TileNumberTypes: TileType[] = ['b', 't', 'w']
+export const TileTypes: TileType[] = ['b', 't', 'w', 'z']
 export type TilePoint = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 export const TilePoints: TilePoint[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -61,12 +62,12 @@ export const YuanList: Tile[] = [Yuans.zhong, Yuans.fa, Yuans.bai]
 export const ZiList: Tile[] = [...FengList, ...YuanList]
 
 export const YaoJiuList: Tile[] = [
-  new Tile('m', 1),
-  new Tile('m', 9),
-  new Tile('s', 1),
-  new Tile('s', 9),
-  new Tile('p', 1),
-  new Tile('p', 9),
+  new Tile('w', 1),
+  new Tile('w', 9),
+  new Tile('t', 1),
+  new Tile('t', 9),
+  new Tile('b', 1),
+  new Tile('b', 9),
 ]
 export const YaoList: Tile[] = [...ZiList, ...YaoJiuList]
 
@@ -238,7 +239,7 @@ export class Tiles {
     let maxLen = 0
     let mostPoint = 0
     for (let t of TilePoints) {
-      const len = this.filterType('s', 'p', 'm').filterPoint(t).length
+      const len = this.filterType('t', 'b', 'w').filterPoint(t).length
       if (len > maxLen) {
         mostPoint = t
         maxLen = len

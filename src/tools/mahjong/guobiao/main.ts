@@ -124,9 +124,9 @@ function findKe(tiles: Tiles, tile: Tile): [Tiles, Ke][] {
 function findZuHeLong(tiles: Tiles): [Tiles, ZuHeLong][] {
   const distinct = tiles.distinct
   const types = [
-    distinct.filterType('m'),
-    distinct.filterType('p'),
-    distinct.filterType('s'),
+    distinct.filterType('w'),
+    distinct.filterType('b'),
+    distinct.filterType('t'),
   ]
   if (types.some(t => t.length < 3)) {
     return []
@@ -188,9 +188,9 @@ function findBuKao(tiles: Tiles): BuKao | null {
     return null
   }
   if ([
-    tiles.filterType('s'),
-    tiles.filterType('m'),
-    tiles.filterType('p'),
+    tiles.filterType('t'),
+    tiles.filterType('w'),
+    tiles.filterType('b'),
   ].every(ts => {
     for (let [a, b] of ts.pairs()) {
       const diff = Math.abs(a.point - b.point)
