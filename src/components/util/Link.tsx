@@ -1,8 +1,8 @@
 import NextLink from "next/link";
-import {Link} from "@material-ui/core";
 import {LinkProps} from "next/dist/client/link";
 import {LinkBaseProps} from "@material-ui/core/Link/Link";
 import {PropsWithChildren} from "react";
+import clsx from "clsx";
 
 export type MyLinkProps = {
   href: string
@@ -12,9 +12,9 @@ export type MyLinkProps = {
 export const MyLink = ({href, next, children, ...rest}: PropsWithChildren<MyLinkProps>) => {
   return (
     <NextLink {...next} href={href}>
-      <Link color={"inherit"} {...rest} style={{cursor: 'pointer', ...rest?.style}} href={href}>
+      <a className={clsx(`cursor-pointer transition duration-300 hover:underline`, rest.className)} href={href}>
         {children}
-      </Link>
+      </a>
     </NextLink>
   )
 }

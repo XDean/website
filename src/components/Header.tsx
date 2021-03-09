@@ -4,25 +4,17 @@ import {MyLink} from "./util/Link";
 export const HeaderView = () => {
   return (
     <Toolbar>
-      <MyLink href={'/'} style={{marginLeft: 0}}>
-        <Typography variant={'h3'}>
-          XDean
-        </Typography>
+      <MyLink href={'/'} className={'text-3xl md:text-6xl font-bold'}>
+        XDean
       </MyLink>
-      <MyLink href={'/blog'} style={{marginLeft: 30}}>
-        <Typography variant={'h5'}>
-          Blog
-        </Typography>
+      <MyLink href={'/blog'} className={'text-xl md:text-2xl ml-4 md:ml-12'}>
+        Blog
       </MyLink>
-      <MyLink href={'/tools'} style={{marginLeft: 20}}>
-        <Typography variant={'h5'}>
-          工具箱
-        </Typography>
+      <MyLink href={'/tools'} className={'text-xl md:text-2xl ml-2 md:ml-8'}>
+        工具箱
       </MyLink>
-      <MyLink href={'/about'} style={{marginLeft: 20}}>
-        <Typography variant={'h5'}>
-          关于我
-        </Typography>
+      <MyLink href={'/about'} className={'text-xl md:text-2xl ml-2 md:ml-8'}>
+        关于我
       </MyLink>
     </Toolbar>
   )

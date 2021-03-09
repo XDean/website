@@ -14,7 +14,7 @@ function MyApp({Component, pageProps}) {
         <title>XDean</title>
       </Head>
       <ThemeProvider theme={MyTheme}>
-        <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}} className={'font-mono'}>
           <CssBaseline/>
           <div style={{position: 'fixed', backgroundColor: '#fafafa', zIndex: 100, width: '100%'}}>
             <HeaderView/>
