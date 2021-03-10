@@ -3,7 +3,7 @@ import {Divider, Typography} from "@material-ui/core";
 
 const MenuLink = ({label, ...rest}: MyLinkProps & { label: string }) => {
   return (
-    <MyLink {...rest} className={'mr-1 md:mr-3 text-2xl md:text-3xl md:mt-4'}>
+    <MyLink {...rest} className={'mr-2 md:mr-3 text-2xl md:text-3xl md:mt-4'}>
       {label}
     </MyLink>
   )

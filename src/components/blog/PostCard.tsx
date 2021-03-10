@@ -30,8 +30,8 @@ export const PostCard = (props: Props) => {
   return (
 
     <dl
-      className={'hover:bg-s hover:border-transparent hover:shadow-lg group block rounded-lg p-2 md:p-4 border border-gray-200'}>
-      <div>
+      className={'hover:bg-s hover:border-transparent hover:shadow-lg group block rounded-lg border border-gray-200l flex flex-row'}>
+      <div className={'flex flex-col w-0 flex-grow-2 p-2 md:p-4'}>
         <div>
           <dt className={'sr-only'}>Title</dt>
           <dd className={'text-xl md:text-3xl'}>
@@ -40,7 +40,7 @@ export const PostCard = (props: Props) => {
             </MyLink>
           </dd>
         </div>
-        <div className={'flex flex-row items-center mt-1 md:mt-3 overflow-auto '}>
+        <div className={'flex flex-row items-center mt-1 md:mt-2 overflow-auto '}>
           <div className={'whitespace-nowrap'}>
             <dt className={'sr-only'}>Date</dt>
             <dd>
@@ -55,8 +55,7 @@ export const PostCard = (props: Props) => {
             </dd>
           </div>
         </div>
-        {summary &&
-        <div className={'hidden md:block'}>
+        {summary && <div className={'w-full flex-grow hidden md:block mt-2 md:mt-3'}>
             <dt className={'sr-only'}>Summary</dt>
             <dd className={'overflow-auto'}>
               {summary}
@@ -64,12 +63,8 @@ export const PostCard = (props: Props) => {
         </div>}
       </div>
       {image &&
-      <div className={'hidden md:block'}>
-          <dt className={'sr-only'}>Summary</dt>
-          <dd>
-              <img alt={image} src={image} className={'bg-contain'}/>
-          </dd>
-      </div>}
+      <div className={'hidden md:block w-0 bg-contain flex-grow-1 bg-no-repeat bg-center'}
+           style={{backgroundImage: `url(${image})`}}/>}
     </dl>
   )
 }

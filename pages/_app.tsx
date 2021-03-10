@@ -13,7 +13,7 @@ function MyApp({Component, pageProps}) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
         <title>XDean</title>
       </Head>
-      <div className={'flex flex-col m-h-screen w-full font-mono text-p bg-p'}>
+      <div className={'flex flex-col w-full min-h-screen font-sans text-p bg-p'}>
         <div className={'z-50 sticky top-0 w-full mb-3 md:mb-6'}>
           <HeaderView/>
         </div>
