@@ -28,7 +28,7 @@ export const AboutView = () => {
 ### 语言
 
 - Jave， 精通
-- Node/Deno，熟练
+- Typescript，熟练
 - Golang，熟练
 - Python，拒绝
 
