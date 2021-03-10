@@ -18,7 +18,7 @@ export const PostsView = (props: Props) => {
   }, [])
 
   return (
-    <div style={{width: 900, minWidth: '50%', margin: '0 50px'}}>
+    <div className={'w-11/12 max-w-screen-lg'}>
       <div className={'md:mt-2 mb-4'}>
         <BlogHeaderView/>
       </div>

@@ -1,4 +1,4 @@
-import {PostMeta} from "../../posts/domain";
+import {PostMeta, PostMetaGroupType} from "../../posts/domain";
 import {Card, CardContent, CardMedia, Chip, Link, Typography} from "@material-ui/core";
 import {compareAsc, format} from 'date-fns'
 import {useMemo} from "react";
@@ -26,24 +26,50 @@ export const PostCard = (props: Props) => {
       return null
     }
   }, [props.meta])
+
   return (
-    <Card style={{display: 'flex'}}>
-      <CardContent style={{flexGrow: 2, width: 0}}>
-        <MyLink href={props.meta.link}>
-          <Typography component="h2" variant="h5">
-            {props.meta.title}
-          </Typography>
-        </MyLink>
-        <Typography variant="subtitle1" color="textSecondary" style={{display: 'flex', alignItems: 'center'}}>
-          {format(new Date(props.meta.created), 'yyyy-MM-dd')}
-          {props.meta.categories.map(tag => <PostTag type={'category'} key={tag} tag={tag}/>)}
-          {props.meta.tags.map(tag => <PostTag type={'tag'} key={tag} tag={tag}/>)}
-        </Typography>
-        {summary && <Typography variant="subtitle1" paragraph>
-          {summary}
-        </Typography>}
-      </CardContent>
-      {image && <CardMedia image={image} style={{flexGrow: 1, width: 0, backgroundSize:'contain'}}/>}
-    </Card>
+
+    <dl
+      className={'hover:bg-s hover:border-transparent hover:shadow-lg group block rounded-lg p-2 md:p-4 border border-gray-200'}>
+      <div>
+        <div>
+          <dt className={'sr-only'}>Title</dt>
+          <dd className={'text-xl md:text-3xl'}>
+            <MyLink href={props.meta.link}>
+              {props.meta.title}
+            </MyLink>
+          </dd>
+        </div>
+        <div className={'flex flex-row items-center mt-1 md:mt-3 overflow-auto '}>
+          <div className={'whitespace-nowrap'}>
+            <dt className={'sr-only'}>Date</dt>
+            <dd>
+              {format(new Date(props.meta.created), 'yyyy-MM-dd')}
+            </dd>
+          </div>
+          <div>
+            <dt className={'sr-only'}>Tags</dt>
+            <dd className={'whitespace-nowrap'}>
+              {props.meta.categories.map(tag => <PostTag type={'category'} key={tag} tag={tag}/>)}
+              {props.meta.tags.map(tag => <PostTag type={'tag'} key={tag} tag={tag}/>)}
+            </dd>
+          </div>
+        </div>
+        {summary &&
+        <div className={'hidden md:block'}>
+            <dt className={'sr-only'}>Summary</dt>
+            <dd className={'overflow-auto'}>
+              {summary}
+            </dd>
+        </div>}
+      </div>
+      {image &&
+      <div className={'hidden md:block'}>
+          <dt className={'sr-only'}>Summary</dt>
+          <dd>
+              <img alt={image} src={image} className={'bg-contain'}/>
+          </dd>
+      </div>}
+    </dl>
   )
 }

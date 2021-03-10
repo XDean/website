@@ -12,7 +12,7 @@ export type MyLinkProps = {
 export const MyLink = ({href, next, children, ...rest}: PropsWithChildren<MyLinkProps>) => {
   return (
     <NextLink {...next} href={href}>
-      <a className={clsx(`cursor-pointer transition duration-300 hover:underline`, rest.className)} href={href}>
+      <a className={clsx(`cursor-pointer hover:underline`, rest.className)} href={href}>
         {children}
       </a>
     </NextLink>
