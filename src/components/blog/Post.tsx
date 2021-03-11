@@ -38,10 +38,6 @@ const useStyles = makeStyles(theme => createStyles({
       }
     }
   },
-  'title': {
-    paddingTop: 200,
-    marginTop: -200,
-  },
 }))
 
 export type PostProps = {
@@ -58,7 +54,7 @@ export const PostView = (props: PostProps) => {
   const hasUpdate = props.meta.updated && props.meta.updated !== props.meta.created
 
   return (
-    <div style={{maxWidth: hasToc ? 1200 : 1000, minWidth: '50%', display: 'flex', width: '100vw', margin: '0 20px'}}>
+    <div className={'w-11/12 max-w-screen-lg my-4'}>
       {hasToc && function () {
         const toc = (
           <div style={{minWidth: 80, maxWidth: 200}}>
@@ -67,25 +63,19 @@ export const PostView = (props: PostProps) => {
                 目录
               </a>
             </Typography>
-            <ReactMarkdown source={tocData.content} className={classes.toc}/>
+            <ReactMarkdown source={tocData.content}/>
           </div>
         )
         return (
-          <>
-            <div style={{position: 'relative'}} className={classes.tocContainer}>
-              <div style={{position: 'fixed', zIndex: 10, marginTop: 100}}>
-                {toc}
-              </div>
-              <div style={{opacity: 0}}>
-                {toc}
-              </div>
+          <div className={'hidden md:block float-left sticky top-4xl border-r mr-4 pr-4 m-h-5 top-48'}>
+            <div className={clsx(classes.tocContainer)}>
+              {toc}
             </div>
-            <Divider orientation={"vertical"} style={{marginLeft: 20, marginRight: 20}}/>
-          </>
+          </div>
         )
       }()}
-      <div style={{width: 0, flexGrow: 1}}>
-        <Typography variant={"h4"} id={'title'} className={classes.title}>
+      <div className={'overflow-y-hidden'}>
+        <Typography variant={"h4"} id={'title'} style={{paddingTop: 200, marginTop: -200}}>
           {props.meta.title}
         </Typography>
         <div style={{display: 'flex', margin: '5px 0 25px 10px'}}>
@@ -142,28 +132,28 @@ export const PostView = (props: PostProps) => {
         </MathJax.Provider>
         {(props.prev || props.next) &&
         <div style={{display: 'flex', marginTop: 20}}>
-          <div style={{width: 0, flexGrow: 1}}>
-            {props.prev && (
-              <MyLink href={props.prev.link}>
-                <Button variant={"outlined"}>
-                  <Typography variant={"h6"}>
-                    上一篇: {props.prev.title}
-                  </Typography>
-                </Button>
-              </MyLink>
-            )}
-          </div>
-          <div style={{width: 0, flexGrow: 1, textAlign: 'right'}}>
-            {props.next && (
-              <MyLink href={props.next.link}>
-                <Button variant={"outlined"}>
-                  <Typography variant={"h6"}>
-                    下一篇: {props.next.title}
-                  </Typography>
-                </Button>
-              </MyLink>
-            )}
-          </div>
+            <div style={{width: 0, flexGrow: 1}}>
+              {props.prev && (
+                <MyLink href={props.prev.link}>
+                  <Button variant={"outlined"}>
+                    <Typography variant={"h6"}>
+                      上一篇: {props.prev.title}
+                    </Typography>
+                  </Button>
+                </MyLink>
+              )}
+            </div>
+            <div style={{width: 0, flexGrow: 1, textAlign: 'right'}}>
+              {props.next && (
+                <MyLink href={props.next.link}>
+                  <Button variant={"outlined"}>
+                    <Typography variant={"h6"}>
+                      下一篇: {props.next.title}
+                    </Typography>
+                  </Button>
+                </MyLink>
+              )}
+            </div>
         </div>
         }
         <div style={{marginTop: 30}}>
