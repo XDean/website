@@ -22,8 +22,10 @@ export const ArchiveView = (props: Props) => {
     router.push(`/blog/archives/${props.type}/${props.name}/${value}`)
   }, [])
   return (
-    <div style={{width: 900}}>
-      <BlogHeaderView/>
+    <div className={'w-11/12 max-w-screen-lg'}>
+      <div className={'mb-4'}>
+        <BlogHeaderView/>
+      </div>
       <Breadcrumbs style={{fontSize: '2rem', color: 'inherit'}}>
         <MyLink href={`/blog/archives/${props.type}`}>
           <Typography style={{fontSize: 'inherit'}}>
@@ -34,7 +36,7 @@ export const ArchiveView = (props: Props) => {
           {props.name}
         </Typography>
       </Breadcrumbs>
-      <ul>
+      <ul className={'list-disc pl-8'}>
         {props.data.data.map(e => {
           const date = new Date(e.created);
           return (

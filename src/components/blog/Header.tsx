@@ -12,7 +12,7 @@ const MenuLink = ({label, ...rest}: MyLinkProps & { label: string }) => {
 export const BlogHeaderView = () => {
   return (
     <>
-      <div className={'flex ml-1'}>
+      <div className={'flex'}>
         <MenuLink href={'/blog/page/1'} label={'首页'}/>
         <MenuLink href={'/blog/archives/tag'} label={'标签'}/>
         <MenuLink href={'/blog/archives/category'} label={'分类'}/>

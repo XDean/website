@@ -1,6 +1,6 @@
 import {PostMetaGroup, PostMetaGroupType} from "../../posts/domain";
 import {BlogHeaderView} from "./Header";
-import {Typography} from "@material-ui/core";
+import {Breadcrumbs, Typography} from "@material-ui/core";
 import {MyLink} from "../util/Link";
 
 type Props = {
@@ -11,14 +11,14 @@ type Props = {
 export const ArchivesView = (props: Props) => {
   const label = typeToLabel(props.type)
   return (
-    <div style={{maxWidth: 900, minWidth: '50%'}}>
-      <div style={{marginBottom: 20}}>
+    <div className={'w-11/12 max-w-screen-lg'}>
+      <div className={'mb-4'}>
         <BlogHeaderView/>
       </div>
       <Typography variant={"h4"}>
         所有{label}
       </Typography>
-      <ul>
+      <ul className={'list-disc pl-8'}>
         {props.groups.map(e => (
           <li key={e.name} style={{fontSize: '1.5rem'}}>
             <MyLink href={`${props.type}/${e.name}`}>
