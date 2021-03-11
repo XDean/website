@@ -4,8 +4,10 @@ import Head from "next/head";
 import MyTheme from '../src/theme/theme'
 import {FooterView} from "../src/components/Footer";
 import "tailwindcss/tailwind.css";
+import {useRouter} from "next/router";
 
 function MyApp({Component, pageProps}) {
+  const router = useRouter()
   return (
     <>
       <Head>

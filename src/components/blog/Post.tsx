@@ -17,6 +17,7 @@ import {GithubComment} from "../util/GithubComment";
 import MarkdownToc from 'markdown-toc-unlazy'
 import uslug from 'uslug'
 import {isURL} from "../../util/util";
+import clsx from "clsx";
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -119,6 +120,9 @@ export const PostView = (props: PostProps) => {
                              return <SyntaxHighlighter style={syntaxStyle} language={language} children={value}/>
                            },
                            math: props => <MathJax.Node formula={props.value}/>,
+                           list: props => <ul className={clsx(props.ordered ? 'list-decimal' : 'list-disc')}>
+                             {props.children}
+                           </ul>,
                            inlineMath: props => <MathJax.Node inline formula={props.value}/>,
                            link: props => {
                              let href = props.href

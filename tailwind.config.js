@@ -1,7 +1,7 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-    purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+    purge: ['./pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {},
@@ -12,8 +12,8 @@ module.exports = {
         },
         textColor: {
             ...colors,
-            p: '#112d4e',
-            s: '#696969',
+            p: 'rgba(0, 0, 0)',
+            s: 'rgb(85, 85, 85)',
         },
         flexGrow: {
             DEFAULT: 1,
@@ -25,5 +25,7 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 }
