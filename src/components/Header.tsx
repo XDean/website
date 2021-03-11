@@ -1,9 +1,13 @@
 import {MyLink} from "./util/Link";
+import {useState} from "react";
 
 export const HeaderView = () => {
+  const [logoHover, setLogoHover] = useState(false)
   return (
     <div className={'pl-2 md:pl-6 py-1 md:py-2 shadow-lg bg-p text-s flex flex-row items-center'}>
-      <img src={'favicon.ico'} alt={'favicon.ico'} className={'inline w-8 md:w-12 mr-2 md:mr-8'}/>
+      <div className={'inline w-8 h-8 md:w-12 md:h-12 mr-2 md:mr-8 bg-contain bg-no-repeat'}
+           style={{backgroundImage: logoHover ? `url('/xd.png')` : `url('/favicon.ico')`}}
+           onMouseEnter={() => setLogoHover(true)} onMouseLeave={() => setLogoHover(false)}/>
       <div className={'flex flex-row flex-grow items-center'}>
         <MyLink href={'/'} className={'text-2xl md:text-3xl mr-3 md:mr-8'}>
           主页

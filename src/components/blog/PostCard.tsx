@@ -1,9 +1,6 @@
-import {PostMeta, PostMetaGroupType} from "../../posts/domain";
-import {Card, CardContent, CardMedia, Chip, Link, Typography} from "@material-ui/core";
-import {compareAsc, format} from 'date-fns'
+import {PostMeta} from "../../posts/domain";
+import {format} from 'date-fns'
 import {useMemo} from "react";
-import NextLink from 'next/link'
-import {useRouter} from "next/router";
 import path from "path";
 import {isURL} from "../../util/util";
 import {MyLink} from "../util/Link";
@@ -14,7 +11,6 @@ type Props = {
 }
 
 export const PostCard = (props: Props) => {
-  const router = useRouter()
   const summary = useMemo(() => props.meta.summary.join(' '), [props.meta]);
   const image = useMemo(() => {
     if (props.meta.image) {
@@ -30,7 +26,7 @@ export const PostCard = (props: Props) => {
   return (
 
     <dl
-      className={'hover:bg-s hover:border-transparent hover:shadow-lg group block rounded-lg border border-gray-200l flex flex-row'}>
+      className={'bg-white hover:border-transparent hover:shadow-lg group block rounded-lg border border-gray-200l flex flex-row'}>
       <div className={'flex flex-col w-0 flex-grow-2 p-2 md:p-4'}>
         <div>
           <dt className={'sr-only'}>Title</dt>
