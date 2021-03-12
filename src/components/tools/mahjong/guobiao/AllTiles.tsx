@@ -2,11 +2,20 @@ import {FengList, Tile, TileNumberTypes, TilePoints, YuanList} from "../../../..
 import {TileView} from "./Tile";
 import {Button} from "@material-ui/core";
 
-export const AllTilesView = () => {
+import {createBreakpoint} from "react-use";
+
+const useBreakpoint = createBreakpoint();
+
+export const AllTilesView = (
+  {onTileClick}: { onTileClick: (tile: Tile) => void }
+) => {
+  const breakpoint = useBreakpoint();
 
   const TileButton = ({tile}: { tile: Tile }) => {
     return (
-      <TileView tile={tile}/>
+      <div className={'cursor-pointer hover:scale-125 hover:z-10 transform relative active:scale-150 transition-transform'} onClick={() => onTileClick(tile)}>
+        <TileView tile={tile} scale={breakpoint === 'tablet' ? 0.7 : 1}/>
+      </div>
     )
   }
 

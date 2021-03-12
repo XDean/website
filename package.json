@@ -25,6 +25,7 @@
     "react-mathjax": "^1.0.1",
     "react-script-tag": "^1.1.2",
     "react-syntax-highlighter": "^15.4.3",
+    "react-use": "^17.2.1",
     "react-utterances": "^0.6.4",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0",

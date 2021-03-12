@@ -1,7 +1,10 @@
 import {Tile} from "../../../../tools/mahjong/guobiao/type";
 
-export const TileView = ({tile}: { tile: Tile }) => {
+export const TileView = ({tile, scale = 1}: { tile: Tile | null, scale?: number }) => {
   const offset = function () {
+    if (tile === null) {
+      return 0
+    }
     switch (tile.type) {
       case "b":
         return -900 - tile.point * 50;
@@ -14,11 +17,13 @@ export const TileView = ({tile}: { tile: Tile }) => {
     }
   }()
   return (
-    <div style={{
-      backgroundImage: 'url(/tools/mahjong/guobiao/tiles.png)',
-      width: 50,
-      height: 72,
-      backgroundPositionX: offset,
-    }}/>
+    <div
+      style={{
+        backgroundImage: 'url(/tools/mahjong/guobiao/tiles.png)',
+        width: 50 * scale,
+        height: 72 * scale,
+        backgroundPositionX: offset * scale,
+        backgroundSize: 2700 * scale
+      }}/>
   )
 }
