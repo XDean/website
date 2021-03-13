@@ -68,6 +68,12 @@ export const GuoBiaoMainView = () => {
 
   const [disableAll, disabledTiles] = useMemo(() => [mode.disableAll(hand), mode.disable(hand)], [mode, hand])
 
+  const updateHand = (f: (h: Hand) => void) => {
+    const copy = hand.copy();
+    f(copy)
+    setHand(copy)
+  }
+
   return (
     <div className={'w-max max-w-screen-lg'}>
       <h1 className={'text-4xl text-center mb-2 md:mb-4'}>
@@ -76,11 +82,7 @@ export const GuoBiaoMainView = () => {
       <AllTilesView
         disableAll={disableAll}
         disabledTiles={disabledTiles}
-        onTileClick={t => {
-          const copy = hand.copy();
-          mode.add(copy, t);
-          setHand(copy)
-        }}/>
+        onTileClick={t => updateHand(h => mode.add(h, t))}/>
       <div className={'text-lg md:text-2xl my-2 flex flex-row items-center justify-between'}>
         {modes.map(m => (
           <button key={m.name} onClick={e => setMode(m)}
@@ -90,7 +92,9 @@ export const GuoBiaoMainView = () => {
           </button>
         ))}
       </div>
-      <HandView hand={hand}/>
+      <HandView hand={hand}
+                onMingClick={m => updateHand(h => h.mings.splice(h.mings.indexOf(m), 1))}
+                onTileClick={t => updateHand(h => h.tiles.tiles.splice(t.indexIn(h.tiles), 1))}/>
     </div>
   )
 }
