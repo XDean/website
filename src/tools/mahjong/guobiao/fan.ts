@@ -112,37 +112,13 @@ export const QingYaoJiu = new FanCalc({
 export const XiaoSiXi = new FanCalc({
   score: 64,
   name: '小四喜',
-  match: c => {
-    const duis = c.mians.filter(m => m.type === 'dui')
-    if (duis.length === 0) {
-      return false
-    }
-    const dui = duis[0] as Dui
-    if (!dui.tile.in(FengList)) {
-      return false
-    }
-    const copy = [...FengList]
-    copy.splice(copy.indexOf(dui.tile))
-    return c.hasKe(copy);
-  },
+  match: c => c.toTiles.filterTiles(FengList).length === 11,
 })
 
 export const XiaoSanYuan = new FanCalc({
   score: 64,
   name: '小三元',
-  match: c => {
-    const duis = c.mians.filter(m => m.type === 'dui')
-    if (duis.length === 0) {
-      return false
-    }
-    const dui = duis[0] as Dui
-    if (!dui.tile.in(YuanList)) {
-      return false
-    }
-    const copy = [...YuanList]
-    copy.splice(copy.indexOf(dui.tile))
-    return c.hasKe(copy);
-  },
+  match: c => c.toTiles.filterTiles(YuanList).length === 8 && c.mians.filter(m => m.type === 'qi-dui').length === 0,
 })
 
 export const ZiYiSe = new FanCalc({

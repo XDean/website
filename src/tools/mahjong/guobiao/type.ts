@@ -38,8 +38,16 @@ export class Tile {
     return new Tile(this.type, (this.point + 1) as TilePoint)
   }
 
-  in(tiles: Tile[]) {
-    return tiles.indexOf(this) !== -1
+  in(tiles: Tile[] | Tiles) {
+    return new Tiles(tiles).indexOf(this) !== -1
+  }
+
+  indexIn(tiles: Tile[] | Tiles) {
+    return new Tiles(tiles).indexOf(this)
+  }
+
+  equals(tile: Tile) {
+    return this.point === tile.point && this.type === tile.type;
   }
 }
 
@@ -72,20 +80,33 @@ export const YaoJiuList: Tile[] = [
 export const YaoList: Tile[] = [...ZiList, ...YaoJiuList]
 
 export class Tiles {
+  readonly tiles: Tile[]
+
   constructor(
-    readonly tiles: Tile[],
+    tiles: Tile[] | Tiles,
   ) {
+    if (tiles instanceof Tiles) {
+      this.tiles = tiles.tiles
+    } else {
+      this.tiles = tiles
+    }
   }
 
   get length() {
     return this.tiles.length
   }
 
+  indexOf(tile: Tile) {
+    return this.tiles.findIndex(t => t.equals(tile))
+  }
+
+  withTile = (tile: Tile) => new Tiles([...this.tiles, tile])
+
   split(...removes: Tile[]): [Tiles, Tiles] {
     const copy = [...this.tiles]
     const removed = []
     for (let remove of removes) {
-      const index = copy.indexOf(remove);
+      const index = remove.indexIn(copy)
       if (index != -1) {
         copy.splice(index)
         removed.push(remove)
@@ -112,8 +133,23 @@ export class Tiles {
     return new Tiles(this.tiles.filter(t => points.indexOf(t.point) !== -1))
   }
 
+  filterTiles(tiles: Tiles | Tile[]) {
+    return new Tiles(this.tiles.filter(t => t.in(tiles)))
+  }
+
   filterShunPoint(point: TilePoint) {
     return new Tiles(this.tiles.filter(t => t.point !== point && Math.abs(t.point - point) < 3))
+  }
+
+  filterMoreThan(count: number) {
+    const res = []
+    for (let tile of this.distinct.tiles) {
+      console.log(tile, this.count(tile))
+      if (this.count(tile) > count) {
+        res.push(tile)
+      }
+    }
+    return new Tiles(res)
   }
 
   * pairs() {
@@ -157,7 +193,7 @@ export class Tiles {
   get distinct(): Tiles {
     const result = []
     for (let tile of this.tiles) {
-      if (result.indexOf(tile) === -1) {
+      if (!tile.in(result)) {
         result.push(tile)
       }
     }
@@ -176,22 +212,14 @@ export class Tiles {
     return this.tiles.every(t => t.in(tiles))
   }
 
-  equals(tiles: Tile[]) {
-    const copy = [...tiles]
-    for (let tile of this.tiles) {
-      const index = copy.indexOf(tile);
-      if (index === -1) {
-        return false
-      }
-      copy.splice(index)
-    }
-    return true
+  equals(tiles: Tile[] | Tiles) {
+    return this.tiles.length === tiles.length && this.contains(tiles)
   }
 
-  contains(tiles: Tile[]) {
+  contains(tiles: Tile[] | Tiles) {
     const copy = [...this.tiles]
-    for (let tile of tiles) {
-      const index = copy.indexOf(tile);
+    for (let tile of new Tiles(tiles).tiles) {
+      const index = tile.indexIn(copy)
       if (index === -1) {
         return false
       }
@@ -257,13 +285,28 @@ export class Hand {
   constructor(
     readonly tiles: Tiles, // last one is last card
     readonly mings: Ming[] = [],
-    readonly option: Options,
+    readonly option: Options = {
+      hua: 0,
+      lastTile: false,
+      gangShang: false,
+      juezhang: false,
+      quanfeng: 1,
+      menfeng: 1,
+      zimo: false,
+    },
   ) {
   }
 
   get count() {
     return this.tiles.length + 3 * this.mings.length
   }
+
+  get allTiles() {
+    const mingTiles = this.mings.flatMap(m => m.toMian().toTiles.tiles)
+    return new Tiles([...mingTiles, ...this.tiles.tiles])
+  }
+
+  copy = () => new Hand(new Tiles(this.tiles.tiles), [...this.mings], {...this.option})
 }
 
 export class Combination {
@@ -276,15 +319,6 @@ export class Combination {
 
   get toTiles(): Tiles {
     return new Tiles(this.mians.flatMap(m => m.toTiles.tiles))
-  }
-
-  has(...mians: Mian[]) {
-    for (let mian of mians) {
-      if (this.mians.indexOf(mian) === -1) {
-        return false
-      }
-    }
-    return true
   }
 
   hasKe(tiles: Tile[]) {

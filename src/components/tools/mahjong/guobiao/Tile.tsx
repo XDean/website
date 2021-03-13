@@ -1,6 +1,12 @@
 import {Tile} from "../../../../tools/mahjong/guobiao/type";
+import {createBreakpoint} from "react-use";
 
-export const TileView = ({tile, scale = 1}: { tile: Tile | null, scale?: number }) => {
+const useBreakpoint = createBreakpoint();
+
+export const TileView = ({tile, scale = 0}: { tile: Tile | null, scale?: number }) => {
+  const breakpoint = useBreakpoint();
+  const s = scale || (breakpoint === 'tablet' ? 0.7 : 1)
+
   const offset = function () {
     if (tile === null) {
       return 0
@@ -20,10 +26,10 @@ export const TileView = ({tile, scale = 1}: { tile: Tile | null, scale?: number 
     <div
       style={{
         backgroundImage: 'url(/tools/mahjong/guobiao/tiles.png)',
-        width: 50 * scale,
-        height: 72 * scale,
-        backgroundPositionX: offset * scale,
-        backgroundSize: 2700 * scale
+        width: 50 * s,
+        height: 72 * s,
+        backgroundPositionX: offset * s,
+        backgroundSize: 2700 * s
       }}/>
   )
 }

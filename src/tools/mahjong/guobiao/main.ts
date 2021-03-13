@@ -79,9 +79,9 @@ function findDui(tiles: Tiles): [Tiles, Dui][] {
   const exist = []
   const dups = []
   for (let tile of tiles.tiles) {
-    if (exist.indexOf(tile) === -1) {
+    if (tile.in(exist)) {
       exist.push(tile)
-    } else if (dups.indexOf(tile) === -1) {
+    } else if (tile.in(dups)) {
       dups.push(tile)
     }
   }
@@ -159,7 +159,7 @@ function findQiDui(tiles: Tiles): QiDui | null {
   const single = []
   const pair = []
   for (let tile of tiles.tiles) {
-    const index = single.indexOf(tile);
+    const index = tile.indexIn(single)
     if (index === -1) {
       single.push(tile)
     } else {

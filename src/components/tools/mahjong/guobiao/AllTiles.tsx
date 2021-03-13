@@ -1,20 +1,22 @@
-import {FengList, Tile, TileNumberTypes, TilePoints, YuanList} from "../../../../tools/mahjong/guobiao/type";
+import {FengList, Tile, TileNumberTypes, TilePoints, Tiles, YuanList} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
-import {Button} from "@material-ui/core";
-
-import {createBreakpoint} from "react-use";
-
-const useBreakpoint = createBreakpoint();
+import clsx from "clsx";
 
 export const AllTilesView = (
-  {onTileClick}: { onTileClick: (tile: Tile) => void }
+  {onTileClick, disabledTiles}: {
+    onTileClick: (tile: Tile) => void,
+    disabledTiles: Tiles
+  }
 ) => {
-  const breakpoint = useBreakpoint();
 
   const TileButton = ({tile}: { tile: Tile }) => {
+    const disabled = tile.in(disabledTiles.tiles)
     return (
-      <div className={'cursor-pointer hover:scale-125 hover:z-10 transform relative active:scale-150 transition-transform'} onClick={() => onTileClick(tile)}>
-        <TileView tile={tile} scale={breakpoint === 'tablet' ? 0.7 : 1}/>
+      <div
+        className={clsx({'opacity-50': disabled},
+          'cursor-pointer hover:scale-125 hover:z-10 transform relative active:scale-150 transition-transform')}
+        onClick={() => !disabled && onTileClick(tile)}>
+        <TileView tile={tile}/>
       </div>
     )
   }
