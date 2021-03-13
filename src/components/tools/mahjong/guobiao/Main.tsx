@@ -18,6 +18,7 @@ type Mode = {
   name: string
   label: string
   add: (hand: Hand, tile: Tile) => void
+  disableAll: (hand: Hand) => boolean
   disable: (hand: Hand) => Tiles
 }
 const modes: Mode[] = [
@@ -25,14 +26,13 @@ const modes: Mode[] = [
     name: 'normal',
     label: '手牌',
     add: (h, t) => h.tiles.tiles.push(t),
-    disable: hand => {
-      console.log(hand.allTiles, hand.allTiles.distinct)
-      return hand.allTiles.filterMoreThan(3);
-    }
+    disableAll: hand => hand.count === 14,
+    disable: hand => hand.allTiles.filterMoreThan(3),
   }, {
     name: 'chi',
     label: '吃',
     add: (h, t) => h.mings.push(new Chi(t)),
+    disableAll: hand => hand.count >= 12,
     disable: hand => new Tiles([...ZiList, ...hand.allTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
       .flatMap(t => [0, 1, 2]
         .map(d => t.point - d)
@@ -43,18 +43,21 @@ const modes: Mode[] = [
     name: 'peng',
     label: '碰',
     add: (h, t) => h.mings.push(new Peng(t)),
+    disableAll: hand => hand.count >= 12,
     disable: hand => hand.allTiles.filterMoreThan(1)
   },
   {
     name: 'ming-gang',
     label: '明杠',
     add: (h, t) => h.mings.push(new Gang(t, true)),
+    disableAll: hand => hand.count >= 12,
     disable: hand => hand.allTiles.distinct
   },
   {
     name: 'an-gang',
     label: '暗杠',
     add: (h, t) => h.mings.push(new Gang(t, false)),
+    disableAll: hand => hand.count >= 12,
     disable: hand => hand.allTiles.distinct
   },
 ]
@@ -63,7 +66,7 @@ export const GuoBiaoMainView = () => {
   const [hand, setHand] = useState(new Hand(new Tiles([]), []))
   const [mode, setMode] = useState(modes[0])
 
-  const disabledTiles = useMemo(() => mode.disable(hand), [mode, hand])
+  const [disableAll, disabledTiles] = useMemo(() => [mode.disableAll(hand), mode.disable(hand)], [mode, hand])
 
   return (
     <div className={'w-max max-w-screen-lg'}>
@@ -71,6 +74,7 @@ export const GuoBiaoMainView = () => {
         国标麻将算番器
       </h1>
       <AllTilesView
+        disableAll={disableAll}
         disabledTiles={disabledTiles}
         onTileClick={t => {
           const copy = hand.copy();

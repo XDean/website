@@ -3,14 +3,15 @@ import {TileView} from "./Tile";
 import clsx from "clsx";
 
 export const AllTilesView = (
-  {onTileClick, disabledTiles}: {
+  {onTileClick, disabledTiles, disableAll}: {
     onTileClick: (tile: Tile) => void,
-    disabledTiles: Tiles
+    disabledTiles: Tiles,
+    disableAll: boolean,
   }
 ) => {
 
   const TileButton = ({tile}: { tile: Tile }) => {
-    const disabled = tile.in(disabledTiles.tiles)
+    const disabled = disableAll || tile.in(disabledTiles.tiles)
     return (
       <div
         className={clsx({'opacity-50': disabled},
