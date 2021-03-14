@@ -287,8 +287,8 @@ export const SanSesHuangLongHui = new FanCalc({
       return false
     }
     const types = [...TileTypes]
-    types.splice(types.indexOf('z'))
-    types.splice(types.indexOf(duiTile.type))
+    types.splice(types.indexOf('z'), 1)
+    types.splice(types.indexOf(duiTile.type), 1)
     const shuns = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile))
     return shuns.length === 4 && shuns.equals([1, 7].flatMap(p => types.map(t => new Tile(t, p as TilePoint))))
   },

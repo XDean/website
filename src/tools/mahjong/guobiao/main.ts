@@ -161,7 +161,7 @@ function findQiDui(tiles: Tiles): QiDui | null {
     if (index === -1) {
       single.push(tile)
     } else {
-      single.splice(index)
+      single.splice(index, 1)
       pair.push(tile)
     }
   }

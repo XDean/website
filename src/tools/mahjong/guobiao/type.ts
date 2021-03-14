@@ -80,6 +80,15 @@ export const YaoJiuList: Tile[] = [
 export const YaoList: Tile[] = [...ZiList, ...YaoJiuList]
 
 export class Tiles {
+  static of(map: { 't'?: TilePoint[], 'b'?: TilePoint[], 'w'?: TilePoint[], 'z'?: TilePoint[] }) {
+    const tiles = []
+    map.t?.forEach(p => tiles.push(new Tile('t', p)))
+    map.b?.forEach(p => tiles.push(new Tile('b', p)))
+    map.w?.forEach(p => tiles.push(new Tile('w', p)))
+    map.z?.forEach(p => tiles.push(new Tile('z', p)))
+    return new Tiles(tiles)
+  }
+
   readonly tiles: Tile[]
 
   constructor(
@@ -108,7 +117,7 @@ export class Tiles {
     for (let remove of removes) {
       const index = remove.indexIn(copy)
       if (index != -1) {
-        copy.splice(index)
+        copy.splice(index, 1)
         removed.push(remove)
       }
     }
@@ -207,7 +216,7 @@ export class Tiles {
     return this.split(this.last)[0]
   }
 
-  allIn(tiles: Tile[]) {
+  allIn(tiles: Tile[] | Tiles) {
     return this.tiles.every(t => t.in(tiles))
   }
 
@@ -222,26 +231,19 @@ export class Tiles {
       if (index === -1) {
         return false
       }
-      copy.splice(index)
+      copy.splice(index, 1)
     }
     return true
   }
 
   hasSameTypeAndDiff(diff: number = 1) {
-    const min = this.minPointTile
-    for (let i = 0; i < this.length; i = i + diff) {
-      const p = min.point + i;
-      if (p > 9 || !new Tile(min.type, p as TilePoint).in(this.tiles)) {
-        return false
-      }
-    }
-    return true
+    return this.filterType(this.minPointTile.type).length === this.length && this.hasDiff(diff)
   }
 
   hasDiff(diff: number = 1) {
     const min = this.minPointTile
-    for (let i = 0; i < this.length; i = i + diff) {
-      const p = min.point + i;
+    for (let i = 0; i < this.length; i++) {
+      const p = min.point + i * diff;
       if (p > 9 || this.filterPoint(p as TilePoint).length === 0) {
         return false
       }
