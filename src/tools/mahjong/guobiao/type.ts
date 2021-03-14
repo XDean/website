@@ -125,6 +125,7 @@ export class Tiles {
   }
 
   filterType(...types: TileType[]) {
+    if (this.length === 0) return new Tiles([])
     if (types.length === 0) {
       types = [this.last.type]
     }
@@ -132,6 +133,7 @@ export class Tiles {
   }
 
   removeType(...types: TileType[]) {
+    if (this.length === 0) return new Tiles([])
     if (types.length === 0) {
       types = [this.last.type]
     }
@@ -139,14 +141,17 @@ export class Tiles {
   }
 
   filterPoint(...points: TilePoint[]) {
+    if (this.length === 0) return new Tiles([])
     return new Tiles(this.tiles.filter(t => points.indexOf(t.point) !== -1))
   }
 
   filterTiles(tiles: Tiles | Tile[]) {
+    if (this.length === 0) return new Tiles([])
     return new Tiles(this.tiles.filter(t => t.in(tiles)))
   }
 
   filterShunPoint(point: TilePoint) {
+    if (this.length === 0) return new Tiles([])
     return new Tiles(this.tiles.filter(t => t.point !== point && Math.abs(t.point - point) < 3))
   }
 
@@ -237,16 +242,21 @@ export class Tiles {
   }
 
   hasSameTypeAndDiff(diff: number = 1) {
+    if (this.length === 0) return false
     return this.filterType(this.minPointTile.type).length === this.length && this.hasDiff(diff)
   }
 
   hasDiff(diff: number = 1) {
+    if (this.length === 0) return false
     const min = this.minPointTile
+    let left = this as Tiles
     for (let i = 0; i < this.length; i++) {
       const p = min.point + i * diff;
-      if (p > 9 || this.filterPoint(p as TilePoint).length === 0) {
+      const finds = left.filterPoint(p as TilePoint);
+      if (p > 9 || finds.length === 0) {
         return false
       }
+      left = left.split(finds.last)[0]
     }
     return true
   }

@@ -16,7 +16,7 @@ import {
 } from "./type";
 import {calcFan} from "./fan";
 
-export function calculate(hand: Hand): Hu[] {
+export function calcHu(hand: Hand): Hu[] {
   if (hand.count != 14) {
     throw 'hand count must be 14'
   }
@@ -29,7 +29,7 @@ export function calculate(hand: Hand): Hu[] {
   return result
 }
 
-function* findAllCombinations(tiles: Tiles): Generator<Combination> {
+export function* findAllCombinations(tiles: Tiles): Generator<Combination> {
   if (tiles.length === 14) {
     const yao = find13Yao(tiles);
     if (!!yao) {

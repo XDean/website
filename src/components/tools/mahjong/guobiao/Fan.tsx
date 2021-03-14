@@ -2,7 +2,7 @@ import {Fan, Hand, Hu} from "../../../../tools/mahjong/guobiao/type";
 import {useEffect, useState} from "react";
 import {Data} from "../../../../util/util";
 import {Loading} from "../../../util/Loading";
-import {calculate} from "../../../../tools/mahjong/guobiao/main";
+import {calcHu} from "../../../../tools/mahjong/guobiao/hu";
 
 export const FanView = ({hand}: { hand: Hand }) => {
   const [hu, setHu] = useState<Data<Hu>>({type: 'null'})
@@ -13,7 +13,7 @@ export const FanView = ({hand}: { hand: Hand }) => {
     }
     setHu({type: 'loading'})
     new Promise<Hu[]>(resolve => {
-      resolve(calculate(hand))
+      resolve(calcHu(hand))
     })
       .then(hus => {
         if (hus.length === 0) {

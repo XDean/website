@@ -23,7 +23,7 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
   for (let fan of allFans) {
     const match = fan.match(comb, hand);
     if (match) {
-      res.push(match)
+      res.push(fan)
     }
   }
   return res
@@ -183,7 +183,7 @@ export const SanGang = new FanCalc({
 export const HunYaoJiu = new FanCalc({
   score: 32,
   name: '混幺九',
-  match: c => c.toTiles.allIn(YaoList),
+  match: c => c.toTiles.allIn(YaoList) && !c.toTiles.allIn(ZiList),
 })
 
 export const QiDuiFan = new FanCalc({
@@ -459,7 +459,7 @@ export const HunYiSe = new FanCalc({
   name: '混一色',
   match: c => {
     const withoutZi = c.toTiles.removeType('z');
-    return withoutZi.length === withoutZi.filterType().length
+    return withoutZi.length < 14 && withoutZi.length === withoutZi.filterType().length
   },
 })
 

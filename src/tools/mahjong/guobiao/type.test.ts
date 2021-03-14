@@ -38,6 +38,7 @@ test('Tiles', () => {
   expect(Tiles.of({'t': [1, 4, 7]}).hasSameTypeAndDiff(3)).toBe(true)
   expect(Tiles.of({'t': [1, 4, 8]}).hasSameTypeAndDiff(3)).toBe(false)
   expect(Tiles.of({'t': [1], 'b': [1]}).hasDiff(0)).toBe(true)
+  expect(Tiles.of({'t': [1], 'b': [2]}).hasDiff(0)).toBe(false)
   expect(Tiles.of({'t': [1], 'b': [4], 'w': [7]}).hasDiff(3)).toBe(true)
   expect(Tiles.of({'t': [1], 'b': [4], 'w': [8]}).hasDiff(3)).toBe(false)
 
