@@ -45,3 +45,14 @@ test('Tiles', () => {
   expect(tiles.mostPoint).toEqual([1, 4])
   expect(tiles.count(new Tile('t', 1))).toBe(3)
 })
+
+test('Tile', () => {
+  const tile = new Tile('t', 3)
+  expect(tile.prev).toEqual(new Tile('t', 2))
+  expect(tile.next).toEqual(new Tile('t', 4))
+  expect(tile.in(Tiles.of({'t': [3, 4, 5]}))).toBe(true)
+  expect(tile.in(Tiles.of({'t': [4, 5]}))).toBe(false)
+  expect(tile.indexIn(Tiles.of({'t': [3, 4, 5]}))).toBe(0)
+  expect(tile.indexIn(Tiles.of({'t': [4, 5]}))).toBe(-1)
+  expect(tile.equals(new Tile('t', 3))).toBe(true)
+})
