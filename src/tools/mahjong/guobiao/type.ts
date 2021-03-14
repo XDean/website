@@ -144,7 +144,6 @@ export class Tiles {
   filterMoreThan(count: number) {
     const res = []
     for (let tile of this.distinct.tiles) {
-      console.log(tile, this.count(tile))
       if (this.count(tile) > count) {
         res.push(tile)
       }
@@ -352,6 +351,10 @@ export class Hu {
     readonly combination: Combination,
     readonly fans: Fan[],
   ) {
+  }
+
+  get totalScore() {
+    return this.fans.map(f => f.score).reduce((a, b) => a + b)
   }
 }
 

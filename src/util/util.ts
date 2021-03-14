@@ -29,3 +29,9 @@ export function isURL(url: string): boolean {
     return false
   }
 }
+
+export type Data<T> =
+  { type: 'null' }
+  | { type: 'loading' }
+  | { type: 'ready', value: T }
+  | { type: 'error', error: string }

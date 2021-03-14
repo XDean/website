@@ -24,9 +24,7 @@ export function calculate(hand: Hand): Hu[] {
   const result = []
   for (let comb of findAllCombinations(hand.tiles)) {
     const completeComb = mingComb.with(...comb.mians);
-    for (let fans of calcFan(hand, completeComb)) {
-      result.push(new Hu(completeComb, fans))
-    }
+    result.push(new Hu(completeComb, calcFan(hand, completeComb)))
   }
   return result
 }

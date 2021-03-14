@@ -13,6 +13,7 @@ import {
   ZiList
 } from "../../../../tools/mahjong/guobiao/type";
 import clsx from "clsx";
+import {FanView} from "./Fan";
 
 type Mode = {
   name: string
@@ -95,6 +96,7 @@ export const GuoBiaoMainView = () => {
       <HandView hand={hand}
                 onMingClick={m => updateHand(h => h.mings.splice(h.mings.indexOf(m), 1))}
                 onTileClick={t => updateHand(h => h.tiles.tiles.splice(t.indexIn(h.tiles), 1))}/>
+      <FanView hand={hand}/>
     </div>
   )
 }

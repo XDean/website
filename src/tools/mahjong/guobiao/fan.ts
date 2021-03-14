@@ -18,8 +18,15 @@ import {
   ZiList
 } from "./type";
 
-export function calcFan(hand: Hand, comb: Combination): Fan[][] {
-  return []
+export function calcFan(hand: Hand, comb: Combination): Fan[] {
+  const res = []
+  for (let fan of allFans) {
+    const match = fan.match(comb, hand);
+    if (match) {
+      res.push(match)
+    }
+  }
+  return res
 }
 
 const allFans: FanCalc[] = []
