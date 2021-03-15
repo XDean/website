@@ -9,17 +9,10 @@ import {
   Tiles
 } from "./type";
 import {
-  FengList,
-  Fengs,
   Tile,
   TileNumberTypes,
   TilePoint, TileType,
   TileTypes,
-  YaoJiuList,
-  YaoList,
-  YuanList,
-  Yuans,
-  ZiList
 } from "./tile";
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
@@ -135,7 +128,7 @@ export const LaoShaoFu = new FanCalc({
 export const YaoJiuKe = new FanCalc({
   score: 1,
   name: '幺九刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(YaoJiuList)).length,
+  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.YaoJiu)).length,
 })
 
 export const MingGang = new FanCalc({
@@ -186,7 +179,7 @@ export const ZiMo = new FanCalc({
 export const JianKe = new FanCalc({
   score: 2,
   name: '箭刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(YuanList)).length === 1,
+  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Y)).length === 1,
 })
 
 export const QuanFengKe = new FanCalc({
@@ -251,7 +244,7 @@ export const AnGang = new FanCalc({
 export const DuanYao = new FanCalc({
   score: 2,
   name: '断幺',
-  match: c => YaoList.every(t => c.toTiles.count(t) === 0),
+  match: c => Tile.Yao.every(t => c.toTiles.count(t) === 0),
   exclude: [WuZi]
 })
 
@@ -259,7 +252,7 @@ export const DuanYao = new FanCalc({
 export const QuanDaiYao = new FanCalc({
   score: 4,
   name: '全带幺',
-  match: c => c.mians.every(m => m.simple && m.toTiles.tiles.some(t => t.in(YaoList))),
+  match: c => c.mians.every(m => m.simple && m.toTiles.tiles.some(t => t.in(Tile.Yao))),
 })
 
 export const BuQiuRen = new FanCalc({
@@ -314,8 +307,8 @@ export const WuMenQi = new FanCalc({
   score: 6,
   name: '五门齐',
   match: c => TileTypes.every(t => c.toTiles.filterType(t).length > 0) &&
-    FengList.some(f => f.in(c.toTiles.tiles)) &&
-    YuanList.some(f => f.in(c.toTiles.tiles)),
+    Tile.F.some(f => f.in(c.toTiles.tiles)) &&
+    Tile.Y.some(f => f.in(c.toTiles.tiles)),
 })
 
 export const QuanQiuRen = new FanCalc({
@@ -327,7 +320,7 @@ export const QuanQiuRen = new FanCalc({
 export const ShuangJianKe = new FanCalc({
   score: 6,
   name: '双箭刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(YuanList)).length === 2,
+  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Y)).length === 2,
 })
 
 export const MingAnGang = new FanCalc({
@@ -352,15 +345,10 @@ export const HuaLong = new FanCalc({
   },
 })
 
-const TuiBuDaoList: Tile[] = [
-  ...([1, 2, 3, 4, 5, 8, 9].map(p => new Tile('b', p as TilePoint))),
-  ...([2, 4, 5, 6, 8, 9].map(p => new Tile('t', p as TilePoint))),
-  Yuans.bai,
-]
 export const TuiBuDao = new FanCalc({
   score: 8,
   name: '推不到',
-  match: c => c.toTiles.allIn(TuiBuDaoList),
+  match: c => c.toTiles.allIn(Tile.TuiBuDao),
 })
 
 export const SanSeSanTongShun = new FanCalc({
@@ -454,7 +442,7 @@ export const XiaoYuWu = new FanCalc({
 export const SanFengKe = new FanCalc({
   score: 12,
   name: '三风刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(FengList)).length === 3,
+  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.F)).length === 3,
 })
 
 export const QingLong = new FanCalc({
@@ -544,7 +532,7 @@ export const QiDuiFan = new FanCalc({
 export const QiXingBuKao = new FanCalc({
   score: 24,
   name: '七星不靠',
-  match: c => c.mians.filter(m => m.type === 'bu-kao').length === 1 && c.toTiles.contains(ZiList),
+  match: c => c.mians.filter(m => m.type === 'bu-kao').length === 1 && c.toTiles.contains(Tile.Z),
 })
 
 export const QuanShuangKe = new FanCalc({
@@ -628,8 +616,8 @@ export const HunYaoJiu = new FanCalc({
   name: '混幺九',
   match: c => {
     const tiles = c.toTiles
-    const yaojiu = tiles.filterTiles(YaoJiuList).length
-    const zi = tiles.filterTiles(ZiList).length
+    const yaojiu = tiles.filterTiles(Tile.YaoJiu).length
+    const zi = tiles.filterTiles(Tile.Z).length
     return c.mians.every(m => m.type === 'ke' || m.type === 'dui') &&
       yaojiu + zi === 14 && yaojiu !== 0 && zi !== 0
   },
@@ -654,19 +642,19 @@ export const YiSeSiTongKe = new FanCalc({
 export const QingYaoJiu = new FanCalc({
   score: 64,
   name: '清幺九',
-  match: c => c.toTiles.allIn(YaoJiuList),
+  match: c => c.toTiles.allIn(Tile.YaoJiu),
 })
 
 export const XiaoSiXi = new FanCalc({
   score: 64,
   name: '小四喜',
-  match: c => c.toTiles.filterTiles(FengList).length === 11,
+  match: c => c.toTiles.filterTiles(Tile.F).length === 11,
 })
 
 export const XiaoSanYuan = new FanCalc({
   score: 64,
   name: '小三元',
-  match: c => c.toTiles.filterTiles(YuanList).length === 8 && c.mians.filter(m => m.type === 'qi-dui').length === 0,
+  match: c => c.toTiles.filterTiles(Tile.Y).length === 8 && c.mians.filter(m => m.type === 'qi-dui').length === 0,
 })
 
 export const ZiYiSe = new FanCalc({
@@ -693,21 +681,20 @@ export const YiSeShuangLong = new FanCalc({
 export const DaSiXi = new FanCalc({
   score: 88,
   name: '大四喜',
-  match: c => c.hasKe(FengList),
+  match: c => c.hasKe(Tile.F),
   exclude: [QuanFengKe, MenFengKe, SanFengKe, PengPengHu, QuanDaiYao]
 })
 
 export const DaSanYuan = new FanCalc({
   score: 88,
   name: '大三元',
-  match: c => c.hasKe(YuanList),
+  match: c => c.hasKe(Tile.Y),
 })
 
-const LvList: Tile[] = [...([2, 3, 4, 6, 8].map(p => new Tile('t', p as TilePoint))), Yuans.fa]
 export const LvYiSe = new FanCalc({
   score: 88,
   name: '绿一色',
-  match: c => c.toTiles.allIn(LvList),
+  match: c => c.toTiles.allIn(Tile.Lv),
 })
 
 export const JiuLianBaoDeng = new FanCalc({

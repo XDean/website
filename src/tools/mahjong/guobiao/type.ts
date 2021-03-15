@@ -1,5 +1,5 @@
 import assert from "assert";
-import {Tile, TilePoint, TilePoints, TileType, TileTypes, YaoList} from "./tile";
+import {Tile, TilePoint, TilePoints, TileType, TileTypes} from "./tile";
 
 
 export type Options = {
@@ -242,6 +242,10 @@ export class Tiles {
 
   count(tile: Tile) {
     return this.filterType(tile.type).filterPoint(tile.point).length
+  }
+
+  get unicode() {
+    return [...this.tiles].sort((a, b) => a.compareTo(b)).map(t => t.unicode).join('')
   }
 }
 
@@ -498,10 +502,11 @@ export class Yao13 {
   constructor(
     readonly tile: Tile,
   ) {
+    assert(tile.in(Tile.Yao), '不是幺牌')
   }
 
   get toTiles() {
-    return new Tiles([this.tile, ...YaoList])
+    return new Tiles([this.tile, ...Tile.Yao])
   }
 }
 

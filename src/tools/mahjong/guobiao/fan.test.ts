@@ -25,7 +25,7 @@ import {
   QiDui,
   Shun,
 } from "./type";
-import {Fengs, Tile, Yuans} from "./tile";
+import {Tile} from "./tile";
 
 function expectFan(
   {
@@ -42,45 +42,42 @@ function expectFan(
     name?: string
   }) {
   test(name || fans[0].name, () => {
-    const calcFans = calcFan(new Hand(new Tiles([last]), [], options),
-      new Combination(mians))
+    const hand = new Hand(new Tiles([last]), [], options);
+    const comb = new Combination(mians);
+    console.log(comb.toTiles.unicode)
+    const calcFans = calcFan(hand, comb)
     expect(calcFans.map(f => f.name).sort()).toEqual(fans.map(f => f.name).sort())
   })
 }
 
 expectFan({
   mians: [
-    new Ke(Fengs.dong, false, true),
-    new Ke(Fengs.nan, false, true),
-    new Ke(Fengs.xi, false, true),
-    new Ke(Fengs.bei, false, true),
-    new Dui(Yuans.zhong),
+    ...Tile.F.map(t => new Ke(t, false, true)),
+    new Dui(Tile.Y[0]),
   ],
-  last: Yuans.zhong,
+  last: Tile.Y[0],
   options: {zimo: true},
   fans: [DaSiXi, SiAnKe, SiGang, ZiYiSe, BuQiuRen]
 })
 
 expectFan({
   mians: [
-    new Ke(Yuans.zhong),
-    new Ke(Yuans.fa),
-    new Ke(Yuans.bai),
-    new Shun(Tile.Tiaos[1]),
-    new Dui(Yuans.zhong),
+    ...Tile.Y.map(t => new Ke(t)),
+    new Shun(Tile.T[0]),
+    new Dui(Tile.T[1]),
   ],
-  last: Yuans.zhong,
+  last: Tile.T[2],
   options: {zimo: true},
   fans: [DaSiXi, SiAnKe, SiGang, ZiYiSe, BuQiuRen]
 })
 
 expectFan({
   mians: [
-    new Ke(Tile.Tiaos[1], false, true),
-    new Ke(Tile.Wans[2], true, true),
-    new Ke(Tile.Bings[5], true, true),
-    new Ke(Tile.Bings[8], false, true),
-    new Dui(Tile.Bings[7]),
+    new Ke(Tile.T[1], false, true),
+    new Ke(Tile.W[2], true, true),
+    new Ke(Tile.B[5], true, true),
+    new Ke(Tile.B[8], false, true),
+    new Dui(Tile.B[7]),
   ],
   last: new Tile('b', 7),
   fans: [SiGang, YaoJiuKe, WuZi, ShuangAnGang]
@@ -96,8 +93,8 @@ expectFan({
 
 expectFan({
   mians: [
-    new Yao13(Yuans.zhong)
+    new Yao13(Tile.T[0])
   ],
-  last: Yuans.zhong,
+  last: Tile.T[0],
   fans: [ShiSanYao]
 })

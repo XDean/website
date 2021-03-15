@@ -1,7 +1,7 @@
 import {Tiles} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
 import clsx from "clsx";
-import {FengList, Tile, TileNumberTypes, TilePoints, YuanList} from "../../../../tools/mahjong/guobiao/tile";
+import {Tile, TileNumberTypes, TilePoints} from "../../../../tools/mahjong/guobiao/tile";
 
 export const AllTilesView = (
   {onTileClick, disabledTiles, disableAll}: {
@@ -36,12 +36,12 @@ export const AllTilesView = (
         </tr>
       ))}
       <tr>
-        {FengList.map(t => (
+        {Tile.F.map(t => (
           <td key={t.point}>
             <TileButton tile={t}/>
           </td>
         ))}
-        {YuanList.map(t => (
+        {Tile.Y.map(t => (
           <td key={t.point}>
             <TileButton tile={t}/>
           </td>

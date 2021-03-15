@@ -35,36 +35,71 @@ export class Tile {
     return new Tiles(tiles).indexOf(this)
   }
 
-  equals(tile: Tile) {
-    return this.point === tile.point && this.type === tile.type;
+  toNumber() {
+    switch (this.type) {
+      case "t":
+        return this.point
+      case "b":
+        return this.point + 9
+      case "w":
+        return this.point + 18
+      case "z":
+        return this.point + 27
+    }
   }
 
+  compareTo(o: Tile) {
+    return this.toNumber() - o.toNumber()
+  }
 
-  static Tiaos = TilePoints.reduce((m, p) => m[p] = new Tile('t', p), {})
-  static Bings = TilePoints.reduce((m, p) => m[p] = new Tile('b', p), {})
-  static Wans = TilePoints.reduce((m, p) => m[p] = new Tile('w', p), {})
-}
+  equals(tile: Tile) {
+    return this.toNumber() == tile.toNumber();
+  }
 
-export const Fengs = {
-  dong: new Tile('z', 1),
-  nan: new Tile('z', 2),
-  xi: new Tile('z', 3),
-  bei: new Tile('z', 4),
+  get unicode() {
+    let start = 0;
+    switch (this.type) {
+      case "b":
+        start = 0x1F019
+        break
+      case "w":
+        start = 0x1F007
+        break
+      case "z":
+        start = 0x1F000
+        break
+      case "t":
+        start = 0x1F010
+        break
+    }
+    return String.fromCodePoint(start + this.point - 1)
+  }
+
+  static T = TilePoints.map(p => new Tile('t', p))
+  static B = TilePoints.map(p => new Tile('b', p))
+  static W = TilePoints.map(p => new Tile('w', p))
+  static F = [1, 2, 3, 4].map(p => new Tile('z', p as TilePoint))
+  static Fs = {
+    dong: Tile.F[0],
+    nan: Tile.F[1],
+    xi: Tile.F[2],
+    bei: Tile.F[3],
+  }
+  static Y = [5, 6, 7].map(p => new Tile('z', p as TilePoint))
+  static Ys = {
+    zhong: Tile.Y[0],
+    fa: Tile.Y[1],
+    bai: Tile.Y[2],
+  }
+
+  static Z = [...Tile.F, ...Tile.Y]
+  static YaoJiu = [Tile.T[0], Tile.T[8], Tile.B[0], Tile.B[8], Tile.W[0], Tile.W[8]]
+  static Yao = [...Tile.Z, ...Tile.YaoJiu]
+
+  static Lv = [Tile.T[1], Tile.T[2], Tile.T[3], Tile.T[5], Tile.T[7], Tile.Ys.fa]
+  static TuiBuDao = [
+    Tile.T[1], Tile.T[3], Tile.T[4], Tile.T[5], Tile.T[7], Tile.T[8],
+    Tile.B[0], Tile.B[1], Tile.B[2], Tile.B[3], Tile.B[4], Tile.B[7], Tile.B[8],
+    Tile.Ys.bai,
+  ]
 }
-export const FengList: Tile[] = [Fengs.dong, Fengs.nan, Fengs.xi, Fengs.bei]
-export const Yuans = {
-  zhong: new Tile('z', 5),
-  fa: new Tile('z', 6),
-  bai: new Tile('z', 7),
-}
-export const YuanList: Tile[] = [Yuans.zhong, Yuans.fa, Yuans.bai]
-export const ZiList: Tile[] = [...FengList, ...YuanList]
-export const YaoJiuList: Tile[] = [
-  new Tile('w', 1),
-  new Tile('w', 9),
-  new Tile('t', 1),
-  new Tile('t', 9),
-  new Tile('b', 1),
-  new Tile('b', 9),
-]
-export const YaoList: Tile[] = [...ZiList, ...YaoJiuList]
