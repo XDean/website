@@ -1,14 +1,15 @@
 import {expect, test} from "@jest/globals";
 import {
+  BianZhang,
   BuQiuRen,
   calcFan,
-  DanDiaoJiang,
-  DaSiXi, DuanYao,
-  LianQiDui,
-  MenQianQing,
+  DanDiaoJiang, DaSanYuan,
+  DaSiXi, DuanYao, Hua, HunYiSe, JianKe, JiuLianBaoDeng,
+  LianQiDui, LvYiSe,
+  MenQianQing, MingGang, QiangGangHu, QingYiSe, SanAnKe,
   ShiSanYao, ShuangAnGang, ShuangAnKe,
   SiAnKe,
-  SiGang, WuZi, YaoJiuKe,
+  SiGang, WuZi, YaoJiuKe, YiBanGao, ZiMo,
   ZiYiSe
 } from "./fan";
 import {
@@ -27,6 +28,7 @@ import {
 } from "./type";
 import {Tile} from "./tile";
 
+
 function expectFan(
   {
     mians,
@@ -41,10 +43,11 @@ function expectFan(
     fans: Fan[],
     name?: string
   }) {
+  const log = console.log
   test(name || fans[0].name, () => {
     const hand = new Hand(new Tiles([last]), [], options);
     const comb = new Combination(mians);
-    console.log(comb.toTiles.unicode)
+    log(name || fans[0].name, comb.toTiles.unicode)
     const calcFans = calcFan(hand, comb)
     expect(calcFans.map(f => f.name).sort()).toEqual(fans.map(f => f.name).sort())
   })
@@ -63,12 +66,51 @@ expectFan({
 expectFan({
   mians: [
     ...Tile.Y.map(t => new Ke(t)),
-    new Shun(Tile.T[0]),
+    new Shun(Tile.T[0], true),
     new Dui(Tile.T[1]),
   ],
   last: Tile.T[2],
   options: {zimo: true},
-  fans: [DaSiXi, SiAnKe, SiGang, ZiYiSe, BuQiuRen]
+  fans: [DaSanYuan, SanAnKe, HunYiSe, BianZhang, ZiMo]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[1]),
+    new Shun(Tile.T[1]),
+    new Ke(Tile.T[7], true, true),
+    new Ke(Tile.Ys.fa),
+    new Dui(Tile.T[5]),
+  ],
+  last: Tile.T[1],
+  options: {hua: 3, gangShang: true},
+  fans: [LvYiSe, YiBanGao, QiangGangHu, MingGang, HunYiSe, JianKe, Hua, Hua, Hua]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0]),
+    new Shun(Tile.T[1]),
+    new Shun(Tile.T[5]),
+    new Ke(Tile.T[8]),
+    new Dui(Tile.T[4]),
+  ],
+  last: Tile.T[4],
+  options: {zimo: true},
+  fans: [JiuLianBaoDeng, ShuangAnKe, YaoJiuKe, BuQiuRen]
+})
+
+expectFan({
+  name: '九莲宝灯 - 不成',
+  mians: [
+    new Ke(Tile.T[0]),
+    new Shun(Tile.T[1], true),
+    new Shun(Tile.T[5]),
+    new Ke(Tile.T[8], true),
+    new Dui(Tile.T[4]),
+  ],
+  last: Tile.T[0],
+  fans: [QingYiSe, YaoJiuKe, YaoJiuKe]
 })
 
 expectFan({

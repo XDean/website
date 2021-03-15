@@ -62,6 +62,12 @@ class FanCalc implements Fan {
 
 }
 
+export const Hua = new FanCalc({
+  score: 1,
+  name: '花牌',
+  match: (c, h) => h.option.hua,
+})
+
 export const YiBanGao = new FanCalc({
   score: 1,
   name: '一般高',
@@ -166,7 +172,12 @@ export const KanZhang = new FanCalc({
 export const DanDiaoJiang = new FanCalc({
   score: 1,
   name: '单钓将',
-  match: (c, h) => c.getMianWith(h.tiles.last).some(m => m.type === 'dui'),
+  match: (c, h) => {
+    const last = h.tiles.last;
+    return c.getMianWith(last).some(m => m.type === 'dui') &&
+      !c.mians.some(m => m.type === 'shun' && !m.open && m.tile.type !== 'z' &&
+        [-3, -2, 0, 1].indexOf(m.tile.point - last.point) !== -1)
+  },
 })
 
 export const ZiMo = new FanCalc({
@@ -546,6 +557,7 @@ export const QingYiSe = new FanCalc({
   score: 24,
   name: '清一色',
   match: c => c.toTiles.filterType().length === 14 && c.toTiles.filterType('z').length === 0,
+  exclude: [WuZi]
 })
 
 export const YiSeSanTongShun = new FanCalc({
@@ -600,7 +612,7 @@ export const YiSeSiBuGao = new FanCalc({
   name: '一色四步高',
   match: c => {
     const tiles = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile));
-    return tiles.hasSameTypeAndDiff(1) || tiles.hasSameTypeAndDiff(2);
+    return tiles.length === 4 && (tiles.hasSameTypeAndDiff(1) || tiles.hasSameTypeAndDiff(2));
   },
 })
 
@@ -632,11 +644,13 @@ export const YiSeSiTongShun = new FanCalc({
   },
 })
 
-export const YiSeSiTongKe = new FanCalc({
+export const YiSeSiJieGao = new FanCalc({
   score: 48,
   name: '一色四节高',
-  match: c => new Tiles(c.mians.filter(m => m.type === 'ke').map(m => (m as Ke).tile).filter(t => t.type !== 'z'))
-    .hasSameTypeAndDiff(1),
+  match: c => {
+    const tiles = new Tiles(c.mians.filter(m => m.type === 'ke').map(m => (m as Ke).tile).filter(t => t.type !== 'z'));
+    return tiles.length === 4 && tiles.hasSameTypeAndDiff(1);
+  },
 })
 
 export const QingYaoJiu = new FanCalc({
@@ -700,12 +714,13 @@ export const LvYiSe = new FanCalc({
 export const JiuLianBaoDeng = new FanCalc({
   score: 88,
   name: '九莲宝灯',
-  match: c => {
+  match: (c, h) => {
     const tiles = c.toTiles
-    const type = tiles.last.type
-    return c.mians.every(m => !m.open) && // 不鸣牌 
-      tiles.withoutLast.equals([1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9].map(p => new Tile(type, p as TilePoint)));
-  }
+    const last = h.tiles.last
+    return c.mians.every(m => !m.open) && // 不鸣牌
+      tiles.split(last)[0].equals([1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9].map(p => new Tile(last.type, p as TilePoint)));
+  },
+  exclude: [QingYiSe, MenQianQing, YaoJiuKe]
 })
 
 export const SiGang = new FanCalc({
