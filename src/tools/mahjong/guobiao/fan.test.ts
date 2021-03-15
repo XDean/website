@@ -4,12 +4,12 @@ import {
   BuQiuRen,
   calcFan,
   DanDiaoJiang, DaSanYuan,
-  DaSiXi, DuanYao, Hua, HunYiSe, JianKe, JiuLianBaoDeng,
-  LianQiDui, LvYiSe,
-  MenQianQing, MingGang, QiangGangHu, QingYiSe, SanAnKe,
-  ShiSanYao, ShuangAnGang, ShuangAnKe,
+  DaSiXi, DuanYao, Hua, HunYiSe, JianKe, JiuLianBaoDeng, KanZhang,
+  LianQiDui, LvYiSe, MenFengKe,
+  MenQianQing, MingGang, QiangGangHu, QingYaoJiu, QingYiSe, QuanFengKe, SanAnKe,
+  ShiSanYao, ShuangAnGang, ShuangAnKe, ShuangTongKe,
   SiAnKe,
-  SiGang, WuZi, YaoJiuKe, YiBanGao, ZiMo,
+  SiGang, WuZi, XiaoSanYuan, XiaoSiXi, YaoJiuKe, YiBanGao, ZiMo,
   ZiYiSe
 } from "./fan";
 import {
@@ -66,12 +66,12 @@ expectFan({
 expectFan({
   mians: [
     ...Tile.Y.map(t => new Ke(t)),
-    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0]),
     new Dui(Tile.T[1]),
   ],
   last: Tile.T[2],
   options: {zimo: true},
-  fans: [DaSanYuan, SanAnKe, HunYiSe, BianZhang, ZiMo]
+  fans: [DaSanYuan, SanAnKe, HunYiSe, BianZhang, BuQiuRen]
 })
 
 expectFan({
@@ -139,4 +139,39 @@ expectFan({
   ],
   last: Tile.T[0],
   fans: [ShiSanYao]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0]),
+    new Ke(Tile.B[0]),
+    new Ke(Tile.W[8], true),
+    new Ke(Tile.T[8], true),
+    new Dui(Tile.B[8])
+  ],
+  last: Tile.T[0],
+  fans: [QingYaoJiu, ShuangTongKe, ShuangAnKe]
+})
+
+expectFan({
+  mians: [
+    ...Tile.F.slice(0, 3).map(t => new Ke(t)),
+    new Shun(Tile.B[1]),
+    new Dui(Tile.F[3]),
+  ],
+  last: Tile.B[1],
+  options:{menfeng:1, quanfeng:2},
+  fans: [XiaoSiXi, HunYiSe, MenFengKe, QuanFengKe, SanAnKe, MenQianQing]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.Y[0]),
+    new Ke(Tile.Y[1]),
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[1]),
+    new Dui(Tile.Y[2]),
+  ],
+  last: Tile.T[2],
+  fans: [XiaoSanYuan, HunYiSe, KanZhang, ShuangAnKe]
 })

@@ -12,7 +12,7 @@ import {
   Yao13, ZuHeLong
 } from "./type";
 import {calcFan} from "./fan";
-import {Tile, TilePoint, YaoList} from "./tile";
+import {Tile, TilePoint} from "./tile";
 
 export function calcHu(hand: Hand): Hu[] {
   if (hand.count != 14) {
@@ -21,6 +21,10 @@ export function calcHu(hand: Hand): Hu[] {
   const mingComb = new Combination(hand.mings.map(m => m.toMian()))
   const result = []
   for (let comb of findAllCombinations(hand.tiles)) {
+    const lastAnKeIndex = comb.mians.findIndex(m => m.type === 'ke' && !m.open && m.tile.equals(hand.tiles.last))
+    if (lastAnKeIndex!==-1){
+      comb.mians[lastAnKeIndex] = new Ke(hand.tiles.last, true)
+    }
     const completeComb = mingComb.with(...comb.mians);
     result.push(new Hu(completeComb, calcFan(hand, completeComb)))
   }
@@ -171,7 +175,7 @@ function findQiDui(tiles: Tiles): QiDui | null {
 }
 
 function find13Yao(tiles: Tiles): Yao13 | null {
-  if (tiles.allIn(YaoList) && tiles.distinct.length === 13) {
+  if (tiles.allIn(Tile.Yao) && tiles.distinct.length === 13) {
     const duis = findDui(tiles);
     return new Yao13(duis[0][1].tile)
   } else {
