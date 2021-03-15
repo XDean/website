@@ -15,19 +15,17 @@ import {
   Combination,
   Dui,
   Fan,
-  Fengs,
   Gang,
   Hand,
   Ke,
   Mian,
   Options,
-  Tile,
   Tiles,
-  Yuans,
   Yao13,
   QiDui,
   Shun,
 } from "./type";
+import {Fengs, Tile, Yuans} from "./tile";
 
 function expectFan(
   {

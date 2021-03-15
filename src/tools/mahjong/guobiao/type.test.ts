@@ -1,5 +1,6 @@
 import {expect, test} from "@jest/globals";
-import {Tile, Tiles} from "./type";
+import {Tiles} from "./type";
+import {Tile} from "./tile";
 
 test('Tiles', () => {
   const tiles = Tiles.of({'t': [1, 1, 1, 2, 3], 'b': [1]})

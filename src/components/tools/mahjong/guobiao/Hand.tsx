@@ -1,6 +1,7 @@
-import {Hand, Ming, Tile} from "../../../../tools/mahjong/guobiao/type";
+import {Hand, Ming} from "../../../../tools/mahjong/guobiao/type";
 import {MingView} from "./Ming";
 import {TileView} from "./Tile";
+import {Tile} from "../../../../tools/mahjong/guobiao/tile";
 
 export const HandView = ({hand, onTileClick, onMingClick}: {
   hand: Hand,

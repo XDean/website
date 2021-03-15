@@ -1,6 +1,7 @@
-import {FengList, Tile, TileNumberTypes, TilePoints, Tiles, YuanList} from "../../../../tools/mahjong/guobiao/type";
+import {Tiles} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
 import clsx from "clsx";
+import {FengList, Tile, TileNumberTypes, TilePoints, YuanList} from "../../../../tools/mahjong/guobiao/tile";
 
 export const AllTilesView = (
   {onTileClick, disabledTiles, disableAll}: {

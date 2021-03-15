@@ -1,5 +1,6 @@
-import {Ming, Tile, TilePoint} from "../../../../tools/mahjong/guobiao/type";
+import {Ming} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
+import {Tile, TilePoint} from "../../../../tools/mahjong/guobiao/tile";
 
 export const MingView = ({ming}: { ming: Ming }) => {
   return (

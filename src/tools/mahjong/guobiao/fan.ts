@@ -2,22 +2,25 @@ import {
   Combination,
   Dui,
   Fan,
-  FengList, Fengs,
   Hand,
   Ke, Mian,
   QiDui,
   Shun,
-  Tile, TileNumberTypes,
-  TilePoint,
-  Tiles,
-  TileType,
+  Tiles
+} from "./type";
+import {
+  FengList,
+  Fengs,
+  Tile,
+  TileNumberTypes,
+  TilePoint, TileType,
   TileTypes,
   YaoJiuList,
   YaoList,
   YuanList,
   Yuans,
   ZiList
-} from "./type";
+} from "./tile";
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   const res = []

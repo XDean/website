@@ -8,13 +8,11 @@ import {
   Options,
   QiDui,
   Shun,
-  Tile,
-  TilePoint,
   Tiles,
-  Yao13, YaoList,
-  ZuHeLong
+  Yao13, ZuHeLong
 } from "./type";
 import {calcFan} from "./fan";
+import {Tile, TilePoint, YaoList} from "./tile";
 
 export function calcHu(hand: Hand): Hu[] {
   if (hand.count != 14) {

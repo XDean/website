@@ -6,14 +6,11 @@ import {
   Gang,
   Hand,
   Peng,
-  Tile,
-  TileNumberTypes,
-  TilePoint,
-  Tiles,
-  ZiList
+  Tiles
 } from "../../../../tools/mahjong/guobiao/type";
 import clsx from "clsx";
 import {FanView} from "./Fan";
+import {Tile, TileNumberTypes, TilePoint, ZiList} from "../../../../tools/mahjong/guobiao/tile";
 
 type Mode = {
   name: string

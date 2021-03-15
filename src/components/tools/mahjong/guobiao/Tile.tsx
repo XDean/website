@@ -1,5 +1,5 @@
-import {Tile} from "../../../../tools/mahjong/guobiao/type";
 import {createBreakpoint} from "react-use";
+import {Tile} from "../../../../tools/mahjong/guobiao/tile";
 
 const useBreakpoint = createBreakpoint();
 
