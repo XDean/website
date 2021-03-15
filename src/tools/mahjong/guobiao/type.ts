@@ -49,6 +49,11 @@ export class Tile {
   equals(tile: Tile) {
     return this.point === tile.point && this.type === tile.type;
   }
+
+
+  static Tiaos = TilePoints.reduce((m, p) => m[p] = new Tile('t', p), {})
+  static Bings = TilePoints.reduce((m, p) => m[p] = new Tile('b', p), {})
+  static Wans = TilePoints.reduce((m, p) => m[p] = new Tile('w', p), {})
 }
 
 export const Fengs = {
@@ -213,6 +218,26 @@ export class Tiles {
     return new Tiles(result)
   }
 
+  get distinctTypes(): TileType[] {
+    const result = []
+    for (let tile of this.tiles) {
+      if (result.indexOf(tile.type) === -1) {
+        result.push(tile.type)
+      }
+    }
+    return result
+  }
+
+  get distinctPoints(): TileType[] {
+    const result = []
+    for (let tile of this.tiles) {
+      if (result.indexOf(tile.point) === -1) {
+        result.push(tile.point)
+      }
+    }
+    return result
+  }
+
   get last(): Tile {
     return this.tiles[this.tiles.length - 1]
   }
@@ -292,20 +317,28 @@ export class Tiles {
   }
 }
 
+const defaultOptions: Options = {
+  hua: 0,
+  lastTile: false,
+  gangShang: false,
+  juezhang: false,
+  quanfeng: 1,
+  menfeng: 1,
+  zimo: false,
+};
+
 export class Hand {
+  readonly option: Options
+
   constructor(
     readonly tiles: Tiles, // last one is last card
     readonly mings: Ming[] = [],
-    readonly option: Options = {
-      hua: 0,
-      lastTile: false,
-      gangShang: false,
-      juezhang: false,
-      quanfeng: 1,
-      menfeng: 1,
-      zimo: false,
-    },
+    option: Partial<Options> = defaultOptions,
   ) {
+    this.option = {
+      ...defaultOptions,
+      ...option,
+    }
   }
 
   get count() {
@@ -409,11 +442,14 @@ export type Ming = Chi | Peng | Gang
 
 export class Shun {
   readonly type = 'shun'
+  readonly simple = true
 
   constructor(
     readonly tile: Tile,
     readonly open: boolean = false,
   ) {
+    assert(tile.type !== 'z', '字牌不能顺')
+    assert(tile.point < 8, '8,9不能顺')
   }
 
   get name() {
@@ -423,10 +459,19 @@ export class Shun {
   get toTiles() {
     return new Tiles([this.tile, this.tile.next, this.tile.next.next])
   }
+
+  toMing() {
+    if (this.open) {
+      return new Chi(this.tile)
+    } else {
+      throw 'can not transfer to chi'
+    }
+  }
 }
 
 export class Ke {
   readonly type = 'ke'
+  readonly simple = true
 
   constructor(
     readonly tile: Tile,
@@ -442,11 +487,22 @@ export class Ke {
   get toTiles() {
     return new Tiles([this.tile, this.tile, this.tile])
   }
+
+  toMing() {
+    if (this.gang) {
+      return new Gang(this.tile, this.open)
+    } else if (this.open) {
+      return new Peng(this.tile)
+    } else {
+      throw 'can not transfer to chi'
+    }
+  }
 }
 
 export class Dui {
   readonly type = 'dui'
   readonly open = false
+  readonly simple = true
 
   constructor(
     readonly tile: Tile,
@@ -461,6 +517,7 @@ export class Dui {
 export class QiDui {
   readonly type = 'qi-dui'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tiles: Tiles,
@@ -476,6 +533,7 @@ export class QiDui {
 export class ZuHeLong {
   readonly type = 'zu-he-long'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tiles: Tiles,
@@ -491,6 +549,7 @@ export class ZuHeLong {
 export class BuKao {
   readonly type = 'bu-kao'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tiles: Tiles,
@@ -506,6 +565,7 @@ export class BuKao {
 export class Yao13 {
   readonly type = '13yao'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tile: Tile,
