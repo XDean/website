@@ -18,6 +18,7 @@ import MarkdownToc from 'markdown-toc-unlazy'
 import uslug from 'uslug'
 import {isURL} from "../../util/util";
 import clsx from "clsx";
+import Head from "next/head";
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -55,6 +56,9 @@ export const PostView = (props: PostProps) => {
 
   return (
     <div className={'w-11/12 max-w-screen-lg my-4'}>
+      <Head>
+        <title>{props.meta.title} - XDean's Blog</title>
+      </Head>
       {hasToc && function () {
         const toc = (
           <div style={{minWidth: 80, maxWidth: 200}}>
