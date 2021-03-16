@@ -1,16 +1,4 @@
-import {
-  BuKao,
-  Combination,
-  Dui,
-  Hand,
-  Hu,
-  Ke,
-  Options,
-  QiDui,
-  Shun,
-  Tiles,
-  Yao13, ZuHeLong
-} from "./type";
+import {BuKao, Combination, Dui, Hand, Hu, Ke, QiDui, Shun, Tiles, Yao13, ZuHeLong} from "./type";
 import {calcFan} from "./fan";
 import {Tile, TilePoint} from "./tile";
 
@@ -22,7 +10,7 @@ export function calcHu(hand: Hand): Hu[] {
   const result = []
   for (let comb of findAllCombinations(hand.tiles)) {
     const lastAnKeIndex = comb.mians.findIndex(m => m.type === 'ke' && !m.open && m.tile.equals(hand.tiles.last))
-    if (lastAnKeIndex!==-1){
+    if (lastAnKeIndex !== -1) {
       comb.mians[lastAnKeIndex] = new Ke(hand.tiles.last, true)
     }
     const completeComb = mingComb.with(...comb.mians);
@@ -31,89 +19,84 @@ export function calcHu(hand: Hand): Hu[] {
   return result
 }
 
-export function* findAllCombinations(tiles: Tiles): Generator<Combination> {
+export function findAllCombinations(tiles: Tiles): Combination[] {
+  if ((tiles.length - 2) % 3 !== 0) {
+    return []
+  }
+  const res = []
   if (tiles.length === 14) {
     const yao = find13Yao(tiles);
     if (!!yao) {
-      return new Combination([yao])
+      return [new Combination([yao])]
     }
     const bukao = findBuKao(tiles);
     if (!!bukao) {
-      return new Combination([bukao])
+      return [new Combination([bukao])]
     }
     const qidui = findQiDui(tiles);
     if (!!qidui) {
-      yield new Combination([qidui])
+      res.push(new Combination([qidui]))
     }
   }
   const duis = findDui(tiles);
   for (let [left, dui] of duis) {
     for (let [l, zhl] of findZuHeLong(left)) {
       for (let sub of findShunKeCombinations(l)) {
-        yield sub.with(zhl).with(dui)
+        res.push(sub.with(zhl).with(dui))
       }
     }
     for (let comb of findShunKeCombinations(left)) {
-      yield comb.with(dui)
+      res.push(comb.with(dui))
     }
   }
+  return res
 }
 
-function* findShunKeCombinations(tiles: Tiles): Generator<Combination> {
+function findShunKeCombinations(tiles: Tiles): Combination[] {
   if (tiles.length === 0) {
-    yield new Combination([])
+    return [new Combination([])]
   }
-  for (let [left, ke] of findKe(tiles, tiles[0])) {
+  if (tiles.length < 3) {
+    return []
+  }
+  const res = []
+  for (let [left, ke] of findKe(tiles, tiles.last)) {
     for (let sub of findShunKeCombinations(left)) {
-      yield sub.with(ke)
+      res.push(sub.with(ke))
     }
   }
-  for (let [left, shun] of findShun(tiles, tiles[0])) {
+  for (let [left, shun] of findShun(tiles, tiles.last)) {
     for (let sub of findShunKeCombinations(left)) {
-      yield sub.with(shun)
+      res.push(sub.with(shun))
     }
   }
+  return res
 }
 
 function findDui(tiles: Tiles): [Tiles, Dui][] {
-  const exist = []
-  const dups = []
-  for (let tile of tiles.tiles) {
-    if (tile.in(exist)) {
-      exist.push(tile)
-    } else if (tile.in(dups)) {
-      dups.push(tile)
-    }
-  }
   const results = []
-  for (let dup of dups) {
-    const [left] = tiles.split(dup, dup);
-    results.push([left, new Dui(dup)])
+  for (let t of tiles.filterMoreThan(1).distinct.tiles) {
+    const [left] = tiles.split(t, t);
+    results.push([left, new Dui(t)])
   }
   return results
 }
 
 
-function* findShun(tiles: Tiles, tile: Tile): Generator<[Tiles, Shun]> {
-  if (tile.type === 'z') {
-    return
+function findShun(tiles: Tiles, tile: Tile): [Tiles, Shun][] {
+  if (tile.type === 'z' || tiles.length < 3) {
+    return []
   }
-  const subTiles = tiles.filterType(tile.type).filterShunPoint(tile.point);
-  if (subTiles.length < 2) {
-    return
-  }
-  for (let [a, b] of subTiles.pairs()) {
-    const diff = Math.abs(a.point - b.point)
-    if (diff === 1 || diff === 2) {
-      const [left] = tiles.split(a, b, tile)
-      yield [left, new Shun(new Tiles([a, b, tile]).minPointTile)]
-    }
-  }
+  return [-2, -1, 0].map(p => p + tile.point)
+    .filter(p => p >= 1 && p <= 7)
+    .map(p => new Shun(new Tile(tile.type, p as TilePoint)))
+    .filter(s => tiles.contains(s.toTiles))
+    .map(s => [tiles.split(...s.toTiles.tiles)[0], s])
 }
 
 function findKe(tiles: Tiles, tile: Tile): [Tiles, Ke][] {
   const sames = tiles.filterType(tile.type).filterPoint(tile.point)
-  if (sames.length > 1) {
+  if (sames.length > 2) {
     const [left] = tiles.split(tile, tile, tile);
     return [[left, new Ke(tile)]]
   } else {
@@ -122,6 +105,9 @@ function findKe(tiles: Tiles, tile: Tile): [Tiles, Ke][] {
 }
 
 function findZuHeLong(tiles: Tiles): [Tiles, ZuHeLong][] {
+  if (tiles.length < 9) {
+    return []
+  }
   const distinct = tiles.distinct
   const types = [
     distinct.filterType('w'),

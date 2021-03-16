@@ -1,5 +1,6 @@
 import assert from "assert";
 import {Tile, TilePoint, TilePoints, TileType, TileTypes} from "./tile";
+import {arrayContentEquals} from "../../../util/util";
 
 
 export type Options = {
@@ -32,6 +33,10 @@ export class Tiles {
     } else {
       this.tiles = tiles
     }
+  }
+
+  get sorted() {
+    return new Tiles(this.tiles.sort((a, b) => a.compareTo(b)))
   }
 
   get length() {
@@ -81,11 +86,6 @@ export class Tiles {
   filterTiles(tiles: Tiles | Tile[]) {
     if (this.length === 0) return new Tiles([])
     return new Tiles(this.tiles.filter(t => t.in(tiles)))
-  }
-
-  filterShunPoint(point: TilePoint) {
-    if (this.length === 0) return new Tiles([])
-    return new Tiles(this.tiles.filter(t => t.point !== point && Math.abs(t.point - point) < 3))
   }
 
   filterMoreThan(count: number) {
@@ -316,6 +316,14 @@ export class Combination {
   getMianWith(tile: Tile) {
     return this.mians.filter(m => tile.in(m.toTiles.tiles))
   }
+
+  equals(other: Combination) {
+    return arrayContentEquals(this.mians, other.mians, (a, b) => a.type === b.type && a.equals(b as any))
+  }
+
+  toString() {
+    return this.mians.sort((a, b) => a.toString() > b.toString() ? 1 : -1).map(e => e.toString()).join(' ')
+  }
 }
 
 export interface Fan {
@@ -399,6 +407,14 @@ export class Shun {
       throw 'can not transfer to chi'
     }
   }
+
+  equals(other: Shun) {
+    return this.tile.equals(other.tile) && this.open === other.open
+  }
+
+  toString() {
+    return `${this.open ? '吃' : '顺'}${this.toTiles.unicode}`
+  }
 }
 
 export class Ke {
@@ -429,6 +445,14 @@ export class Ke {
       throw 'can not transfer to chi'
     }
   }
+
+  equals(other: Ke) {
+    return this.tile.equals(other.tile) && this.open === other.open && this.gang === other.gang
+  }
+
+  toString() {
+    return `${this.gang ? (this.open ? '明杠' : '暗杠') : (this.open ? '碰' : '暗刻')}${this.tile.unicode}`
+  }
 }
 
 export class Dui {
@@ -443,6 +467,14 @@ export class Dui {
 
   get toTiles() {
     return new Tiles([this.tile, this.tile])
+  }
+
+  equals(other: Dui) {
+    return this.tile.equals(other.tile)
+  }
+
+  toString() {
+    return `对${this.tile.unicode}`
   }
 }
 
@@ -460,6 +492,14 @@ export class QiDui {
   get toTiles() {
     return new Tiles([...this.tiles.tiles, ...this.tiles.tiles])
   }
+
+  equals(other: QiDui) {
+    return this.tiles.equals(other.tiles)
+  }
+
+  toString() {
+    return `七对${this.tiles.sorted.unicode}`
+  }
 }
 
 export class ZuHeLong {
@@ -475,6 +515,14 @@ export class ZuHeLong {
 
   get toTiles() {
     return this.tiles
+  }
+
+  equals(other: ZuHeLong) {
+    return this.tiles.equals(other.tiles)
+  }
+
+  toString() {
+    return `组合龙${this.tiles.sorted.unicode}`
   }
 }
 
@@ -492,6 +540,14 @@ export class BuKao {
   get toTiles() {
     return this.tiles
   }
+
+  equals(other: BuKao) {
+    return this.tiles.equals(other.tiles)
+  }
+
+  toString() {
+    return `不靠${this.tiles.sorted.unicode}`
+  }
 }
 
 export class Yao13 {
@@ -507,6 +563,14 @@ export class Yao13 {
 
   get toTiles() {
     return new Tiles([this.tile, ...Tile.Yao])
+  }
+
+  equals(other: Yao13) {
+    return this.tile.equals(other.tile)
+  }
+
+  toString() {
+    return `十三幺${this.tile.unicode}`
   }
 }
 

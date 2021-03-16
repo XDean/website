@@ -19,7 +19,6 @@ test('Tiles', () => {
   expect(tiles.filterPoint(1).length).toBe(4)
   expect(tiles.filterPoint(5).length).toBe(0)
   expect(tiles.filterTiles(Tiles.of({'t': [1], 'z': [1]})).length).toBe(3)
-  expect(tiles.filterShunPoint(2).length).toBe(5)
   expect(tiles.filterMoreThan(2).length).toBe(1)
   expect(tiles.minPointTile.point).toBe(1)
   expect(tiles.maxPointTile.point).toBe(3)
