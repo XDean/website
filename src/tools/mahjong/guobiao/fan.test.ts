@@ -2,30 +2,39 @@ import {expect, test} from "@jest/globals";
 import {
   BianZhang,
   BuQiuRen,
-  calcFan,
-  DanDiaoJiang, DaSanYuan,
-  DaSiXi, DuanYao, Hua, HunYiSe, JianKe, JiuLianBaoDeng, KanZhang,
-  LianQiDui, LvYiSe, MenFengKe,
-  MenQianQing, MingGang, QiangGangHu, QingYaoJiu, QingYiSe, QuanFengKe, SanAnKe,
-  ShiSanYao, ShuangAnGang, ShuangAnKe, ShuangTongKe,
+  calcFan, DanDiaoJiang,
+  DaSanYuan,
+  DaSiXi,
+  DuanYao,
+  Hua, HuJueZhang,
+  HunYiSe,
+  JianKe,
+  JiuLianBaoDeng,
+  KanZhang,
+  LianQiDui,
+  LvYiSe,
+  MenFengKe,
+  MenQianQing,
+  MingGang, PingHu,
+  QiangGangHu, QiDuiFan,
+  QingYaoJiu,
+  QingYiSe,
+  QuanFengKe, QuanQiuRen, QueYiMen,
+  SanAnKe,
+  ShiSanYao,
+  ShuangAnGang,
+  ShuangAnKe, ShuangJianKe,
+  ShuangTongKe,
   SiAnKe,
-  SiGang, WuZi, XiaoSanYuan, XiaoSiXi, YaoJiuKe, YiBanGao, ZiMo,
+  SiGang, SiGuiYi,
+  WuZi,
+  XiaoSanYuan,
+  XiaoSiXi,
+  YaoJiuKe,
+  YiBanGao, YiSeShuangLong, YiSeSiBuGao, YiSeSiJieGao, YiSeSiTongShun,
   ZiYiSe
 } from "./fan";
-import {
-  Combination,
-  Dui,
-  Fan,
-  Gang,
-  Hand,
-  Ke,
-  Mian,
-  Options,
-  Tiles,
-  Yao13,
-  QiDui,
-  Shun,
-} from "./type";
+import {Combination, Dui, Fan, Hand, Ke, Mian, Options, QiDui, Shun, Tiles, Yao13,} from "./type";
 import {Tile} from "./tile";
 
 
@@ -160,7 +169,7 @@ expectFan({
     new Dui(Tile.F[3]),
   ],
   last: Tile.B[1],
-  options:{menfeng:1, quanfeng:2},
+  options: {menfeng: 1, quanfeng: 2},
   fans: [XiaoSiXi, HunYiSe, MenFengKe, QuanFengKe, SanAnKe, MenQianQing]
 })
 
@@ -174,4 +183,100 @@ expectFan({
   ],
   last: Tile.T[2],
   fans: [XiaoSanYuan, HunYiSe, KanZhang, ShuangAnKe]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.Y[0], true),
+    new Ke(Tile.Y[1], true),
+    new Ke(Tile.F[0], true),
+    new Ke(Tile.F[1]),
+    new Dui(Tile.F[2]),
+  ],
+  last: Tile.F[2],
+  options: {quanfeng: 3, menfeng: 2},
+  fans: [ZiYiSe, ShuangJianKe, DanDiaoJiang, MenFengKe]
+})
+
+expectFan({
+  name: '字七对',
+  mians: [
+    new QiDui(new Tiles(Tile.Z)),
+  ],
+  last: Tile.F[2],
+  fans: [ZiYiSe, QiDuiFan]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0]),
+    new Ke(Tile.T[1]),
+    new Ke(Tile.T[3]),
+    new Ke(Tile.T[4]),
+    new Dui(Tile.B[0]),
+  ],
+  last: Tile.T[0],
+  options: {zimo: true},
+  fans: [SiAnKe, YaoJiuKe, WuZi, QueYiMen, BuQiuRen]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0]),
+    new Shun(Tile.T[6]),
+    new Shun(Tile.T[6]),
+    new Dui(Tile.T[4]),
+  ],
+  last: Tile.T[0],
+  fans: [YiSeShuangLong]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.T[0],
+  fans: [YiSeSiTongShun, HuJueZhang, PingHu, QueYiMen]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.T[1], true),
+    new Ke(Tile.T[2], true),
+    new Ke(Tile.T[3]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[4],
+  fans: [YiSeSiJieGao, YaoJiuKe, WuZi, QueYiMen, DanDiaoJiang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[1], true),
+    new Shun(Tile.T[2], true),
+    new Shun(Tile.T[3], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.T[5]),
+  ],
+  last: Tile.T[5],
+  fans: [YiSeSiBuGao, QingYiSe, PingHu, KanZhang, DuanYao, SiGuiYi]
+})
+
+expectFan({
+  name: '一色四步高-2',
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[2], true),
+    new Shun(Tile.T[4], true),
+    new Shun(Tile.T[6], true),
+    new Dui(Tile.W[8]),
+  ],
+  last: Tile.W[8],
+  fans: [YiSeSiBuGao, QuanQiuRen, PingHu, QueYiMen]
 })
