@@ -10,7 +10,7 @@ import {
 } from "../../../../tools/mahjong/guobiao/type";
 import clsx from "clsx";
 import {FanView} from "./Fan";
-import {Tile, TileNumberTypes, TilePoint, ZiList} from "../../../../tools/mahjong/guobiao/tile";
+import {Tile, TileNumberTypes, TilePoint} from "../../../../tools/mahjong/guobiao/tile";
 
 type Mode = {
   name: string
@@ -31,7 +31,7 @@ const modes: Mode[] = [
     label: '吃',
     add: (h, t) => h.mings.push(new Chi(t)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => new Tiles([...ZiList, ...hand.allTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
+    disable: hand => new Tiles([...Tile.Z, ...hand.allTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
       .flatMap(t => [0, 1, 2]
         .map(d => t.point - d)
         .filter(p => p > 0)
