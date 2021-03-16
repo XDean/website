@@ -1,40 +1,67 @@
 import {expect, test} from "@jest/globals";
 import {
+  AnGang,
   BianZhang,
   BuQiuRen,
-  calcFan, DanDiaoJiang,
+  calcFan,
+  DanDiaoJiang,
   DaSanYuan,
-  DaSiXi,
-  DuanYao,
-  Hua, HuJueZhang,
+  DaSiXi, DaYuWu,
+  DuanYao, GangShangKaiHua, HaiDiLaoYue,
+  Hua, HuaLong,
+  HuJueZhang,
+  HunYaoJiu,
   HunYiSe,
   JianKe,
   JiuLianBaoDeng,
   KanZhang,
+  LaoShaoFu,
   LianQiDui,
   LvYiSe,
   MenFengKe,
-  MenQianQing,
-  MingGang, PingHu,
-  QiangGangHu, QiDuiFan,
+  MenQianQing, MiaoShouHuiChun, MingAnGang,
+  MingGang,
+  PengPengHu,
+  PingHu,
+  QiangGangHu,
+  QiDuiFan,
+  QingLong,
   QingYaoJiu,
   QingYiSe,
-  QuanFengKe, QuanQiuRen, QueYiMen,
-  SanAnKe,
+  QiXingBuKao, QuanBuKao,
+  QuanDa, QuanDaiWu, QuanDaiYao,
+  QuanFengKe,
+  QuanQiuRen,
+  QuanShuangKe,
+  QuanXiao,
+  QuanZhong,
+  QueYiMen,
+  SanAnKe, SanFengKe,
+  SanGang, SanSeSanBuGao, SanSeSanJieGao, SanSeSanTongShun,
+  SanSesHuangLongHui, SanTongKe,
   ShiSanYao,
   ShuangAnGang,
-  ShuangAnKe, ShuangJianKe,
+  ShuangAnKe,
+  ShuangJianKe, ShuangMingGang,
   ShuangTongKe,
   SiAnKe,
-  SiGang, SiGuiYi,
+  SiGang,
+  SiGuiYi, TuiBuDao, WuFanHu, WuMenQi,
   WuZi,
   XiaoSanYuan,
-  XiaoSiXi,
+  XiaoSiXi, XiaoYuWu,
   YaoJiuKe,
-  YiBanGao, YiSeShuangLong, YiSeSiBuGao, YiSeSiJieGao, YiSeSiTongShun,
-  ZiYiSe
+  YiBanGao, YiSeSanBuGao,
+  YiSeSanJieGao,
+  YiSeSanTongShun,
+  YiSeShuangLong,
+  YiSeSiBuGao,
+  YiSeSiJieGao,
+  YiSeSiTongShun,
+  ZiMo,
+  ZiYiSe, ZuHeLongFan
 } from "./fan";
-import {Combination, Dui, Fan, Hand, Ke, Mian, Options, QiDui, Shun, Tiles, Yao13,} from "./type";
+import {BuKao, Combination, Dui, Fan, Hand, Ke, Mian, Options, QiDui, Shun, Tiles, Yao13, ZuHeLong,} from "./type";
 import {Tile} from "./tile";
 
 
@@ -130,7 +157,7 @@ expectFan({
     new Ke(Tile.B[8], false, true),
     new Dui(Tile.B[7]),
   ],
-  last: new Tile('b', 7),
+  last: Tile.B[6],
   fans: [SiGang, YaoJiuKe, WuZi, ShuangAnGang]
 })
 
@@ -138,7 +165,7 @@ expectFan({
   mians: [
     new QiDui(Tiles.of({'t': [2, 3, 4, 5, 6, 7, 8]}))
   ],
-  last: new Tile('t', 2),
+  last: Tile.T[1],
   fans: [LianQiDui, DuanYao]
 })
 
@@ -279,4 +306,557 @@ expectFan({
   ],
   last: Tile.W[8],
   fans: [YiSeSiBuGao, QuanQiuRen, PingHu, QueYiMen]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[1], false, true),
+    new Ke(Tile.W[2], true, true),
+    new Ke(Tile.B[5], true, true),
+    new Ke(Tile.B[7]),
+    new Dui(Tile.B[6]),
+  ],
+  last: Tile.B[7],
+  options: {zimo: true},
+  fans: [SanGang, AnGang, PengPengHu, DuanYao, ShuangAnKe, ZiMo]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true, true),
+    new Ke(Tile.W[8]),
+    new Ke(Tile.F[1]),
+    new Ke(Tile.Y[1]),
+    new Dui(Tile.Y[2]),
+  ],
+  last: Tile.Y[2],
+  fans: [HunYaoJiu, SanAnKe, JianKe, MingGang, QueYiMen, DanDiaoJiang]
+})
+
+expectFan({
+  name: '幺九七对',
+  mians: [
+    new QiDui(new Tiles([Tile.T[0], Tile.T[8], Tile.W[0], Tile.W[8], Tile.B[0], Tile.B[8], Tile.F[3]]))
+  ],
+  last: Tile.T[0],
+  fans: [HunYaoJiu, QiDuiFan]
+})
+
+expectFan({
+  mians: [
+    new QiDui(new Tiles([Tile.T[0], Tile.T[8], Tile.W[0], Tile.W[8], Tile.B[1], Tile.B[8], Tile.F[3]]))
+  ],
+  last: Tile.T[0],
+  options: {zimo: true},
+  fans: [QiDuiFan, BuQiuRen]
+})
+
+expectFan({
+  mians: [
+    new BuKao(Tiles.of({t: [1, 4, 7], b: [2], w: [3, 6, 9], z: [1, 2, 3, 4, 5, 6, 7]}))
+  ],
+  last: Tile.T[0],
+  options: {zimo: true},
+  fans: [QiXingBuKao, BuQiuRen]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[3], true),
+    new Ke(Tile.T[5], true),
+    new Ke(Tile.B[7], true),
+    new Ke(Tile.W[1]),
+    new Dui(Tile.W[3])
+  ],
+  last: Tile.T[1],
+  fans: [QuanShuangKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[3], true),
+    new Shun(Tile.T[5], true),
+    new Ke(Tile.T[7], true),
+    new Ke(Tile.T[1]),
+    new Dui(Tile.T[3])
+  ],
+  last: Tile.T[1],
+  fans: [QingYiSe, DuanYao, SiGuiYi]
+})
+
+expectFan({
+  name: '清七对',
+  mians: [
+    new QiDui(Tiles.of({'t': [1, 2, 3, 4, 5, 6, 8]}))
+  ],
+  last: Tile.T[1],
+  fans: [QingYiSe, QiDuiFan]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[6]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.T[6],
+  fans: [YiSeSanTongShun, PingHu, QueYiMen, LaoShaoFu, LaoShaoFu, BianZhang]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.T[1], true),
+    new Ke(Tile.T[2], true),
+    new Ke(Tile.T[4]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[4],
+  fans: [YiSeSanJieGao, YaoJiuKe, WuZi, QueYiMen, DanDiaoJiang, PengPengHu]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[6], true),
+    new Ke(Tile.T[7], true),
+    new Ke(Tile.B[7], true),
+    new Ke(Tile.W[6]),
+    new Dui(Tile.B[6]),
+  ],
+  last: Tile.W[7],
+  fans: [QuanDa, PengPengHu, DuanYao, ShuangTongKe, ShuangTongKe]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[3], true),
+    new Ke(Tile.T[4], true),
+    new Ke(Tile.B[5], true),
+    new Shun(Tile.W[3]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[4],
+  fans: [QuanZhong, DanDiaoJiang]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.T[1], true),
+    new Ke(Tile.B[2], true),
+    new Shun(Tile.W[0]),
+    new Dui(Tile.B[1]),
+  ],
+  last: Tile.B[1],
+  fans: [QuanXiao, DanDiaoJiang, YaoJiuKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[3], true),
+    new Shun(Tile.T[6]),
+    new Ke(Tile.B[2], true),
+    new Dui(Tile.B[1]),
+  ],
+  last: Tile.B[1],
+  fans: [QingLong, DanDiaoJiang, WuZi, QueYiMen]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.B[0]),
+    new Shun(Tile.T[6]),
+    new Shun(Tile.B[6]),
+    new Dui(Tile.W[4]),
+  ],
+  last: Tile.B[0],
+  fans: [SanSesHuangLongHui]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[1], true),
+    new Shun(Tile.T[2], true),
+    new Shun(Tile.T[3], true),
+    new Ke(Tile.B[4]),
+    new Dui(Tile.W[5]),
+  ],
+  last: Tile.W[5],
+  fans: [YiSeSanBuGao, DuanYao, DanDiaoJiang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[3], true),
+    new Shun(Tile.B[2], true),
+    new Shun(Tile.B[4], true),
+    new Ke(Tile.T[4]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[4],
+  fans: [QuanDaiWu, SiGuiYi, SiGuiYi, DanDiaoJiang, QueYiMen]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[2], true),
+    new Ke(Tile.B[2], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.T[4],
+  fans: [SanTongKe, DuanYao]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[2]),
+    new Ke(Tile.B[4]),
+    new Ke(Tile.W[6]),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.T[2],
+  fans: [SanAnKe, DuanYao, MenQianQing]
+})
+
+expectFan({
+  mians: [
+    new BuKao(Tiles.of({t: [1, 4, 7], b: [2, 5, 8], w: [3, 6, 9], z: [1, 2, 5, 6, 7]}))
+  ],
+  last: Tile.T[0],
+  fans: [QuanBuKao, ZuHeLongFan]
+})
+
+expectFan({
+  mians: [
+    new ZuHeLong(Tiles.of({t: [1, 4, 7], b: [2, 5, 8], w: [3, 6, 9]})),
+    new Shun(Tile.B[1]),
+    new Dui(Tile.T[1])
+  ],
+  last: Tile.T[1],
+  fans: [ZuHeLongFan, DanDiaoJiang, PingHu, MenQianQing]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[5], true),
+    new Ke(Tile.T[7], true),
+    new Ke(Tile.B[6], true),
+    new Ke(Tile.W[6]),
+    new Dui(Tile.B[6]),
+  ],
+  last: Tile.W[7],
+  fans: [DaYuWu, PengPengHu, DuanYao, ShuangTongKe]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.T[1], true),
+    new Ke(Tile.B[2], true),
+    new Shun(Tile.W[1]),
+    new Dui(Tile.B[1]),
+  ],
+  last: Tile.B[1],
+  fans: [XiaoYuWu, DanDiaoJiang, YaoJiuKe]
+})
+
+expectFan({
+  mians: [
+    ...Tile.F.slice(0, 3).map(t => new Ke(t)),
+    new Shun(Tile.B[1]),
+    new Dui(Tile.W[3]),
+  ],
+  last: Tile.B[1],
+  options: {menfeng: 1, quanfeng: 2},
+  fans: [SanFengKe, QueYiMen, MenFengKe, QuanFengKe, SanAnKe, MenQianQing]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.B[3], true),
+    new Shun(Tile.W[6], true),
+    new Ke(Tile.T[4]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[4],
+  fans: [HuaLong, DanDiaoJiang, WuZi]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.B[1], true),
+    new Ke(Tile.B[4], true),
+    new Shun(Tile.T[3], true),
+    new Ke(Tile.Ys.bai),
+    new Dui(Tile.B[0]),
+  ],
+  last: Tile.B[0],
+  fans: [TuiBuDao, DanDiaoJiang, JianKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.B[0], true),
+    new Shun(Tile.W[0], true),
+    new Shun(Tile.B[6]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[6],
+  fans: [SanSeSanTongShun, PingHu, LaoShaoFu, BianZhang]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.B[1], true),
+    new Ke(Tile.W[2], true),
+    new Ke(Tile.T[4]),
+    new Dui(Tile.B[4]),
+  ],
+  last: Tile.B[4],
+  fans: [SanSeSanJieGao, PengPengHu, YaoJiuKe, WuZi, DanDiaoJiang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  fans: [WuFanHu]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {lastTile: true, zimo: true},
+  fans: [MiaoShouHuiChun]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {lastTile: true},
+  fans: [HaiDiLaoYue]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true, true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {gangShang: true, zimo: true},
+  fans: [GangShangKaiHua, MingGang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {gangShang: true},
+  fans: [QiangGangHu]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], false, true),
+    new Ke(Tile.W[2], false, true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  fans: [ShuangAnGang]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.B[1], false, true),
+    new Ke(Tile.W[3], false, true),
+    new Ke(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  fans: [PengPengHu, SanAnKe, ShuangAnGang, YaoJiuKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[3], true),
+    new Shun(Tile.T[5], true),
+    new Ke(Tile.T[7], true),
+    new Ke(Tile.T[1]),
+    new Dui(Tile.F[3])
+  ],
+  last: Tile.T[1],
+  fans: [HunYiSe, SiGuiYi]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[1], true),
+    new Shun(Tile.B[2], true),
+    new Shun(Tile.W[3], true),
+    new Ke(Tile.B[4]),
+    new Dui(Tile.W[5]),
+  ],
+  last: Tile.W[5],
+  fans: [SanSeSanBuGao, DuanYao, DanDiaoJiang, SiGuiYi]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[1], true),
+    new Shun(Tile.B[2], true),
+    new Shun(Tile.W[4], true),
+    new Ke(Tile.F[2]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.W[5],
+  fans: [WuMenQi]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[1], true),
+    new Shun(Tile.B[2], true),
+    new Shun(Tile.W[4], true),
+    new Ke(Tile.B[2], true),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.Y[0],
+  fans: [QuanQiuRen, SiGuiYi]
+})
+
+expectFan({
+  mians: [
+    new Ke(Tile.Y[0]),
+    new Ke(Tile.Y[1]),
+    new Shun(Tile.T[0], true),
+    new Shun(Tile.T[1]),
+    new Dui(Tile.T[2]),
+  ],
+  last: Tile.T[2],
+  fans: [ShuangJianKe, HunYiSe, KanZhang, ShuangAnKe, SiGuiYi]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true, true),
+    new Ke(Tile.W[2], false, true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  fans: [MingAnGang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[0], true),
+    new Shun(Tile.W[6]),
+    new Ke(Tile.T[8]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[8],
+  fans: [QuanDaiYao, YaoJiuKe, YaoJiuKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0]),
+    new Ke(Tile.B[1], false, true),
+    new Ke(Tile.W[2]),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {zimo: true},
+  fans: [BuQiuRen, AnGang, ShuangAnKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true, true),
+    new Ke(Tile.W[2], true, true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  fans: [ShuangMingGang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.T[0], true),
+    new Ke(Tile.B[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {juezhang: true},
+  fans: [HuJueZhang]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.B[0], true),
+    new Ke(Tile.Y[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  fans: [JianKe]
+})
+
+expectFan({
+  mians: [
+    new Shun(Tile.B[0], true),
+    new Ke(Tile.F[1], true),
+    new Ke(Tile.W[2], true),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.Y[0]),
+  ],
+  last: Tile.T[4],
+  options: {quanfeng: 2, menfeng: 2},
+  fans: [QuanFengKe, MenFengKe, WuMenQi]
 })
