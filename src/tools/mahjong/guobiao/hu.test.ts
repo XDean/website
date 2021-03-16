@@ -1,6 +1,6 @@
 import {expect, test} from "@jest/globals";
 import {calcHu, findAllCombinations} from "./hu";
-import {Combination, Dui, Hand, Ke, Mian, QiDui, Shun, Tiles} from "./type";
+import {Combination, Dui, Hand, Ke, Mian, QiDui, Shun, Tiles, ZuHeLong} from "./type";
 import {arrayContentEquals} from "../../../util/util";
 import {Tile} from "./tile";
 
@@ -48,5 +48,12 @@ expectComb({
     [new Dui(Tile.T[1]), new Shun(Tile.T[2]), new Shun(Tile.T[2]), new Shun(Tile.T[5]), new Shun(Tile.T[5])],
     [new Dui(Tile.T[4]), new Shun(Tile.T[1]), new Shun(Tile.T[1]), new Shun(Tile.T[5]), new Shun(Tile.T[5])],
     [new Dui(Tile.T[7]), new Shun(Tile.T[1]), new Shun(Tile.T[1]), new Shun(Tile.T[4]), new Shun(Tile.T[4])],
+  ]
+})
+
+expectComb({
+  tiles: Tiles.of({'t': [1, 4, 7], 'b': [2, 5, 8], 'w': [3, 6, 9, 9, 9]}),
+  combs: [
+    [new Dui(Tile.W[8]), new ZuHeLong(Tiles.of({'t': [1, 4, 7], 'b': [2, 5, 8], 'w': [3, 6, 9]}))],
   ]
 })

@@ -20,7 +20,7 @@ export function calcHu(hand: Hand): Hu[] {
 }
 
 export function findAllCombinations(tiles: Tiles): Combination[] {
-  if ((tiles.length - 2) % 3 !== 0) {
+  if ((tiles.length - 2) % 3 !== 0 || tiles.length > 14) {
     return []
   }
   const res = []
