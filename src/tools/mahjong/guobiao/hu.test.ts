@@ -57,3 +57,10 @@ expectComb({
     [new Dui(Tile.W[8]), new ZuHeLong(Tiles.of({'t': [1, 4, 7], 'b': [2, 5, 8], 'w': [3, 6, 9]}))],
   ]
 })
+
+expectComb({
+  tiles: Tiles.of({'t': [1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9]}),
+  combs: [
+    [new Ke(Tile.T[0]), new Shun(Tile.T[0]), new Shun(Tile.T[3]), new Shun(Tile.T[6]), new Dui(Tile.T[8])],
+  ]
+})

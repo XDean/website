@@ -158,6 +158,18 @@ expectFan({
 })
 
 expectFan({
+  mians: [
+    new Ke(Tile.T[0]),
+    new Shun(Tile.T[0]),
+    new Shun(Tile.T[3]),
+    new Shun(Tile.T[6]),
+    new Dui(Tile.T[8]),
+  ],
+  last: Tile.T[0],
+  fans: [JiuLianBaoDeng, QingLong, SiGuiYi]
+})
+
+expectFan({
   name: '九莲宝灯 - 不成',
   mians: [
     new Ke(Tile.T[0]),

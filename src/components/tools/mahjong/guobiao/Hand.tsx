@@ -5,8 +5,8 @@ import {Tile} from "../../../../tools/mahjong/guobiao/tile";
 
 export const HandView = ({hand, onTileClick, onMingClick}: {
   hand: Hand,
-  onMingClick: (m: Ming) => void,
-  onTileClick: (t: Tile) => void,
+  onMingClick: (index:number) => void,
+  onTileClick: (index:number) => void,
 }) => {
   return (
     <div className={''}>
@@ -14,7 +14,7 @@ export const HandView = ({hand, onTileClick, onMingClick}: {
         {hand.mings.map((m, i) => (
           <div key={i}
                className={'m-1 md:m-2 cursor-pointer hover:scale-105 hover:z-10 transform relative active:scale-110 transition-transform'}
-               onClick={() => onMingClick(m)}>
+               onClick={() => onMingClick(i)}>
             <MingView ming={m}/>
           </div>
         ))}
@@ -23,7 +23,7 @@ export const HandView = ({hand, onTileClick, onMingClick}: {
         {hand.tiles.tiles.map((t, i) => (
           <div key={i}
                className={'inline-block cursor-pointer hover:scale-105 hover:z-10 transform relative active:scale-110 transition-transform'}
-               onClick={() => onTileClick(t)}>
+               onClick={() => onTileClick(i)}>
             <TileView tile={t}/>
           </div>
         ))}

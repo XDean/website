@@ -91,8 +91,8 @@ export const GuoBiaoMainView = () => {
         ))}
       </div>
       <HandView hand={hand}
-                onMingClick={m => updateHand(h => h.mings.splice(h.mings.indexOf(m), 1))}
-                onTileClick={t => updateHand(h => h.tiles.tiles.splice(t.indexIn(h.tiles), 1))}/>
+                onMingClick={i => updateHand(h => h.mings.splice(i, 1))}
+                onTileClick={i => updateHand(h => h.tiles.tiles.splice(i, 1))}/>
       <FanView hand={hand}/>
     </div>
   )

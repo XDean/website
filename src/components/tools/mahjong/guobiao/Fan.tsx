@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Data} from "../../../../util/util";
 import {Loading} from "../../../util/Loading";
 import {calcHu} from "../../../../tools/mahjong/guobiao/hu";
+import {Fragment} from 'react'
 
 export const FanView = ({hand}: { hand: Hand }) => {
   const [hu, setHu] = useState<Data<Hu>>({type: 'null'})
@@ -19,6 +20,7 @@ export const FanView = ({hand}: { hand: Hand }) => {
         if (hus.length === 0) {
           setHu({type: 'error', error: '你没胡'})
         } else {
+          console.log(hus)
           const best = hus.reduce((a, b) => a.totalScore > b.totalScore ? a : b)
           setHu({type: 'ready', value: best})
         }
@@ -31,7 +33,13 @@ export const FanView = ({hand}: { hand: Hand }) => {
     case "loading":
       return <div>正在计算<Loading/></div>
     case "ready":
-      return <div>ready</div>
+      return <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
+        {hu.value.fans.sort((a, b) => b.score - a.score).map((f, i) => (
+          <Fragment key={i}>
+            <div className={'text-right'}>{f.score}番</div>
+            <div>{f.name}</div>
+          </Fragment>
+        ))}</div>
     case "error":
       return <div>错误: {hu.error}</div>
   }
