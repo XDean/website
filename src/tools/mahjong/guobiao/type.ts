@@ -1,4 +1,6 @@
 import assert from "assert";
+import {Tile, TilePoint, TilePoints, TileType, TileTypes} from "./tile";
+import {arrayContentEquals} from "../../../util/util";
 
 
 export type Options = {
@@ -11,83 +13,49 @@ export type Options = {
   hua: number
 }
 
-export type TileType = 'b' | 't' | 'w' | 'z'
-export const TileNumberTypes: TileType[] = ['b', 't', 'w']
-export const TileTypes: TileType[] = ['b', 't', 'w', 'z']
-export type TilePoint = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-export const TilePoints: TilePoint[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-export class Tile {
-  constructor(
-    readonly type: TileType,
-    readonly point: TilePoint,
-  ) {
-  }
-
-  get prev() {
-    if (this.type === 'z' || this.point === 1) {
-      throw 'cannot get prev tile'
-    }
-    return new Tile(this.type, (this.point - 1) as TilePoint)
-  }
-
-  get next() {
-    if (this.type === 'z' || this.point === 9) {
-      throw 'cannot get next tile'
-    }
-    return new Tile(this.type, (this.point + 1) as TilePoint)
-  }
-
-  in(tiles: Tile[]) {
-    return tiles.indexOf(this) !== -1
-  }
-}
-
-export const Fengs = {
-  dong: new Tile('z', 1),
-  nan: new Tile('z', 2),
-  xi: new Tile('z', 3),
-  bei: new Tile('z', 4),
-}
-
-export const FengList: Tile[] = [Fengs.dong, Fengs.nan, Fengs.xi, Fengs.bei]
-
-export const Yuans = {
-  zhong: new Tile('z', 5),
-  fa: new Tile('z', 6),
-  bai: new Tile('z', 7),
-}
-export const YuanList: Tile[] = [Yuans.zhong, Yuans.fa, Yuans.bai]
-
-export const ZiList: Tile[] = [...FengList, ...YuanList]
-
-export const YaoJiuList: Tile[] = [
-  new Tile('w', 1),
-  new Tile('w', 9),
-  new Tile('t', 1),
-  new Tile('t', 9),
-  new Tile('b', 1),
-  new Tile('b', 9),
-]
-export const YaoList: Tile[] = [...ZiList, ...YaoJiuList]
-
 export class Tiles {
+  static of(map: { 't'?: TilePoint[], 'b'?: TilePoint[], 'w'?: TilePoint[], 'z'?: TilePoint[] }) {
+    const tiles = []
+    map.t?.forEach(p => tiles.push(new Tile('t', p)))
+    map.b?.forEach(p => tiles.push(new Tile('b', p)))
+    map.w?.forEach(p => tiles.push(new Tile('w', p)))
+    map.z?.forEach(p => tiles.push(new Tile('z', p)))
+    return new Tiles(tiles)
+  }
+
+  readonly tiles: Tile[]
+
   constructor(
-    readonly tiles: Tile[],
+    tiles: Tile[] | Tiles,
   ) {
+    if (tiles instanceof Tiles) {
+      this.tiles = tiles.tiles
+    } else {
+      this.tiles = tiles
+    }
+  }
+
+  get sorted() {
+    return new Tiles(this.tiles.sort((a, b) => a.compareTo(b)))
   }
 
   get length() {
     return this.tiles.length
   }
 
+  indexOf(tile: Tile) {
+    return this.tiles.findIndex(t => t.equals(tile))
+  }
+
+  withTile = (tile: Tile) => new Tiles([...this.tiles, tile])
+
   split(...removes: Tile[]): [Tiles, Tiles] {
     const copy = [...this.tiles]
     const removed = []
     for (let remove of removes) {
-      const index = copy.indexOf(remove);
+      const index = remove.indexIn(copy)
       if (index != -1) {
-        copy.splice(index)
+        copy.splice(index, 1)
         removed.push(remove)
       }
     }
@@ -95,6 +63,7 @@ export class Tiles {
   }
 
   filterType(...types: TileType[]) {
+    if (this.length === 0) return new Tiles([])
     if (types.length === 0) {
       types = [this.last.type]
     }
@@ -102,6 +71,7 @@ export class Tiles {
   }
 
   removeType(...types: TileType[]) {
+    if (this.length === 0) return new Tiles([])
     if (types.length === 0) {
       types = [this.last.type]
     }
@@ -109,11 +79,23 @@ export class Tiles {
   }
 
   filterPoint(...points: TilePoint[]) {
+    if (this.length === 0) return new Tiles([])
     return new Tiles(this.tiles.filter(t => points.indexOf(t.point) !== -1))
   }
 
-  filterShunPoint(point: TilePoint) {
-    return new Tiles(this.tiles.filter(t => t.point !== point && Math.abs(t.point - point) < 3))
+  filterTiles(tiles: Tiles | Tile[]) {
+    if (this.length === 0) return new Tiles([])
+    return new Tiles(this.tiles.filter(t => t.in(tiles)))
+  }
+
+  filterMoreThan(count: number) {
+    const res = []
+    for (let tile of this.distinct.tiles) {
+      if (this.count(tile) > count) {
+        res.push(tile)
+      }
+    }
+    return new Tiles(res)
   }
 
   * pairs() {
@@ -157,11 +139,31 @@ export class Tiles {
   get distinct(): Tiles {
     const result = []
     for (let tile of this.tiles) {
-      if (result.indexOf(tile) === -1) {
+      if (!tile.in(result)) {
         result.push(tile)
       }
     }
     return new Tiles(result)
+  }
+
+  get distinctTypes(): TileType[] {
+    const result = []
+    for (let tile of this.tiles) {
+      if (result.indexOf(tile.type) === -1) {
+        result.push(tile.type)
+      }
+    }
+    return result
+  }
+
+  get distinctPoints(): TileType[] {
+    const result = []
+    for (let tile of this.tiles) {
+      if (result.indexOf(tile.point) === -1) {
+        result.push(tile.point)
+      }
+    }
+    return result
   }
 
   get last(): Tile {
@@ -172,52 +174,42 @@ export class Tiles {
     return this.split(this.last)[0]
   }
 
-  allIn(tiles: Tile[]) {
+  allIn(tiles: Tile[] | Tiles) {
     return this.tiles.every(t => t.in(tiles))
   }
 
-  equals(tiles: Tile[]) {
-    const copy = [...tiles]
-    for (let tile of this.tiles) {
-      const index = copy.indexOf(tile);
-      if (index === -1) {
-        return false
-      }
-      copy.splice(index)
-    }
-    return true
+  equals(tiles: Tile[] | Tiles) {
+    return this.tiles.length === tiles.length && this.contains(tiles)
   }
 
-  contains(tiles: Tile[]) {
+  contains(tiles: Tile[] | Tiles) {
     const copy = [...this.tiles]
-    for (let tile of tiles) {
-      const index = copy.indexOf(tile);
+    for (let tile of new Tiles(tiles).tiles) {
+      const index = tile.indexIn(copy)
       if (index === -1) {
         return false
       }
-      copy.splice(index)
+      copy.splice(index, 1)
     }
     return true
   }
 
   hasSameTypeAndDiff(diff: number = 1) {
-    const min = this.minPointTile
-    for (let i = 0; i < this.length; i = i + diff) {
-      const p = min.point + i;
-      if (p > 9 || !new Tile(min.type, p as TilePoint).in(this.tiles)) {
-        return false
-      }
-    }
-    return true
+    if (this.length === 0) return false
+    return this.filterType(this.minPointTile.type).length === this.length && this.hasDiff(diff)
   }
 
   hasDiff(diff: number = 1) {
+    if (this.length === 0) return false
     const min = this.minPointTile
-    for (let i = 0; i < this.length; i = i + diff) {
-      const p = min.point + i;
-      if (p > 9 || this.filterPoint(p as TilePoint).length === 0) {
+    let left = this as Tiles
+    for (let i = 0; i < this.length; i++) {
+      const p = min.point + i * diff;
+      const finds = left.filterPoint(p as TilePoint);
+      if (p > 9 || finds.length === 0) {
         return false
       }
+      left = left.split(finds.last)[0]
     }
     return true
   }
@@ -251,19 +243,46 @@ export class Tiles {
   count(tile: Tile) {
     return this.filterType(tile.type).filterPoint(tile.point).length
   }
+
+  get unicode() {
+    return [...this.tiles].sort((a, b) => a.compareTo(b)).map(t => t.unicode).join('')
+  }
 }
 
+const defaultOptions: Options = {
+  hua: 0,
+  lastTile: false,
+  gangShang: false,
+  juezhang: false,
+  quanfeng: 1,
+  menfeng: 1,
+  zimo: false,
+};
+
 export class Hand {
+  readonly option: Options
+
   constructor(
     readonly tiles: Tiles, // last one is last card
     readonly mings: Ming[] = [],
-    readonly option: Options,
+    option: Partial<Options> = defaultOptions,
   ) {
+    this.option = {
+      ...defaultOptions,
+      ...option,
+    }
   }
 
   get count() {
     return this.tiles.length + 3 * this.mings.length
   }
+
+  get allTiles() {
+    const mingTiles = this.mings.flatMap(m => m.toMian().toTiles.tiles)
+    return new Tiles([...mingTiles, ...this.tiles.tiles])
+  }
+
+  copy = () => new Hand(new Tiles(this.tiles.tiles), [...this.mings], {...this.option})
 }
 
 export class Combination {
@@ -276,15 +295,6 @@ export class Combination {
 
   get toTiles(): Tiles {
     return new Tiles(this.mians.flatMap(m => m.toTiles.tiles))
-  }
-
-  has(...mians: Mian[]) {
-    for (let mian of mians) {
-      if (this.mians.indexOf(mian) === -1) {
-        return false
-      }
-    }
-    return true
   }
 
   hasKe(tiles: Tile[]) {
@@ -306,6 +316,14 @@ export class Combination {
   getMianWith(tile: Tile) {
     return this.mians.filter(m => tile.in(m.toTiles.tiles))
   }
+
+  equals(other: Combination) {
+    return arrayContentEquals(this.mians, other.mians, (a, b) => a.type === b.type && a.equals(b as any))
+  }
+
+  toString() {
+    return this.mians.sort((a, b) => a.toString() > b.toString() ? 1 : -1).map(e => e.toString()).join(' ')
+  }
 }
 
 export interface Fan {
@@ -318,6 +336,10 @@ export class Hu {
     readonly combination: Combination,
     readonly fans: Fan[],
   ) {
+  }
+
+  get totalScore() {
+    return this.fans.map(f => f.score).reduce((a, b) => a + b)
   }
 }
 
@@ -360,11 +382,14 @@ export type Ming = Chi | Peng | Gang
 
 export class Shun {
   readonly type = 'shun'
+  readonly simple = true
 
   constructor(
     readonly tile: Tile,
     readonly open: boolean = false,
   ) {
+    assert(tile.type !== 'z', '字牌不能顺')
+    assert(tile.point < 8, '8,9不能顺')
   }
 
   get name() {
@@ -374,10 +399,27 @@ export class Shun {
   get toTiles() {
     return new Tiles([this.tile, this.tile.next, this.tile.next.next])
   }
+
+  toMing() {
+    if (this.open) {
+      return new Chi(this.tile)
+    } else {
+      throw 'can not transfer to chi'
+    }
+  }
+
+  equals(other: Shun) {
+    return this.tile.equals(other.tile) && this.open === other.open
+  }
+
+  toString() {
+    return `${this.open ? '吃' : '顺'}${this.toTiles.unicode}`
+  }
 }
 
 export class Ke {
   readonly type = 'ke'
+  readonly simple = true
 
   constructor(
     readonly tile: Tile,
@@ -393,11 +435,30 @@ export class Ke {
   get toTiles() {
     return new Tiles([this.tile, this.tile, this.tile])
   }
+
+  toMing() {
+    if (this.gang) {
+      return new Gang(this.tile, this.open)
+    } else if (this.open) {
+      return new Peng(this.tile)
+    } else {
+      throw 'can not transfer to chi'
+    }
+  }
+
+  equals(other: Ke) {
+    return this.tile.equals(other.tile) && this.open === other.open && this.gang === other.gang
+  }
+
+  toString() {
+    return `${this.gang ? (this.open ? '明杠' : '暗杠') : (this.open ? '碰' : '暗刻')}${this.tile.unicode}`
+  }
 }
 
 export class Dui {
   readonly type = 'dui'
   readonly open = false
+  readonly simple = true
 
   constructor(
     readonly tile: Tile,
@@ -407,11 +468,20 @@ export class Dui {
   get toTiles() {
     return new Tiles([this.tile, this.tile])
   }
+
+  equals(other: Dui) {
+    return this.tile.equals(other.tile)
+  }
+
+  toString() {
+    return `对${this.tile.unicode}`
+  }
 }
 
 export class QiDui {
   readonly type = 'qi-dui'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tiles: Tiles,
@@ -422,11 +492,20 @@ export class QiDui {
   get toTiles() {
     return new Tiles([...this.tiles.tiles, ...this.tiles.tiles])
   }
+
+  equals(other: QiDui) {
+    return this.tiles.equals(other.tiles)
+  }
+
+  toString() {
+    return `七对${this.tiles.sorted.unicode}`
+  }
 }
 
 export class ZuHeLong {
   readonly type = 'zu-he-long'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tiles: Tiles,
@@ -437,11 +516,20 @@ export class ZuHeLong {
   get toTiles() {
     return this.tiles
   }
+
+  equals(other: ZuHeLong) {
+    return this.tiles.equals(other.tiles)
+  }
+
+  toString() {
+    return `组合龙${this.tiles.sorted.unicode}`
+  }
 }
 
 export class BuKao {
   readonly type = 'bu-kao'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tiles: Tiles,
@@ -452,19 +540,37 @@ export class BuKao {
   get toTiles() {
     return this.tiles
   }
+
+  equals(other: BuKao) {
+    return this.tiles.equals(other.tiles)
+  }
+
+  toString() {
+    return `不靠${this.tiles.sorted.unicode}`
+  }
 }
 
 export class Yao13 {
   readonly type = '13yao'
   readonly open = false
+  readonly simple = false
 
   constructor(
     readonly tile: Tile,
   ) {
+    assert(tile.in(Tile.Yao), '不是幺牌')
   }
 
   get toTiles() {
-    return new Tiles([this.tile, ...YaoList])
+    return new Tiles([this.tile, ...Tile.Yao])
+  }
+
+  equals(other: Yao13) {
+    return this.tile.equals(other.tile)
+  }
+
+  toString() {
+    return `十三幺${this.tile.unicode}`
   }
 }
 

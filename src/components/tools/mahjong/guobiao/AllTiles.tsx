@@ -1,12 +1,25 @@
-import {FengList, Tile, TileNumberTypes, TilePoints, YuanList} from "../../../../tools/mahjong/guobiao/type";
+import {Tiles} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
-import {Button} from "@material-ui/core";
+import clsx from "clsx";
+import {Tile, TileNumberTypes, TilePoints} from "../../../../tools/mahjong/guobiao/tile";
 
-export const AllTilesView = () => {
+export const AllTilesView = (
+  {onTileClick, disabledTiles, disableAll}: {
+    onTileClick: (tile: Tile) => void,
+    disabledTiles: Tiles,
+    disableAll: boolean,
+  }
+) => {
 
   const TileButton = ({tile}: { tile: Tile }) => {
+    const disabled = disableAll || tile.in(disabledTiles.tiles)
     return (
-      <TileView tile={tile}/>
+      <div
+        className={clsx({'opacity-50': disabled},
+          'cursor-pointer hover:scale-125 hover:z-10 transform relative active:scale-150 transition-transform')}
+        onClick={() => !disabled && onTileClick(tile)}>
+        <TileView tile={tile}/>
+      </div>
     )
   }
 
@@ -23,12 +36,12 @@ export const AllTilesView = () => {
         </tr>
       ))}
       <tr>
-        {FengList.map(t => (
+        {Tile.F.map(t => (
           <td key={t.point}>
             <TileButton tile={t}/>
           </td>
         ))}
-        {YuanList.map(t => (
+        {Tile.Y.map(t => (
           <td key={t.point}>
             <TileButton tile={t}/>
           </td>

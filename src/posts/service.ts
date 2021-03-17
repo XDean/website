@@ -1,10 +1,15 @@
-import {PostMetaGroup, PostMeta, PostMetaGroupType} from "./domain";
+import {PostMeta, PostMetaGroup, PostMetaGroupType} from "./domain";
 import {promises as fs} from "fs";
 import path from "path";
 
+let global: PostMeta[] = []
+
 export async function getPostMetas(): Promise<PostMeta[]> {
-  const raw = await fs.readFile(path.join(process.cwd(), 'public', 'blog', 'meta.json'), 'utf-8')
-  return JSON.parse(raw) as PostMeta[]
+  if (global.length === 0) {
+    const raw = await fs.readFile(path.join(process.cwd(), 'public', 'blog', 'meta.json'), 'utf-8')
+    global = JSON.parse(raw) as PostMeta[]
+  }
+  return global
 }
 
 export async function getPostMetaByLink(link: string): Promise<PostMeta> {
@@ -17,7 +22,7 @@ export async function getPostMetaByPath(p: string): Promise<PostMeta> {
   return metas.find(m => path.normalize(p) === path.normalize(m.path))
 }
 
-export async function getPostMetaRel(meta: PostMeta, rel:string): Promise<PostMeta> {
+export async function getPostMetaRel(meta: PostMeta, rel: string): Promise<PostMeta> {
   const p = path.join(path.dirname(meta.path), rel)
   return getPostMetaByPath(p)
 }
