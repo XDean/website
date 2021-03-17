@@ -1,5 +1,6 @@
 import {MyLink} from "./util/Link";
 import {useState} from "react";
+import {GithubLogo} from "./util/GithubLogo";
 
 export const HeaderView = () => {
   const [logoHover, setLogoHover] = useState(false)
@@ -21,6 +22,11 @@ export const HeaderView = () => {
         <MyLink href={'/about'} className={'text-2xl md:text-3xl mr-3 md:mr-8'}>
           关于我
         </MyLink>
+      </div>
+      <div className={'mr-1 md:mr-4'}>
+        <a href={'https://github.com/XDean/website'} target={'_blank'}>
+          <GithubLogo className={'h-7 w-7 text-gray-500'}/>
+        </a>
       </div>
     </div>
   )
