@@ -8,7 +8,7 @@ import clsx from "clsx";
 
 export const AboutView = () => {
   return (
-    <div style={{minWidth: 900}}>
+    <div className={'w-11/12 max-w-screen-lg my-4'}>
       <ReactMarkdown className={'markdown-body'} source={`
 ## 我是谁
 
