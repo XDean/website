@@ -38,9 +38,9 @@ export const AboutView = () => {
 
 ### 技术
 
-- Spring Boot/Quarkus
-- React/Next
-- Spark/PySpark
+- 后端 Spring/Quarkus/Node
+- 前端 React(Next)
+- 大数据 Spark
 
 `}
                      renderers={{
