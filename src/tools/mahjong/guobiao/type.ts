@@ -260,7 +260,7 @@ const defaultOptions: Options = {
 };
 
 export class Hand {
-  readonly option: Options
+  option: Options
 
   constructor(
     readonly tiles: Tiles, // last one is last card
@@ -280,6 +280,12 @@ export class Hand {
   get allTiles() {
     const mingTiles = this.mings.flatMap(m => m.toMian().toTiles.tiles)
     return new Tiles([...mingTiles, ...this.tiles.tiles])
+  }
+
+  get usedTiles() {
+    const mingTiles = this.mings.flatMap(m => m.toMian().toTiles.tiles)
+    const gangTiles = this.mings.filter(m=>m.type==='gang').map(m=>(m as Gang).tile)
+    return new Tiles([...mingTiles, ...gangTiles, ...this.tiles.tiles])
   }
 
   copy = () => new Hand(new Tiles(this.tiles.tiles), [...this.mings], {...this.option})

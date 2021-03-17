@@ -11,6 +11,8 @@ import {
 import clsx from "clsx";
 import {FanView} from "./Fan";
 import {Tile, TileNumberTypes, TilePoint} from "../../../../tools/mahjong/guobiao/tile";
+import Head from "next/head";
+import {OptionView} from "./Option";
 
 type Mode = {
   name: string
@@ -25,13 +27,13 @@ const modes: Mode[] = [
     label: '手牌',
     add: (h, t) => h.tiles.tiles.push(t),
     disableAll: hand => hand.count === 14,
-    disable: hand => hand.allTiles.filterMoreThan(3),
+    disable: hand => hand.usedTiles.filterMoreThan(3),
   }, {
     name: 'chi',
     label: '吃',
     add: (h, t) => h.mings.push(new Chi(t)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => new Tiles([...Tile.Z, ...hand.allTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
+    disable: hand => new Tiles([...Tile.Z, ...hand.usedTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
       .flatMap(t => [0, 1, 2]
         .map(d => t.point - d)
         .filter(p => p > 0)
@@ -42,21 +44,21 @@ const modes: Mode[] = [
     label: '碰',
     add: (h, t) => h.mings.push(new Peng(t)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => hand.allTiles.filterMoreThan(1)
+    disable: hand => hand.usedTiles.filterMoreThan(1)
   },
   {
     name: 'ming-gang',
     label: '明杠',
     add: (h, t) => h.mings.push(new Gang(t, true)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => hand.allTiles.distinct
+    disable: hand => hand.usedTiles.distinct
   },
   {
     name: 'an-gang',
     label: '暗杠',
     add: (h, t) => h.mings.push(new Gang(t, false)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => hand.allTiles.distinct
+    disable: hand => hand.usedTiles.distinct
   },
 ]
 
@@ -74,6 +76,9 @@ export const GuoBiaoMainView = () => {
 
   return (
     <div className={'w-max max-w-screen-lg'}>
+      <Head>
+        <title>国标麻将算番器 - XDean</title>
+      </Head>
       <h1 className={'text-4xl text-center mb-2 md:mb-4'}>
         国标麻将算番器
       </h1>
@@ -93,6 +98,7 @@ export const GuoBiaoMainView = () => {
       <HandView hand={hand}
                 onMingClick={i => updateHand(h => h.mings.splice(i, 1))}
                 onTileClick={i => updateHand(h => h.tiles.tiles.splice(i, 1))}/>
+      <OptionView options={hand.option} onOptionsChange={o => updateHand(h => h.option = o)}/>
       <FanView hand={hand}/>
     </div>
   )

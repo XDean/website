@@ -9,10 +9,6 @@ export function calcHu(hand: Hand): Hu[] {
   const mingComb = new Combination(hand.mings.map(m => m.toMian()))
   const result = []
   for (let comb of findAllCombinations(hand.tiles)) {
-    const lastAnKeIndex = comb.mians.findIndex(m => m.type === 'ke' && !m.open && m.tile.equals(hand.tiles.last))
-    if (lastAnKeIndex !== -1) {
-      comb.mians[lastAnKeIndex] = new Ke(hand.tiles.last, true)
-    }
     const completeComb = mingComb.with(...comb.mians);
     result.push(new Hu(completeComb, calcFan(hand, completeComb)))
   }

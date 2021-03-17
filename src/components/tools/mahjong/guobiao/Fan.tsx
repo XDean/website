@@ -20,7 +20,6 @@ export const FanView = ({hand}: { hand: Hand }) => {
         if (hus.length === 0) {
           setHu({type: 'error', error: '你没胡'})
         } else {
-          console.log(hus)
           const best = hus.reduce((a, b) => a.totalScore > b.totalScore ? a : b)
           setHu({type: 'ready', value: best})
         }
@@ -29,17 +28,21 @@ export const FanView = ({hand}: { hand: Hand }) => {
 
   switch (hu.type) {
     case "null":
-      return <div>请先选择14张手牌</div>
+      return <div>请选择{14 - hand.count}张手牌</div>
     case "loading":
       return <div>正在计算<Loading/></div>
     case "ready":
-      return <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
-        {hu.value.fans.sort((a, b) => b.score - a.score).map((f, i) => (
-          <Fragment key={i}>
-            <div className={'text-right'}>{f.score}番</div>
-            <div>{f.name}</div>
-          </Fragment>
-        ))}</div>
+      return (
+        <div className={'grid grid-cols-2 auto-rows-auto gap-x-2 text-2xl'}>
+          {hu.value.fans.sort((a, b) => b.score - a.score).map((f, i) => (
+            <Fragment key={i}>
+              <div className={'text-right'}>{f.score}番</div>
+              <div>{f.name}</div>
+            </Fragment>
+          ))}
+          <div className={'text-right'}>共{hu.value.totalScore}番</div>
+        </div>
+      )
     case "error":
       return <div>错误: {hu.error}</div>
   }
