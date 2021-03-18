@@ -139,7 +139,7 @@ export const LaoShaoFu = new FanCalc({
 export const YaoJiuKe = new FanCalc({
   score: 1,
   name: '幺九刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.YaoJiu)).length,
+  match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Yao)).length,
 })
 
 export const MingGang = new FanCalc({
@@ -198,18 +198,21 @@ export const JianKe = new FanCalc({
   score: 2,
   name: '箭刻',
   match: c => c.mians.filter(m => m.type === 'ke' && m.tile.in(Tile.Y)).length === 1,
+  exclude:[YaoJiuKe]
 })
 
 export const QuanFengKe = new FanCalc({
   score: 2,
   name: '圈风刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.tile.type === 'z' && m.tile.point === h.option.quanfeng).length === 1,
+  exclude:[YaoJiuKe]
 })
 
 export const MenFengKe = new FanCalc({
   score: 2,
   name: '门风刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.tile.type === 'z' && m.tile.point === h.option.menfeng).length === 1,
+  exclude:[YaoJiuKe]
 })
 
 export const MenQianQing = new FanCalc({
