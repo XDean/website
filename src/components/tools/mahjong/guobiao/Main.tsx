@@ -1,20 +1,13 @@
 import {AllTilesView} from "./AllTiles";
 import {HandView} from "./Hand";
-import React, {useMemo, useState} from "react";
-import {
-  Chi,
-  Gang,
-  Hand,
-  Peng,
-  Tiles
-} from "../../../../tools/mahjong/guobiao/type";
+import React, {useCallback, useEffect, useState} from "react";
+import {Chi, Gang, Hand, Peng, Tiles} from "../../../../tools/mahjong/guobiao/type";
 import clsx from "clsx";
 import {FanView} from "./Fan";
 import {Tile, TileNumberTypes, TilePoint} from "../../../../tools/mahjong/guobiao/tile";
 import Head from "next/head";
 import {OptionView} from "./Option";
 import {GithubComment} from "../../../util/GithubComment";
-import {Divider} from "@material-ui/core";
 
 type Mode = {
   name: string
@@ -67,14 +60,31 @@ const modes: Mode[] = [
 export const GuoBiaoMainView = () => {
   const [hand, setHand] = useState(new Hand(new Tiles([]), []))
   const [mode, setMode] = useState(modes[0])
+  const [disableAll, setDisableAll] = useState(false)
+  const [disabledTiles, setDisabledTiles] = useState(new Tiles([]))
 
-  const [disableAll, disabledTiles] = useMemo(() => [mode.disableAll(hand), mode.disable(hand)], [mode, hand])
+  useEffect(()=>{
+    console.log('rerender')
+  })
 
-  const updateHand = (f: (h: Hand) => void) => {
+  useEffect(() => {
+    setDisableAll(mode.disableAll(hand))
+    const tiles = mode.disable(hand);
+    if (!disabledTiles.equals(tiles)) {
+      setDisabledTiles(tiles)
+    }
+  }, [mode, hand])
+
+  const updateHand = useCallback((f: (h: Hand) => void) => {
     const copy = hand.copy();
     f(copy)
     setHand(copy)
-  }
+  }, [hand])
+
+  const onTileClick = useCallback((t: Tile) => updateHand(h => mode.add(h, t)), [mode, updateHand]);
+  const onHandMingClick = useCallback(i => updateHand(h => h.mings.splice(i, 1)), [updateHand]);
+  const onHandTileClick = useCallback(i => updateHand(h => h.tiles.tiles.splice(i, 1)), [updateHand]);
+  const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
 
   return (
     <div className={'w-max max-w-screen-lg'}>
@@ -87,7 +97,7 @@ export const GuoBiaoMainView = () => {
       <AllTilesView
         disableAll={disableAll}
         disabledTiles={disabledTiles}
-        onTileClick={t => updateHand(h => mode.add(h, t))}/>
+        onTileClick={onTileClick}/>
       <div className={'text-lg md:text-2xl my-2 flex flex-row items-center justify-between'}>
         {modes.map(m => (
           <button key={m.name} onClick={e => setMode(m)}
@@ -98,9 +108,9 @@ export const GuoBiaoMainView = () => {
         ))}
       </div>
       <HandView hand={hand}
-                onMingClick={i => updateHand(h => h.mings.splice(i, 1))}
-                onTileClick={i => updateHand(h => h.tiles.tiles.splice(i, 1))}/>
-      <OptionView options={hand.option} onOptionsChange={o => updateHand(h => h.option = o)}/>
+                onMingClick={onHandMingClick}
+                onTileClick={onHandTileClick}/>
+      <OptionView options={hand.option} onOptionsChange={onOptionsChange}/>
       <FanView hand={hand}/>
       <hr className={'mt-4'}/>
       <GithubComment/>

@@ -2,6 +2,7 @@ import {Tiles} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
 import clsx from "clsx";
 import {Tile, TileNumberTypes, TilePoints} from "../../../../tools/mahjong/guobiao/tile";
+import {useEffect, useMemo} from "react";
 
 export const AllTilesView = (
   {onTileClick, disabledTiles, disableAll}: {
@@ -12,7 +13,7 @@ export const AllTilesView = (
 ) => {
 
   const TileButton = ({tile}: { tile: Tile }) => {
-    const disabled = disableAll || tile.in(disabledTiles.tiles)
+    const disabled = useMemo(() => disableAll || tile.in(disabledTiles.tiles), [disableAll, disabledTiles])
     return (
       <div
         className={clsx({'opacity-50': disabled},
