@@ -10,6 +10,15 @@ function MyApp({Component, pageProps}) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
         <title>XDean</title>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-W8CBHQ9QNG"/>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-W8CBHQ9QNG');`
+        }}/>
       </Head>
       <div className={'flex flex-col w-full min-h-screen font-sans text-p bg-p'}>
         <div className={'z-50 sticky top-0 w-full mb-3 md:mb-6'}>
