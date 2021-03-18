@@ -55,10 +55,10 @@ export const FanView = ({hand}: { hand: Hand }) => {
       if (value instanceof Array) {
         return (
           <div className={'text-center text-2xl mt-2 flex flex-col items-center'}>
-            <div>
-              听{value.length}张牌
+            <div className={'mb-1'}>
+              听 {value.length} 张牌
             </div>
-            <div className={`grid grid-cols-${Math.min(value.length, 5)} auto-rows-auto gap-1 m-w-max`}>
+            <div className={`grid auto-rows-auto gap-1 m-w-max`} style={{gridTemplateColumns:'repeat(5, auto)'}}>
               {value.map(t => (
                 <TileView tile={t} key={t.toNumber()}/>
               ))}
