@@ -1,6 +1,6 @@
 import {expect, test} from "@jest/globals";
 import {calcHu, findAllCombinations} from "./hu";
-import {Combination, Dui, Hand, Ke, Mian, QiDui, Shun, Tiles, ZuHeLong} from "./type";
+import {BuKao, Combination, Dui, Hand, Ke, Mian, QiDui, Shun, Tiles, ZuHeLong} from "./type";
 import {arrayContentEquals} from "../../../util/util";
 import {Tile} from "./tile";
 
@@ -62,5 +62,25 @@ expectComb({
   tiles: Tiles.of({'t': [1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9]}),
   combs: [
     [new Ke(Tile.T[0]), new Shun(Tile.T[0]), new Shun(Tile.T[3]), new Shun(Tile.T[6]), new Dui(Tile.T[8])],
+  ]
+})
+
+expectComb({
+  tiles: Tiles.of({'t': [1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9]}),
+  combs: [
+    [new Ke(Tile.T[0]), new Shun(Tile.T[0]), new Shun(Tile.T[3]), new Shun(Tile.T[6]), new Dui(Tile.T[8])],
+  ]
+})
+
+expectComb({
+  tiles: Tiles.of({'z': [1, 2, 3, 4, 5, 6, 7], 't': [1, 4, 7], 'b': [2, 5, 8], 'w': [1]}),
+  combs: [
+  ]
+})
+
+expectComb({
+  tiles: Tiles.of({'z': [1, 2, 3, 4, 5, 6, 7], 't': [1, 4, 7], 'b': [2, 5, 8], 'w': [3]}),
+  combs: [
+    [new BuKao(Tiles.of({'z': [1, 2, 3, 4, 5, 6, 7], 't': [1, 4, 7], 'b': [2, 5, 8], 'w': [3]}))]
   ]
 })

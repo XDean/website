@@ -1,6 +1,6 @@
 import {BuKao, Combination, Dui, Hand, Hu, Ke, QiDui, Shun, Tiles, Yao13, ZuHeLong} from "./type";
 import {calcFan} from "./fan";
-import {Tile, TilePoint} from "./tile";
+import {Tile, TileNumberTypes, TilePoint} from "./tile";
 
 export function calcHu(hand: Hand): Hu[] {
   if (hand.count != 14) {
@@ -169,14 +169,20 @@ function findBuKao(tiles: Tiles): BuKao | null {
   if (tiles.distinct.length != 14) {
     return null
   }
-  if ([
-    tiles.filterType('t'),
-    tiles.filterType('w'),
-    tiles.filterType('b'),
-  ].every(ts => {
+  const numbers = tiles.filterType(...TileNumberTypes)
+  if (numbers.mostPoint[1] > 1) {
+    return null
+  }
+  if (([[1, 4, 7], [2, 5, 8], [3, 6, 9]] as TilePoint[][]).some(ps => {
+    const ts = numbers.filterPoint(...ps);
+    return ts.length > ts.mostType[1];
+  })) {
+    return null
+  }
+  if (TileNumberTypes.map(t => tiles.filterType(t)).every(ts => {
     for (let [a, b] of ts.pairs()) {
       const diff = Math.abs(a.point - b.point)
-      if (diff !== 3 && diff !== 6) {
+      if (diff % 3 !== 0) {
         return false
       }
     }
