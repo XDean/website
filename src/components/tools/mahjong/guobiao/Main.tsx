@@ -1,6 +1,6 @@
 import {AllTilesView} from "./AllTiles";
 import {HandView} from "./Hand";
-import {useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import {
   Chi,
   Gang,
@@ -13,6 +13,8 @@ import {FanView} from "./Fan";
 import {Tile, TileNumberTypes, TilePoint} from "../../../../tools/mahjong/guobiao/tile";
 import Head from "next/head";
 import {OptionView} from "./Option";
+import {GithubComment} from "../../../util/GithubComment";
+import {Divider} from "@material-ui/core";
 
 type Mode = {
   name: string
@@ -100,6 +102,8 @@ export const GuoBiaoMainView = () => {
                 onTileClick={i => updateHand(h => h.tiles.tiles.splice(i, 1))}/>
       <OptionView options={hand.option} onOptionsChange={o => updateHand(h => h.option = o)}/>
       <FanView hand={hand}/>
+      <hr className={'mt-4'}/>
+      <GithubComment/>
     </div>
   )
 }
