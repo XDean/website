@@ -91,8 +91,9 @@ export class Tile {
     fa: Tile.Y[1],
     bai: Tile.Y[2],
   }
-
   static Z = [...Tile.F, ...Tile.Y]
+  static All = [...Tile.T, ...Tile.B, ...Tile.W, ...Tile.Z]
+
   static YaoJiu = [Tile.T[0], Tile.T[8], Tile.B[0], Tile.B[8], Tile.W[0], Tile.W[8]]
   static Yao = [...Tile.Z, ...Tile.YaoJiu]
 
