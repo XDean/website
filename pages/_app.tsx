@@ -10,14 +10,14 @@ function MyApp({Component, pageProps}) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
         <title>XDean</title>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-W8CBHQ9QNG"/>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145930182-1"/>
         <script dangerouslySetInnerHTML={{
           __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-W8CBHQ9QNG');`
+          gtag('config', 'UA-145930182-1');`
         }}/>
       </Head>
       <div className={'flex flex-col w-full min-h-screen font-sans text-p bg-p'}>

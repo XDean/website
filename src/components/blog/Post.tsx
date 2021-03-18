@@ -135,25 +135,25 @@ export const PostView = (props: PostProps) => {
           </ReactMarkdown>
         </MathJax.Provider>
         {(props.prev || props.next) &&
-        <div style={{display: 'flex', marginTop: 20}}>
-            <div style={{width: 0, flexGrow: 1}}>
+        <div className={'flex mt-4'}>
+            <div className={'mr-1 w-0 flex-grow'}>
               {props.prev && (
                 <MyLink href={props.prev.link}>
                   <Button variant={"outlined"}>
-                    <Typography variant={"h6"}>
+                    <div className={'text-lg md:text-2xl'}>
                       上一篇: {props.prev.title}
-                    </Typography>
+                    </div>
                   </Button>
                 </MyLink>
               )}
             </div>
-            <div style={{width: 0, flexGrow: 1, textAlign: 'right'}}>
+            <div className={'ml-1 w-0 flex-grow text-right'}>
               {props.next && (
                 <MyLink href={props.next.link}>
                   <Button variant={"outlined"}>
-                    <Typography variant={"h6"}>
+                    <div className={'text-lg md:text-2xl'}>
                       下一篇: {props.next.title}
-                    </Typography>
+                    </div>
                   </Button>
                 </MyLink>
               )}
