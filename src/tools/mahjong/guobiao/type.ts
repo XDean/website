@@ -171,7 +171,7 @@ export class Tiles {
   }
 
   get withoutLast(): Tiles {
-    return this.split(this.last)[0]
+    return new Tiles(this.tiles.slice(0, this.tiles.length - 1))
   }
 
   allIn(tiles: Tile[] | Tiles) {
