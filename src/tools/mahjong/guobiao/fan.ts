@@ -1,23 +1,9 @@
-import {
-  Combination,
-  Dui,
-  Fan,
-  Hand,
-  Ke, Mian, Peng,
-  QiDui,
-  Shun,
-  Tiles
-} from "./type";
-import {
-  Tile,
-  TileNumberTypes,
-  TilePoint, TileType,
-  TileTypes,
-} from "./tile";
+import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from "./type";
+import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes,} from "./tile";
 import assert from "assert";
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
-  assert(comb.toTiles.length === 14, '胡牌必须14张')
+  assert(comb.toTiles.length === 14, '和牌必须14张')
   const res = []
   for (let fan of allFans) {
     let match = fan.match(comb, hand);
@@ -294,7 +280,8 @@ export const ShuangMingGang = new FanCalc({
 export const HuJueZhang = new FanCalc({
   score: 4,
   name: '和绝张',
-  match: (c, h) => h.option.juezhang ||
+  match: (c, h) =>
+    (h.option.juezhang && h.tiles.count(h.tiles.last) === 1) ||
     new Tiles(c.mians.filter(m => m.open).flatMap(m => m.toTiles.tiles)).count(h.tiles.last) === 3,
 })
 
@@ -425,14 +412,16 @@ export const HaiDiLaoYue = new FanCalc({
 export const GangShangKaiHua = new FanCalc({
   score: 8,
   name: '杠上开花',
-  match: (c, h) => h.option.gangShang && h.option.zimo,
+  match: (c, h) => h.option.gangShang && h.option.zimo &&
+    c.mians.filter(m => m.type === 'ke' && m.gang).length > 0,
   exclude: [ZiMo]
 })
 
 export const QiangGangHu = new FanCalc({
   score: 8,
   name: '抢杠和',
-  match: (c, h) => h.option.gangShang && !h.option.zimo,
+  match: (c, h) => h.option.gangShang && !h.option.zimo &&
+    c.toTiles.count(h.tiles.last) === 1,
   exclude: [HuJueZhang]
 })
 
