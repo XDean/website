@@ -33,7 +33,7 @@ export const FanView = ({hand}: { hand: Hand }) => {
       })
         .then(hus => {
           if (hus.length === 0) {
-            setHu({type: 'error', error: '你没和'})
+            setHu({type: 'error', error: '诈和'})
           } else {
             const best = hus.reduce((a, b) => a.totalScore > b.totalScore ? a : b)
             setHu({type: 'ready', value: best})
@@ -84,10 +84,13 @@ export const FanView = ({hand}: { hand: Hand }) => {
               </Fragment>
             ))}
             <div className={'text-right'}>共{value.totalScore}番</div>
+            {value.totalScore - hand.option.hua < 8 && <div className={'text-2xl text-red-800'}>
+              错和，未满8番
+            </div>}
           </div>
         )
       }
     case "error":
-      return <div>错误: {hu.error}</div>
+      return <div className={'text-center text-2xl mt-2'}>{hu.error}</div>
   }
 }
