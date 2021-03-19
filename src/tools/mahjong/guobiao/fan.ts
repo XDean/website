@@ -274,7 +274,7 @@ export const ShuangMingGang = new FanCalc({
   score: 4,
   name: '双明杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang && m.open).length >= 2,
-  exclude: [MingGang]
+  exclude: [MingGang, MingGang]
 })
 
 export const HuJueZhang = new FanCalc({
@@ -648,7 +648,7 @@ export const SanGang = new FanCalc({
   score: 32,
   name: '三杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang).length >= 3,
-  exclude: [ShuangMingGang, MingAnGang]
+  exclude: [ShuangMingGang, MingAnGang, MingGang]
 })
 
 export const HunYaoJiu = new FanCalc({
