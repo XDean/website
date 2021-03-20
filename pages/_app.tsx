@@ -22,7 +22,7 @@ function MyApp({Component, pageProps}) {
     <>
       <Head>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        {/*<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>*/}
         <title>XDean</title>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145930182-1"/>
         <script dangerouslySetInnerHTML={{

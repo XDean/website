@@ -240,7 +240,7 @@ export const ShuangTongKe = new FanCalc({
 export const ShuangAnKe = new FanCalc({
   score: 2,
   name: '双暗刻',
-  match: (c,h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 2,
+  match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 2,
 })
 
 export const AnGang = new FanCalc({
@@ -551,7 +551,7 @@ export const SanTongKe = new FanCalc({
 export const SanAnKe = new FanCalc({
   score: 16,
   name: '三暗刻',
-  match: (c,h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 3,
+  match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 3,
 })
 
 export const QiDuiFan = new FanCalc({
@@ -714,7 +714,7 @@ export const ZiYiSe = new FanCalc({
 export const SiAnKe = new FanCalc({
   score: 64,
   name: '四暗刻',
-  match: (c,h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 4,
+  match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 4,
   exclude: [PengPengHu, MenQianQing]
 })
 
@@ -723,7 +723,7 @@ export const YiSeShuangLong = new FanCalc({
   name: '一色双龙会',
   match: c => {
     const tiles = c.toTiles
-    return tiles.equals([1, 2, 3, 1, 2, 3, 5, 5, 7, 8, 9, 7, 8, 9].map(p => new Tile(tiles.last.type, p as TilePoint)));
+    return c.mians.length === 5 && tiles.equals([1, 2, 3, 1, 2, 3, 5, 5, 7, 8, 9, 7, 8, 9].map(p => new Tile(tiles.last.type, p as TilePoint)));
   },
   exclude: [QingYiSe, PingHu, YiBanGao, YiBanGao, LaoShaoFu, LaoShaoFu]
 })

@@ -317,6 +317,18 @@ expectFan({
 
 expectFan({
   mians: [
+    new Shun(Tile.T[0]),
+    new Shun(Tile.T[0]),
+    new Shun(Tile.T[6]),
+    new Shun(Tile.T[6]),
+    new Dui(Tile.T[4]),
+  ],
+  last: Tile.T[0],
+  fans: [YiSeShuangLong, MenQianQing]
+})
+
+expectFan({
+  mians: [
     new Shun(Tile.T[0], true),
     new Shun(Tile.T[0], true),
     new Shun(Tile.T[0], true),
