@@ -1,23 +1,9 @@
-import {
-  Combination,
-  Dui,
-  Fan,
-  Hand,
-  Ke, Mian, Peng,
-  QiDui,
-  Shun,
-  Tiles
-} from "./type";
-import {
-  Tile,
-  TileNumberTypes,
-  TilePoint, TileType,
-  TileTypes,
-} from "./tile";
+import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from "./type";
+import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes,} from "./tile";
 import assert from "assert";
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
-  assert(comb.toTiles.length === 14, '胡牌必须14张')
+  assert(comb.toTiles.length === 14, '和牌必须14张')
   const res = []
   for (let fan of allFans) {
     let match = fan.match(comb, hand);
@@ -254,7 +240,7 @@ export const ShuangTongKe = new FanCalc({
 export const ShuangAnKe = new FanCalc({
   score: 2,
   name: '双暗刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && !m.open).length === 2,
+  match: (c,h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 2,
 })
 
 export const AnGang = new FanCalc({
@@ -288,13 +274,14 @@ export const ShuangMingGang = new FanCalc({
   score: 4,
   name: '双明杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang && m.open).length >= 2,
-  exclude: [MingGang]
+  exclude: [MingGang, MingGang]
 })
 
 export const HuJueZhang = new FanCalc({
   score: 4,
   name: '和绝张',
-  match: (c, h) => h.option.juezhang ||
+  match: (c, h) =>
+    (h.option.juezhang && h.tiles.count(h.tiles.last) === 1) ||
     new Tiles(c.mians.filter(m => m.open).flatMap(m => m.toTiles.tiles)).count(h.tiles.last) === 3,
 })
 
@@ -425,14 +412,16 @@ export const HaiDiLaoYue = new FanCalc({
 export const GangShangKaiHua = new FanCalc({
   score: 8,
   name: '杠上开花',
-  match: (c, h) => h.option.gangShang && h.option.zimo,
+  match: (c, h) => h.option.gangShang && h.option.zimo &&
+    c.mians.filter(m => m.type === 'ke' && m.gang).length > 0,
   exclude: [ZiMo]
 })
 
 export const QiangGangHu = new FanCalc({
   score: 8,
   name: '抢杠和',
-  match: (c, h) => h.option.gangShang && !h.option.zimo,
+  match: (c, h) => h.option.gangShang && !h.option.zimo &&
+    c.toTiles.count(h.tiles.last) === 1,
   exclude: [HuJueZhang]
 })
 
@@ -562,7 +551,7 @@ export const SanTongKe = new FanCalc({
 export const SanAnKe = new FanCalc({
   score: 16,
   name: '三暗刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && !m.open).length === 3,
+  match: (c,h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 3,
 })
 
 export const QiDuiFan = new FanCalc({
@@ -659,7 +648,7 @@ export const SanGang = new FanCalc({
   score: 32,
   name: '三杠',
   match: c => c.mians.filter(m => m.type === 'ke' && m.gang).length >= 3,
-  exclude: [ShuangMingGang, MingAnGang]
+  exclude: [ShuangMingGang, MingAnGang, MingGang]
 })
 
 export const HunYaoJiu = new FanCalc({
@@ -725,7 +714,7 @@ export const ZiYiSe = new FanCalc({
 export const SiAnKe = new FanCalc({
   score: 64,
   name: '四暗刻',
-  match: c => c.mians.filter(m => m.type === 'ke' && !m.open).length === 4,
+  match: (c,h) => c.mians.filter(m => m.type === 'ke' && m.isAnKe(h)).length === 4,
   exclude: [PengPengHu, MenQianQing]
 })
 

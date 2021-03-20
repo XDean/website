@@ -19,7 +19,7 @@ type Mode = {
 const modes: Mode[] = [
   {
     name: 'normal',
-    label: '手牌',
+    label: '立牌',
     add: (h, t) => h.tiles.tiles.push(t),
     disableAll: hand => hand.count === 14,
     disable: hand => hand.usedTiles.filterMoreThan(3),

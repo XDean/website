@@ -171,7 +171,7 @@ export class Tiles {
   }
 
   get withoutLast(): Tiles {
-    return this.split(this.last)[0]
+    return new Tiles(this.tiles.slice(0, this.tiles.length - 1))
   }
 
   allIn(tiles: Tile[] | Tiles) {
@@ -284,7 +284,7 @@ export class Hand {
 
   get usedTiles() {
     const mingTiles = this.mings.flatMap(m => m.toMian().toTiles.tiles)
-    const gangTiles = this.mings.filter(m=>m.type==='gang').map(m=>(m as Gang).tile)
+    const gangTiles = this.mings.filter(m => m.type === 'gang').map(m => (m as Gang).tile)
     return new Tiles([...mingTiles, ...gangTiles, ...this.tiles.tiles])
   }
 
@@ -454,6 +454,11 @@ export class Ke {
 
   equals(other: Ke) {
     return this.tile.equals(other.tile) && this.open === other.open && this.gang === other.gang
+  }
+
+  isAnKe(h: Hand) {
+    const tiles = h.option.zimo ? h.tiles : h.tiles.withoutLast
+    return !this.open && (this.gang || tiles.count(this.tile) >= 3)
   }
 
   toString() {

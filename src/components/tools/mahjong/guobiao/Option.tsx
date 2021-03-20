@@ -11,27 +11,37 @@ export const OptionView = (
     onOptionsChange: (o: Options) => void
   }
 ) => {
+  const buttonClass = 'px-2 py-1 md:px-4 md:py-2 rounded-lg w-min border-2'
   const BoolButton = ({label, field}: { label: string, field: keyof Options }) => (
     <button onClick={() => onOptionsChange({...options, [field]: !options[field]})}
-            className={clsx('px-0.5 md:px-2 py-1 rounded-lg border-2 w-12 md:w-20 border-opacity-0',
-              {'bg-blue-500 text-white shadow-lg font-bold': options[field]})}>
+            className={clsx(buttonClass, {'bg-blue-500 text-white shadow-lg font-bold': options[field]})}>
       {label}
     </button>
   )
   return (
-    <div className={'flex flex-row items-center justify-between mb-2'}>
-      <BoolButton label={'自摸'} field={"zimo"}/>
-      <BoolButton label={'绝张'} field={"juezhang"}/>
-      <BoolButton label={'杠开'} field={"gangShang"}/>
-      <BoolButton label={'海底'} field={"lastTile"}/>
-      <button onClick={() => onOptionsChange({...options, menfeng: (options.menfeng % 4 + 1) as TilePoint})}
-              className={clsx('px-0.5 md:px-2 py-1 rounded-lg border-2 w-12 md:w-20 border-opacity-0')}>
-        {fengStr(options.menfeng)}风
-      </button>
-      <button onClick={() => onOptionsChange({...options, quanfeng: (options.quanfeng % 4 + 1) as TilePoint})}
-              className={clsx('px-0.5 md:px-2 py-1 rounded-lg border-2 w-12 md:w-20 border-opacity-0')}>
-        {fengStr(options.quanfeng)}局
-      </button>
+    <div className={'whitespace-nowrap text-lg md:text-2xl'}>
+      <div className={'flex flex-row items-center justify-evenly mb-1'}>
+        <BoolButton label={'自摸'} field={"zimo"}/>
+        <BoolButton label={'绝张'} field={"juezhang"}/>
+        <BoolButton label={'杠开'} field={"gangShang"}/>
+        <BoolButton label={'海底'} field={"lastTile"}/>
+      </div>
+      <div className={'flex flex-row items-center justify-evenly mb-2'}>
+        <button onClick={() => onOptionsChange({...options, quanfeng: (options.quanfeng % 4 + 1) as TilePoint})}
+                className={buttonClass}>
+          {fengStr(options.quanfeng)}风圈
+        </button>
+        <button onClick={() => onOptionsChange({...options, menfeng: (options.menfeng % 4 + 1) as TilePoint})}
+                className={buttonClass}>
+          {fengStr(options.menfeng)}风位
+        </button>
+        <select className={buttonClass}
+                onChange={e => onOptionsChange({...options, hua: Number(e.target.value)})}>
+          {[...Array(9).keys()].map(k => (
+            <option key={k} value={k}>花牌: {k}</option>
+          ))}
+        </select>
+      </div>
     </div>
   )
 }

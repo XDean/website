@@ -82,7 +82,24 @@ import {
   ZiYiSe,
   ZuHeLongFan
 } from "./fan";
-import {BuKao, Combination, Dui, Fan, Hand, Ke, Mian, Options, QiDui, Shun, Tiles, Yao13, ZuHeLong,} from "./type";
+import {
+  BuKao,
+  Chi,
+  Combination,
+  Dui,
+  Fan,
+  Gang,
+  Hand,
+  Ke,
+  Mian,
+  Options,
+  Peng,
+  QiDui,
+  Shun,
+  Tiles,
+  Yao13,
+  ZuHeLong,
+} from "./type";
 import {Tile} from "./tile";
 
 
@@ -102,7 +119,13 @@ function expectFan(
   }) {
   const log = console.log
   test(name || fans[0].name, () => {
-    const hand = new Hand(new Tiles([last]), [], options);
+    const shuns = mians.filter(m => m.type === 'shun' && m.open).map(m => new Chi((m as Shun).tile))
+    const pengs = mians.filter(m => m.type === 'ke' && m.open).map(m => new Peng((m as Ke).tile))
+    const gangs = mians.filter(m => m.type === 'ke' && m.gang).map(m => new Gang((m as Ke).tile, m.open))
+    const others = mians.filter(m => !m.open && !(m.type === 'ke' && m.gang))
+      .flatMap(m => m.toTiles.tiles)
+
+    const hand = new Hand(new Tiles([...others, last]).split(last)[0], [...shuns, ...pengs, ...gangs], options);
     const comb = new Combination(mians);
     log(name || fans[0].name, comb.toTiles.unicode)
     const calcFans = calcFan(hand, comb)
@@ -141,7 +164,7 @@ expectFan({
   ],
   last: Tile.T[1],
   options: {hua: 3, gangShang: true},
-  fans: [LvYiSe, YiBanGao, QiangGangHu, MingGang, HunYiSe, JianKe, Hua, Hua, Hua]
+  fans: [LvYiSe, YiBanGao, MingGang, HunYiSe, JianKe, Hua, Hua, Hua]
 })
 
 expectFan({
@@ -219,7 +242,7 @@ expectFan({
     new Dui(Tile.B[8])
   ],
   last: Tile.T[0],
-  fans: [QingYaoJiu, ShuangTongKe, ShuangAnKe]
+  fans: [QingYaoJiu, ShuangTongKe]
 })
 
 expectFan({
@@ -401,8 +424,8 @@ expectFan({
     new Ke(Tile.W[1]),
     new Dui(Tile.W[3])
   ],
-  last: Tile.T[1],
-  fans: [QuanShuangKe]
+  last: Tile.W[3],
+  fans: [QuanShuangKe, DanDiaoJiang]
 })
 
 expectFan({
@@ -458,7 +481,7 @@ expectFan({
     new Ke(Tile.W[6]),
     new Dui(Tile.B[6]),
   ],
-  last: Tile.W[7],
+  last: Tile.W[6],
   fans: [QuanDa, PengPengHu, DuanYao, ShuangTongKe, ShuangTongKe]
 })
 
@@ -554,7 +577,7 @@ expectFan({
     new Shun(Tile.T[4]),
     new Dui(Tile.B[4]),
   ],
-  last: Tile.T[2],
+  last: Tile.T[4],
   fans: [SanAnKe, DuanYao, MenQianQing]
 })
 
@@ -582,9 +605,9 @@ expectFan({
     new Ke(Tile.T[7], true),
     new Ke(Tile.B[6], true),
     new Ke(Tile.W[6]),
-    new Dui(Tile.B[6]),
+    new Dui(Tile.B[7]),
   ],
-  last: Tile.W[7],
+  last: Tile.W[6],
   fans: [DaYuWu, PengPengHu, DuanYao, ShuangTongKe]
 })
 
@@ -743,8 +766,8 @@ expectFan({
     new Ke(Tile.T[4]),
     new Dui(Tile.Y[0]),
   ],
-  last: Tile.T[4],
-  fans: [PengPengHu, SanAnKe, ShuangAnGang, YaoJiuKe]
+  last: Tile.Y[0],
+  fans: [PengPengHu, SanAnKe, ShuangAnGang, YaoJiuKe, DanDiaoJiang]
 })
 
 expectFan({
@@ -779,8 +802,8 @@ expectFan({
     new Ke(Tile.F[2]),
     new Dui(Tile.Y[0]),
   ],
-  last: Tile.W[5],
-  fans: [WuMenQi]
+  last: Tile.F[2],
+  fans: [WuMenQi, YaoJiuKe]
 })
 
 expectFan({
