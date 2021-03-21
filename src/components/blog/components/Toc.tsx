@@ -21,7 +21,7 @@ export const Toc = ({content}: TocProps) => {
       </Typography>
       <ReactMarkdown
         source={tocData.content}
-        className={'text-gray-700 -ml-4'}
+        className={'text-gray-700 -ml-3'}
         renderers={{
           list: props => <ul className={'pl-4'}>{props.children}</ul>
         }}

@@ -1,7 +1,7 @@
 import {PostMeta} from "../../posts/domain";
 import React, {ReactElement} from "react";
 import 'github-markdown-css/github-markdown.css'
-import {Button, createStyles, Divider, makeStyles, Tooltip, Typography} from "@material-ui/core";
+import {Divider, Tooltip, Typography} from "@material-ui/core";
 import 'highlight.js/styles/stackoverflow-light.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
@@ -14,7 +14,6 @@ import {MyLink} from "../util/Link";
 import {PostTag} from "./components/PostTag";
 import {format} from "date-fns";
 import {GithubComment} from "../util/GithubComment";
-import MarkdownToc from 'markdown-toc-unlazy'
 import uslug from 'uslug'
 import {isURL} from "../../util/util";
 import clsx from "clsx";
@@ -22,6 +21,7 @@ import Head from "next/head";
 import {OpacityInOut} from "../../motion/OpacityInOut";
 import {motion} from 'framer-motion'
 import {Toc} from "./components/Toc";
+import {PostNav} from "./components/Nav";
 
 export type PostProps = {
   content: string
@@ -95,45 +95,16 @@ export const PostView = (props: PostProps) => {
             {props.content}
           </ReactMarkdown>
         </MathJax.Provider>
-        {(props.prev || props.next) &&
-        <div className={'flex mt-4'}>
-            <div className={'mr-1 w-0 flex-grow'}>
-              {props.prev && (
-                <MyLink href={props.prev.link}>
-                  <Button variant={"outlined"}>
-                    <div className={'text-lg md:text-2xl'}>
-                      上一篇: {props.prev.title}
-                    </div>
-                  </Button>
-                </MyLink>
-              )}
-            </div>
-            <div className={'ml-1 w-0 flex-grow text-right'}>
-              {props.next && (
-                <MyLink href={props.next.link}>
-                  <Button variant={"outlined"}>
-                    <div className={'text-lg md:text-2xl'}>
-                      下一篇: {props.next.title}
-                    </div>
-                  </Button>
-                </MyLink>
-              )}
-            </div>
-        </div>
-        }
-        <div style={{marginTop: 30}}>
-          <Divider/>
+        {(props.prev || props.next) && (
+          <div className={'mt-2 md:mt-4'}>
+            <PostNav prev={props.prev} next={props.next}/>
+          </div>
+        )}
+        <div className={'mt-2 md:mt-4'}>
+          <hr/>
           <GithubComment/>
         </div>
       </div>
     </motion.div>
   )
-}
-
-function extractMarkdownToc(content: string) {
-  return MarkdownToc(content, {
-    slugify: uslug,
-    maxdepth: 2,
-    firsth1: false,
-  })
 }
