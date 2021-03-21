@@ -11,7 +11,7 @@ import RemarkMathPlugin from 'remark-math';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {idea as syntaxStyle} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import {MyLink} from "../util/Link";
-import {PostTag} from "./PostTag";
+import {PostTag} from "./components/PostTag";
 import {format} from "date-fns";
 import {GithubComment} from "../util/GithubComment";
 import MarkdownToc from 'markdown-toc-unlazy'

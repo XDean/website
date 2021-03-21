@@ -1,9 +1,9 @@
-import {PostMeta} from "../../posts/domain";
+import {PostMeta} from "../../../posts/domain";
 import {format} from 'date-fns'
 import {useMemo} from "react";
 import path from "path";
-import {isURL} from "../../util/util";
-import {MyLink} from "../util/Link";
+import {isURL} from "../../../util/util";
+import {MyLink} from "../../util/Link";
 import {PostTag} from "./PostTag";
 
 type Props = {

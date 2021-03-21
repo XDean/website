@@ -1,0 +1,1 @@
+export const NBPS = () => '\u00A0';
