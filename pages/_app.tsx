@@ -5,9 +5,10 @@ import "tailwindcss/tailwind.css";
 import {useEffect} from 'react'
 import {useRouter} from 'next/router'
 import * as gtag from '../src/util/gtag'
+import {AppProps} from "next/dist/pages/_app";
+import {AnimatePresence} from 'framer-motion';
 
-function MyApp({Component, pageProps}) {
-  const router = useRouter()
+function MyApp({Component, pageProps, router}: AppProps) {
   useEffect(() => {
     const handleRouteChange = (url) => {
       gtag.pageview(url)
@@ -39,7 +40,9 @@ function MyApp({Component, pageProps}) {
           <HeaderView/>
         </div>
         <main className={"flex relative w-full m-w-max flex-grow flex-row justify-around bg-p"}>
-          <Component {...pageProps} />
+          <AnimatePresence exitBeforeEnter>
+            <Component {...pageProps} key={router.route}/>
+          </AnimatePresence>
         </main>
         <div className={'mt-2 mx-auto mb-8 w-10/12 border-t text-center'}>
           <FooterView/>

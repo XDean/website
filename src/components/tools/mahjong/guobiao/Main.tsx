@@ -63,10 +63,6 @@ export const GuoBiaoMainView = () => {
   const [disableAll, setDisableAll] = useState(false)
   const [disabledTiles, setDisabledTiles] = useState(new Tiles([]))
 
-  useEffect(()=>{
-    console.log('rerender')
-  })
-
   useEffect(() => {
     setDisableAll(mode.disableAll(hand))
     const tiles = mode.disable(hand);

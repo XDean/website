@@ -14,6 +14,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@types/markdown-it": "^12.0.1",
     "date-fns": "^2.19.0",
+    "framer-motion": "^4.0.0",
     "github-markdown-css": "^4.0.0",
     "gray-matter": "^4.0.2",
     "markdown-toc-unlazy": "^1.0.1",
