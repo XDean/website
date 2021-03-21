@@ -6,15 +6,22 @@ import clsx from "clsx";
 
 export type MyLinkProps = {
   href: string
-  next?: LinkProps
+  next?: LinkProps | false
 } & Partial<LinkBaseProps>
 
 export const MyLink = ({href, next, children, ...rest}: PropsWithChildren<MyLinkProps>) => {
-  return (
-    <NextLink {...next} href={href}>
-      <a className={clsx(`cursor-pointer hover:underline`, rest.className)} href={href}>
-        {children}
-      </a>
-    </NextLink>
+  const Link = (
+    <a className={clsx(`cursor-pointer hover:underline`, rest.className)} href={href}>
+      {children}
+    </a>
   )
+  if (next === false) {
+    return Link
+  } else {
+    return (
+      <NextLink {...next} href={href}>
+        {Link}
+      </NextLink>
+    )
+  }
 }

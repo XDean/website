@@ -11,7 +11,7 @@ export const OptionView = (
     onOptionsChange: (o: Options) => void
   }
 ) => {
-  const buttonClass = 'px-2 py-1 md:px-4 md:py-2 rounded-lg w-min border-2'
+  const buttonClass = 'px-2 py-1 md:px-4 rounded-lg w-min border-2'
   const BoolButton = ({label, field}: { label: string, field: keyof Options }) => (
     <button onClick={() => onOptionsChange({...options, [field]: !options[field]})}
             className={clsx(buttonClass, {'bg-blue-500 text-white shadow-lg font-bold': options[field]})}>

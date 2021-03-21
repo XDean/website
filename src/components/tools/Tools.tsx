@@ -1,9 +1,11 @@
+import { motion } from 'framer-motion';
 import Head from 'next/head'
 import {MyLink} from "../util/Link";
+import {OpacityInOut} from "../../motion/OpacityInOut";
 
 export const ToolsView = () => {
   return (
-    <div>
+    <motion.div {...OpacityInOut}>
       <Head>
         <title>工具箱 - XDean</title>
       </Head>
@@ -17,6 +19,6 @@ export const ToolsView = () => {
           </MyLink>
         </li>
       </ul>
-    </div>
+    </motion.div>
   )
 }

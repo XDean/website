@@ -1,11 +1,12 @@
 import {PostMeta} from "../../posts/domain";
 import {PageData} from "../../util/util";
-import {PostCard} from "./PostCard";
+import {PostCard} from "./components/PostCard";
 import {useCallback} from "react";
 import {useRouter} from "next/router";
-import {BlogHeaderView} from "./Header";
+import {BlogLayout} from "./components/Layout";
+import {motion} from "framer-motion";
+import {OpacityInOut} from "../../motion/OpacityInOut";
 import {MyPagination} from "../util/Pagination";
-import Head from "next/head";
 
 type Props = {
   data: PageData<PostMeta>
@@ -14,22 +15,20 @@ type Props = {
 export const PostsView = (props: Props) => {
   const page = props.data
   const router = useRouter()
-  const onPageChange = useCallback((event, value: number) => {
+  const onPageChange = useCallback((value: number) => {
     router.push(`/blog/page/${value}`)
-  }, [])
+  }, [router])
 
   return (
-    <div className={'w-11/12 max-w-screen-lg'}>
-      <Head><title>XDean's Blog - Page {page.page}</title></Head>
-      <div className={'md:mt-2 mb-4'}>
-        <BlogHeaderView/>
-      </div>
-      {page.data.map(m => (
-        <div key={m.path} style={{marginBottom: 20}}>
-          <PostCard key={m.path} meta={m}/>
-        </div>
-      ))}
-      <MyPagination data={page} onChange={onPageChange}/>
-    </div>
+    <>
+      <BlogLayout title={`第${page.page}页 - XDean的博客`}>
+        {page.data.map((m, i) => (
+          <motion.div key={i} style={{marginBottom: 20}} {...OpacityInOut}>
+            <PostCard key={m.path} meta={m}/>
+          </motion.div>
+        ))}
+        <MyPagination data={page} onPageChange={onPageChange}/>
+      </BlogLayout>
+    </>
   )
 }
