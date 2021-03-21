@@ -1,6 +1,6 @@
-import {MyLink} from "../../util/Link";
+import {MyLink} from "../../../util/Link";
 import React from "react";
-import {PostMeta} from "../../../posts/domain";
+import {PostMeta} from "../../../../posts/domain";
 
 export type PostNavProps = {
   prev?: PostMeta

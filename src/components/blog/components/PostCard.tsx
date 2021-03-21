@@ -45,7 +45,7 @@ export const PostCard = (props: Props) => {
           </div>
           <div>
             <dt className={'sr-only'}>Tags</dt>
-            <dd className={'whitespace-nowrap'}>
+            <dd className={'whitespace-nowrap flex items-center'}>
               {props.meta.categories.map(tag => <PostTag type={'category'} key={tag} tag={tag}/>)}
               {props.meta.tags.map(tag => <PostTag type={'tag'} key={tag} tag={tag}/>)}
             </dd>
