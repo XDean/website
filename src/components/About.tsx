@@ -5,10 +5,12 @@ import {GithubComment} from "./util/GithubComment";
 import 'github-markdown-css/github-markdown.css'
 import React from "react";
 import clsx from "clsx";
+import { motion } from "framer-motion";
+import {OpacityInOut} from "../motion/OpacityInOut";
 
 export const AboutView = () => {
   return (
-    <div className={'w-11/12 max-w-screen-lg my-4'}>
+    <motion.div className={'w-11/12 max-w-screen-lg my-4'} {...OpacityInOut}>
       <ReactMarkdown className={'markdown-body'} source={`
 ## 我是谁
 
@@ -51,6 +53,6 @@ export const AboutView = () => {
                      }}
       />
       <GithubComment/>
-    </div>
+    </motion.div>
   )
 }
