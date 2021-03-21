@@ -3,7 +3,7 @@ import path from "path";
 import {promises as fs} from "fs";
 import gm from 'gray-matter'
 import {getPostMetaByLink, getPostMetaRel, getPostMetas} from "../../../src/posts/service";
-import {PostView} from "../../../src/components/blog";
+import {PostView} from "../../../src/components/blog/Post";
 import {PostMeta} from "../../../src/posts/domain";
 
 type Props = {

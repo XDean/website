@@ -2,6 +2,8 @@ import {PostMetaGroup, PostMetaGroupType} from "../../posts/domain";
 import {BlogHeaderView} from "./Header";
 import {Breadcrumbs, Typography} from "@material-ui/core";
 import {MyLink} from "../util/Link";
+import {OpacityInOut} from "../../motion/OpacityInOut";
+import { motion } from "framer-motion";
 
 type Props = {
   type: PostMetaGroupType
@@ -11,7 +13,7 @@ type Props = {
 export const ArchivesView = (props: Props) => {
   const label = typeToLabel(props.type)
   return (
-    <div className={'w-11/12 max-w-screen-lg'}>
+    <motion.div className={'w-11/12 max-w-screen-lg'} {...OpacityInOut}>
       <div className={'mb-4'}>
         <BlogHeaderView/>
       </div>
@@ -29,7 +31,7 @@ export const ArchivesView = (props: Props) => {
           </li>
         ))}
       </ul>
-    </div>
+    </motion.div>
   )
 }
 

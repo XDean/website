@@ -9,6 +9,8 @@ import {BlogHeaderView} from "./Header";
 import {MyPagination} from "../util/Pagination";
 import {useCallback} from "react";
 import {useRouter} from "next/router";
+import { motion } from "framer-motion";
+import {OpacityInOut} from "../../motion/OpacityInOut";
 
 type Props = {
   type: PostMetaGroupType
@@ -22,7 +24,7 @@ export const ArchiveView = (props: Props) => {
     router.push(`/blog/archives/${props.type}/${props.name}/${value}`)
   }, [])
   return (
-    <div className={'w-11/12 max-w-screen-lg'}>
+    <motion.div className={'w-11/12 max-w-screen-lg'} {...OpacityInOut}>
       <div className={'mb-4'}>
         <BlogHeaderView/>
       </div>
@@ -49,6 +51,6 @@ export const ArchiveView = (props: Props) => {
         })}
       </ul>
       <MyPagination data={props.data} onChange={onPageChange}/>
-    </div>
+    </motion.div>
   )
 }

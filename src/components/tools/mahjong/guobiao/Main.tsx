@@ -8,6 +8,8 @@ import {Tile, TileNumberTypes, TilePoint} from "../../../../tools/mahjong/guobia
 import Head from "next/head";
 import {OptionView} from "./Option";
 import {GithubComment} from "../../../util/GithubComment";
+import {motion} from "framer-motion";
+import {OpacityInOut} from "../../../../motion/OpacityInOut";
 
 type Mode = {
   name: string
@@ -83,7 +85,7 @@ export const GuoBiaoMainView = () => {
   const onOptionsChange = useCallback(o => updateHand(h => h.option = o), [updateHand]);
 
   return (
-    <div className={'w-max max-w-screen-lg'}>
+    <motion.div className={'w-max max-w-screen-lg'} {...OpacityInOut}>
       <Head>
         <title>国标麻将算番器 - XDean</title>
       </Head>
@@ -110,6 +112,6 @@ export const GuoBiaoMainView = () => {
       <FanView hand={hand}/>
       <hr className={'mt-4'}/>
       <GithubComment/>
-    </div>
+    </motion.div>
   )
 }

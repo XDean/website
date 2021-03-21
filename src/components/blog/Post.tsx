@@ -19,6 +19,8 @@ import uslug from 'uslug'
 import {isURL} from "../../util/util";
 import clsx from "clsx";
 import Head from "next/head";
+import {OpacityInOut} from "../../motion/OpacityInOut";
+import {motion} from 'framer-motion'
 
 const useStyles = makeStyles(theme => createStyles({
   'toc': {
@@ -55,7 +57,7 @@ export const PostView = (props: PostProps) => {
   const hasUpdate = props.meta.updated && props.meta.updated !== props.meta.created
 
   return (
-    <div className={'w-11/12 max-w-screen-lg my-4'}>
+    <motion.div className={'w-11/12 max-w-screen-lg my-4'} {...OpacityInOut}>
       <Head>
         <title>{props.meta.title} - XDean's Blog</title>
       </Head>
@@ -165,7 +167,7 @@ export const PostView = (props: PostProps) => {
           <GithubComment/>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
