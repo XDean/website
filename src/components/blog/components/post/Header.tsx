@@ -15,14 +15,14 @@ export const PostHeader = ({meta}: PostHeaderProps) => {
       <div className={'text-2xl md:text-4xl'}>
         {meta.title}
       </div>
-      <div className={'flex mt-2 ml-2 items-center'}>
+      <div className={'mt-2 ml-2'}>
         <Tooltip title={hasUpdate ? `更新于: ${format(new Date(meta.updated), 'yyyy-MM-dd HH:mm:ss')}` : ''} arrow>
-          <div>
+          <div className={'inline-block'}>
             {format(new Date(meta.created), 'yyyy-MM-dd')}{hasUpdate ? "*" : ""}
           </div>
         </Tooltip>
-        {meta.categories.map(c => <PostTag type={"category"} tag={c} key={c}/>)}
-        {meta.tags.map(c => <PostTag type={"tag"} tag={c} key={c}/>)}
+        {meta.categories.map(c => <div key={c} className={'inline-block'}><PostTag type={"category"} tag={c} key={c}/></div>)}
+        {meta.tags.map(c => <div key={c} className={'inline-block'}><PostTag type={"tag"} tag={c} key={c}/></div>)}
       </div>
     </div>
   )
