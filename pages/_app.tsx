@@ -13,7 +13,7 @@ function MyApp({Component, pageProps, router}: AppProps) {
       <Head>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
         <title>XDean</title>
-        <GAScrips id={GA_TRACKING_ID}/>
+        <GAScrips id={GA_TRACKING_ID} router={router}/>
       </Head>
       <Layout>
         <AnimatePresence exitBeforeEnter>

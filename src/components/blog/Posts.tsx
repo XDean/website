@@ -6,6 +6,8 @@ import {useRouter} from "next/router";
 import {BlogHeaderView} from "./Header";
 import {MyPagination} from "../util/Pagination";
 import Head from "next/head";
+import { motion } from "framer-motion";
+import {SlideInOut} from "../../motion/SlideInOut";
 
 type Props = {
   data: PageData<PostMeta>
@@ -19,7 +21,7 @@ export const PostsView = (props: Props) => {
   }, [])
 
   return (
-    <div className={'w-11/12 max-w-screen-lg'}>
+    <motion.div className={'w-11/12 max-w-screen-lg'} {...SlideInOut}>
       <Head><title>XDean's Blog - Page {page.page}</title></Head>
       <div className={'md:mt-2 mb-4'}>
         <BlogHeaderView/>
@@ -30,6 +32,6 @@ export const PostsView = (props: Props) => {
         </div>
       ))}
       <MyPagination data={page} onChange={onPageChange}/>
-    </div>
+    </motion.div>
   )
 }

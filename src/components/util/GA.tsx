@@ -1,9 +1,8 @@
 import {useEffect} from "react";
 import * as gtag from "../../util/gtag";
-import {useRouter} from "next/router";
+import {NextRouter} from "next/router";
 
-export const GAScrips = ({id}: { id: string }) => {
-  const router = useRouter()
+export const GAScrips = ({id, router}: { id: string, router: NextRouter }) => {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
