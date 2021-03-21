@@ -21,27 +21,7 @@ import clsx from "clsx";
 import Head from "next/head";
 import {OpacityInOut} from "../../motion/OpacityInOut";
 import {motion} from 'framer-motion'
-
-const useStyles = makeStyles(theme => createStyles({
-  'toc': {
-    marginLeft: -20,
-  },
-  'tocContainer': {
-    color: '#555',
-    '&& ol,ul': {
-      listStyle: 'none',
-      paddingInlineStart: 20,
-    },
-    '&& a': {
-      textDecoration: 'none',
-      color: 'inherit',
-      '&:hover': {
-        color: '#000',
-        textDecoration: 'underline',
-      }
-    }
-  },
-}))
+import {Toc} from "./components/Toc";
 
 export type PostProps = {
   content: string
@@ -51,9 +31,6 @@ export type PostProps = {
 }
 
 export const PostView = (props: PostProps) => {
-  const classes = useStyles()
-  const tocData = extractMarkdownToc(props.content)
-  const hasToc = props.meta.toc !== false && tocData.content.length > 0
   const hasUpdate = props.meta.updated && props.meta.updated !== props.meta.created
 
   return (
@@ -61,25 +38,7 @@ export const PostView = (props: PostProps) => {
       <Head>
         <title>{props.meta.title} - XDean's Blog</title>
       </Head>
-      {hasToc && function () {
-        const toc = (
-          <div style={{minWidth: 80, maxWidth: 200}}>
-            <Typography variant={'h5'}>
-              <a href={'#title'}>
-                目录
-              </a>
-            </Typography>
-            <ReactMarkdown source={tocData.content}/>
-          </div>
-        )
-        return (
-          <div className={'hidden md:block float-left sticky top-4xl border-r mr-4 pr-4 m-h-5 top-48'}>
-            <div className={clsx(classes.tocContainer)}>
-              {toc}
-            </div>
-          </div>
-        )
-      }()}
+      {props.meta.toc !== false && <Toc content={props.content}/>}
       <div className={'overflow-y-hidden'}>
         <Typography variant={"h4"} id={'title'} style={{paddingTop: 200, marginTop: -200}}>
           {props.meta.title}

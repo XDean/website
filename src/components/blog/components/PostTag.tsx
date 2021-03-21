@@ -1,6 +1,6 @@
 import {Chip} from "@material-ui/core";
-import {MyLink} from "../util/Link";
-import {PostMetaGroupType} from "../../posts/domain";
+import {MyLink} from "../../util/Link";
+import {PostMetaGroupType} from "../../../posts/domain";
 
 export const PostTag = ({type, tag}: { type: PostMetaGroupType, tag: string }) => {
   return (
