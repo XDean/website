@@ -1,9 +1,7 @@
-import {Typography} from "@material-ui/core";
-
-export const FooterView = ()=>{
+export const FooterView = () => {
   return (
-    <Typography variant={"caption"}>
+    <div className={'text-sm'}>
       Copyright © 2020-{new Date().getFullYear()} Dean Xu. All Rights reserved.
-    </Typography>
+    </div>
   )
 }
