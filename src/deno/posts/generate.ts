@@ -11,7 +11,7 @@ export async function generateInfoMetas() {
     infos.push(await readPostMeta(post))
   }
   infos.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
-  await Deno.writeTextFile('public/blog/meta.json', JSON.stringify(infos))
+  await Deno.writeTextFile('public/blog/meta.json', JSON.stringify(infos, null, '\t'))
   console.log('generate meta.json success')
 }
 
