@@ -48,7 +48,7 @@ export const FanView = ({hand}: { hand: Hand }) => {
     case "null":
       return <div className={'text-center text-2xl mt-2'}>请再选择{14 - hand.count}张牌</div>
     case "loading":
-      return <div className={'text-center text-2xl mt-2'}>正在计算<Loading/></div>
+      return <div className={'text-center text-2xl mt-2'}>正在计算<Loading className={'w-16 h-16'}/></div>
     case "ready":
       const value = hu.value;
       if (value instanceof Array) {

@@ -1,10 +1,8 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {getPostMetas} from "../../../src/posts/service";
 import {PostMeta} from "../../../src/posts/domain";
-import {useRouter} from "next/router";
 import {getPage, PageData} from "../../../src/util/util";
 import {PostsView} from "../../../src/components/blog/Posts";
-import {Loading} from "../../../src/components/util/Loading";
 
 const pageSize = 10
 
@@ -17,10 +15,6 @@ type Params = {
 }
 
 const Page = (props: Props) => {
-  const router = useRouter()
-  if (router.isFallback) {
-    return <Loading/>
-  }
   return (
     <PostsView data={props.data}/>
   )
@@ -48,7 +42,7 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const paths = Array.from(Array(totalPage).keys()).map(p => ({params: {page: (p + 1).toString()}}));
   return {
     paths: paths,
-    fallback: true,
+    fallback: false,
   }
 }
 
