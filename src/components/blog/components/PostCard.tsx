@@ -25,42 +25,29 @@ export const PostCard = (props: Props) => {
 
   return (
 
-    <dl
+    <div
       className={'bg-white hover:border-transparent hover:shadow-lg group block rounded-lg border border-gray-200l flex flex-row'}>
       <div className={'flex flex-col w-0 flex-grow-2 p-2 md:p-4'}>
-        <div>
-          <dt className={'sr-only'}>Title</dt>
-          <dd className={'text-xl md:text-3xl'}>
-            <MyLink href={props.meta.link} next={{prefetch:false}}>
-              {props.meta.title}
-            </MyLink>
-          </dd>
+        <div className={'text-xl md:text-3xl'}>
+          <MyLink href={props.meta.link} next={{prefetch: false}}>
+            {props.meta.title}
+          </MyLink>
         </div>
-        <div className={'flex flex-row items-center mt-1 md:mt-2 overflow-auto '}>
-          <div className={'whitespace-nowrap'}>
-            <dt className={'sr-only'}>Date</dt>
-            <dd>
-              {format(new Date(props.meta.created), 'yyyy-MM-dd')}
-            </dd>
+        <div className={'items-center mt-1 md:mt-2 w-full'}>
+          <div className={'inline-block'}>
+            {format(new Date(props.meta.created), 'yyyy-MM-dd')}
           </div>
-          <div>
-            <dt className={'sr-only'}>Tags</dt>
-            <dd className={'whitespace-nowrap flex items-center'}>
-              {props.meta.categories.map(tag => <PostTag type={'category'} key={tag} tag={tag}/>)}
-              {props.meta.tags.map(tag => <PostTag type={'tag'} key={tag} tag={tag}/>)}
-            </dd>
-          </div>
+          {props.meta.categories.map(tag => <PostTag type={'category'} key={tag} tag={tag} className={'inline-block'}/>)}
+          {props.meta.tags.map(tag => <PostTag type={'tag'} key={tag} tag={tag} className={'inline-block'}/>)}
         </div>
-        {summary && <div className={'w-full flex-grow hidden md:block mt-2 md:mt-3'}>
-            <dt className={'sr-only'}>Summary</dt>
-            <dd className={'overflow-auto'}>
-              {summary}
-            </dd>
-        </div>}
+        {summary && (
+          <div className={'w-full flex-grow hidden md:block mt-2 md:mt-3 overflow-auto'}>{summary}</div>
+        )}
       </div>
-      {image &&
-      <div className={'hidden md:block w-0 bg-contain flex-grow-1 bg-no-repeat bg-center'}
-           style={{backgroundImage: `url(${image})`}}/>}
-    </dl>
+      {image && (
+        <div className={'hidden md:block w-0 bg-contain flex-grow-1 bg-no-repeat bg-center'}
+             style={{backgroundImage: `url(${image})`}}/>
+      )}
+    </div>
   )
 }

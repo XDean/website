@@ -28,7 +28,7 @@ export const MyPagination = ({data, onPageChange}: MyPaginationProps) => {
         </Item>
       )}
       {pages.map(p => (
-        <Item onClick={() => onPageChange(p)} active selected={p === data.page}>
+        <Item key={p} onClick={() => onPageChange(p)} active selected={p === data.page}>
           {p}
         </Item>
       ))}
