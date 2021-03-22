@@ -2,7 +2,7 @@ import {format} from "date-fns";
 import {PostTag} from "../PostTag";
 import React from "react";
 import {PostMeta} from "../../../../posts/domain";
-import ReactTooltip from 'react-tooltip';
+import ReactTooltip from "react-tooltip";
 
 export type PostHeaderProps = {
   meta: PostMeta
@@ -24,7 +24,7 @@ export const PostHeader = ({meta}: PostHeaderProps) => {
         </div>)}
         {meta.tags.map(c => <div key={c} className={'inline-block'}><PostTag type={"tag"} tag={c} key={c}/></div>)}
       </div>
-      <ReactTooltip place={'bottom'} effect={'solid'}/>
+      <ReactTooltip place={'bottom'} effect={'solid'} type={'dark'}/>
     </div>
   )
 }

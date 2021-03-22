@@ -1,6 +1,6 @@
 export type PageData<T> = {
   total: number
-  page: number
+  page: number // 1 based
   first: boolean
   last: boolean
   data: T[]
