@@ -1,4 +1,4 @@
-import {dom, fs, md, slash, path} from '../deps.ts'
+import {dom, md, path, slash} from '../deps.ts'
 import {getGitLog} from "./git.ts";
 import {PostMeta} from "../../posts/domain.ts"
 

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import {motion} from 'framer-motion';
 import Head from 'next/head'
 import {MyLink} from "../util/Link";
 import {OpacityInOut} from "../../motion/OpacityInOut";

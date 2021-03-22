@@ -1,4 +1,4 @@
-import {Hand, Tiles} from "./type";
+import {Tiles} from "./type";
 import {Tile} from "./tile";
 import {findAllCombinations} from "./hu";
 import assert from "assert";

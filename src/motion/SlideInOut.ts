@@ -1,5 +1,4 @@
 import {MotionProps} from "framer-motion";
-import React from "react";
 
 export const SlideInOut: MotionProps = {
   initial: {

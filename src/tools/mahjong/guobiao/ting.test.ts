@@ -1,7 +1,5 @@
-import {Combination, Mian, Tiles} from "./type";
+import {Tiles} from "./type";
 import {expect, test} from "@jest/globals";
-import {findAllCombinations} from "./hu";
-import {Tile} from "./tile";
 import {calcTing} from "./ting";
 
 function expectTing(

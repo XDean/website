@@ -1,7 +1,6 @@
 import {expect, test} from "@jest/globals";
-import {calcHu, findAllCombinations} from "./hu";
-import {BuKao, Combination, Dui, Hand, Ke, Mian, QiDui, Shun, Tiles, ZuHeLong} from "./type";
-import {arrayContentEquals} from "../../../util/util";
+import {findAllCombinations} from "./hu";
+import {BuKao, Combination, Dui, Ke, Mian, QiDui, Shun, Tiles, ZuHeLong} from "./type";
 import {Tile} from "./tile";
 
 function expectComb(

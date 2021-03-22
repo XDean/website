@@ -1,11 +1,9 @@
-import {Divider, Typography} from "@material-ui/core";
 import ReactMarkdown from "react-markdown";
-import {Image} from "@material-ui/icons";
 import {GithubComment} from "./util/GithubComment";
 import 'github-markdown-css/github-markdown.css'
 import React from "react";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import {OpacityInOut} from "../motion/OpacityInOut";
 
 export const AboutView = () => {

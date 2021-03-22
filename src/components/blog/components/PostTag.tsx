@@ -1,4 +1,3 @@
-import {Chip} from "@material-ui/core";
 import {MyLink} from "../../util/Link";
 import {PostMetaGroupType} from "../../../posts/domain";
 

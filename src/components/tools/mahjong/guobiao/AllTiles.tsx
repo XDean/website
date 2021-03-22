@@ -2,7 +2,7 @@ import {Tiles} from "../../../../tools/mahjong/guobiao/type";
 import {TileView} from "./Tile";
 import clsx from "clsx";
 import {Tile, TileNumberTypes, TilePoints} from "../../../../tools/mahjong/guobiao/tile";
-import {useEffect, useMemo} from "react";
+import {useMemo} from "react";
 
 export const AllTilesView = (
   {onTileClick, disabledTiles, disableAll}: {
