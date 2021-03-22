@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 export type MyLinkProps = {
   href: string
-  next?: LinkProps | false
+  next?: Omit<LinkProps, 'href'> | false
 } & Partial<DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>>
 
 export const MyLink = ({href, next, children, ...rest}: PropsWithChildren<MyLinkProps>) => {

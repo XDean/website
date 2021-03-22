@@ -31,7 +31,7 @@ export const PostCard = (props: Props) => {
         <div>
           <dt className={'sr-only'}>Title</dt>
           <dd className={'text-xl md:text-3xl'}>
-            <MyLink href={props.meta.link}>
+            <MyLink href={props.meta.link} next={{prefetch:false}}>
               {props.meta.title}
             </MyLink>
           </dd>
