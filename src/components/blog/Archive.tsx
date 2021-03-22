@@ -42,7 +42,9 @@ export const ArchiveView = ({type, name, data}: Props) => {
           );
         })}
       </ul>
-      <MyPagination data={data} onPageChange={onPageChange}/>
+      <div className={'my-2'}>
+        <MyPagination data={data} onPageChange={onPageChange}/>
+      </div>
     </BlogLayout>
   )
 }

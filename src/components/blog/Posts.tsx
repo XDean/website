@@ -23,11 +23,13 @@ export const PostsView = (props: Props) => {
     <>
       <BlogLayout title={`第${page.page}页 - XDean的博客`}>
         {page.data.map((m, i) => (
-          <motion.div key={i} style={{marginBottom: 20}} {...OpacityInOut}>
+          <motion.div key={`${page.page}-${i}`} style={{marginBottom: 20}} {...OpacityInOut}>
             <PostCard key={m.path} meta={m}/>
           </motion.div>
         ))}
-        <MyPagination data={page} onPageChange={onPageChange}/>
+        <div className={'my-2'}>
+          <MyPagination data={page} onPageChange={onPageChange}/>
+        </div>
       </BlogLayout>
     </>
   )
