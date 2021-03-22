@@ -9,7 +9,7 @@ categories:
 
 # 大数据和分布式计算发展简史
 
-![big-data](images/big-data.jpeg)
+![big-data](images/big-data.webp)
 
 在当今这个时代，大数据已经不是什么新鲜的名词了。
 但凡是小有规模的公司，都配备了专门的数据部门。
