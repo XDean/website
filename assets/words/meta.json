@@ -1,0 +1,47 @@
+[
+  {
+    "file": "easy.txt",
+    "name": "简单",
+    "default": true
+  },
+  {
+    "file": "medium.txt",
+    "name": "中等",
+    "default": false
+  },
+  {
+    "file": "hard.txt",
+    "name": "困难",
+    "default": false
+  },
+  {
+    "file": "ridiculous.txt",
+    "name": "荒谬",
+    "default": false
+  },
+  {
+    "file": "animal.txt",
+    "name": "动物",
+    "default": false
+  },
+  {
+    "file": "food.txt",
+    "name": "食物",
+    "default": false
+  },
+  {
+    "file": "idiom.txt",
+    "name": "成语",
+    "default": false
+  },
+  {
+    "file": "person.txt",
+    "name": "人物",
+    "default": false
+  },
+  {
+    "file": "code.txt",
+    "name": "编程",
+    "default": false
+  }
+]
