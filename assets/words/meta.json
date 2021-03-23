@@ -1,46 +1,46 @@
 [
   {
-    "file": "easy.txt",
+    "id": "easy",
     "name": "简单",
     "default": true
   },
   {
-    "file": "medium.txt",
+    "id": "medium",
     "name": "中等",
     "default": false
   },
   {
-    "file": "hard.txt",
+    "id": "hard",
     "name": "困难",
     "default": false
   },
   {
-    "file": "ridiculous.txt",
+    "id": "ridiculous",
     "name": "荒谬",
     "default": false
   },
   {
-    "file": "animal.txt",
+    "id": "animal",
     "name": "动物",
     "default": false
   },
   {
-    "file": "food.txt",
+    "id": "food",
     "name": "食物",
     "default": false
   },
   {
-    "file": "idiom.txt",
+    "id": "idiom",
     "name": "成语",
     "default": false
   },
   {
-    "file": "person.txt",
+    "id": "person",
     "name": "人物",
     "default": false
   },
   {
-    "file": "code.txt",
+    "id": "code",
     "name": "编程",
     "default": false
   }
