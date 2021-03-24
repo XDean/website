@@ -169,9 +169,15 @@ deno-create-react-app run
 Deno的存在也给了Node巨大的前进动力。
 即使Deno最终没能取代Node，我们也可以得到更好的Node，不是吗？
 
-#### Reference
+## Reference
 
 - https://deno.land/
 - https://risingstars.js.org/2020/zh
 - https://www.youtube.com/watch?v=1gIiZfSbEAE
 - https://www.youtube.com/watch?v=puXyo1jGQys
+
+### 其他阅读
+
+- [Deno Benchmark](https://deno.land/benchmarks)
+- [Discussion on V2ex](https://v2ex.com/t/677421)
+- [Why I Believe Deno is a Step in the Wrong Direction for JavaScript Runtime Environments](https://github.com/freeCodeCamp/news-translation/blob/main/chinese/articles/why-deno-is-a-wrong-step-in-the-future.md) (译文，原文已删除)
