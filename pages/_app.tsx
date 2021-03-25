@@ -1,10 +1,10 @@
 import Head from "next/head";
-import "tailwindcss/tailwind.css";
 import {GA_TRACKING_ID} from '../src/util/gtag'
 import {AppProps} from "next/dist/pages/_app";
 import {AnimatePresence} from 'framer-motion';
 import {DefaultLayout} from "../src/components/layout/Default";
 import {GAScrips} from "../src/components/util/GA";
+import '../assets/styles/globals.css'
 
 function MyApp({Component, pageProps, router}: AppProps) {
   const Layout = (Component as any).Layout || DefaultLayout

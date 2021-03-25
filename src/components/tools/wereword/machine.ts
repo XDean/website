@@ -5,19 +5,24 @@ import {InvokeCreator} from "xstate/lib/types";
 export type WordSet = {
   id: string
   name: string
+  default: boolean
 }
 
 export interface WerewordContext {
-  playerCount?: number
-  wordSet?: WordSet[]
-  words?: string[] //words to be selected
-  answer?: string
-  leftSeconds?: number
+  playerCount: number
+  allWordSet: WordSet[]
+  wordSet: WordSet[]
+  words: string[] //words to be selected
+  answer: string
+  leftSeconds: number
+  findAnswer: boolean
+  findPerson: boolean
   error?: any
 }
 
 export interface WerewordSchema extends StateSchema<WerewordContext> {
   states: {
+    prepare: {},
     waiting: {},
     night: {
       states: {
@@ -40,24 +45,22 @@ export interface WerewordSchema extends StateSchema<WerewordContext> {
         pause: {},
       }
     },
-    find: {
-      states: {
-        langren: {},
-        xianzhi: {},
-      }
-    },
+    find: {},
     over: {},
     error: {},
   }
 }
 
 export type WerewordEvent =
-  { type: 'START', playCount: number, wordSets: WordSet[] } |
+  { type: 'START', playCount: number } |
+  { type: 'SELECT_WORD_SET', value: WordSet, check: boolean } |
   { type: 'CHANGE_WORD' } |
   { type: 'SELECT_WORD', value: string } |
   { type: 'SET_TIME', value: number } |
   { type: 'RIGHT' } |
+  { type: 'WRONG' } |
   { type: 'TICK' } |
+  { type: 'TICK_ALL' } |
   { type: 'RESTART' } |
   { type: 'STOP' } |
   { type: 'PAUSE' }
@@ -70,24 +73,42 @@ function tick(): InvokeCreator<WerewordContext, WerewordEvent, any> {
 }
 
 export function createWerewordMachine({
-                                         nightTime = 5,
-                                         dayTime = 240,
-                                         guessTime = 60
-                                       }: { nightTime?: number, dayTime?: number, guessTime?: number }) {
+                                        nightTime = 3,
+                                        dayTime = 240,
+                                        guessTime = 60
+                                      }: { nightTime?: number, dayTime?: number, guessTime?: number }) {
   return Machine<WerewordContext, WerewordSchema, WerewordEvent>({
     id: 'wereword',
-    initial: 'waiting',
+    initial: 'prepare',
     context: {
       playerCount: 5,
+      leftSeconds: 0,
+      allWordSet: [],
+      wordSet: [],
+      words: [],
+      answer: '',
+      findAnswer: false,
+      findPerson: false,
     },
     states: {
+      prepare: {
+        invoke: {
+          src: (context, event) => fetch(`/api/word/set`).then(res => res.json()),
+          onDone: {
+            target: 'waiting',
+            actions: assign((ctx, event) => ({
+              allWordSet: event.data,
+              wordSet: (event.data as WordSet[]).filter(w => w.default)
+            }))
+          },
+        }
+      },
       waiting: {
         on: {
           START: {
             target: 'night',
             actions: assign((ctx, event) => ({
               playerCount: event.playCount,
-              wordSets: event.wordSets,
             }))
           }
         }
@@ -99,7 +120,7 @@ export function createWerewordMachine({
             entry: assign({leftSeconds: nightTime}),
             invoke: {src: tick()},
             always: {
-              target: '.cunzhang',
+              target: 'cunzhang',
               cond: ctx => ctx.leftSeconds <= 0
             }
           },
@@ -110,7 +131,7 @@ export function createWerewordMachine({
                 on: {
                   CHANGE_WORD: 'loading',
                   SELECT_WORD: {
-                    target: '.confirm',
+                    target: 'confirm',
                     actions: assign({
                       answer: (ctx, event) => event.value
                     })
@@ -120,16 +141,16 @@ export function createWerewordMachine({
               loading: {
                 invoke: {
                   src: (context, event) =>
-                    fetch(`/api/word/random?set=${context.wordSet!.join(',')}`)
+                    fetch(`/api/word/random?set=${context.wordSet.map(w => w.id).join(',')}`)
                       .then(res => res.json()),
                   onDone: {
-                    target: '..select',
+                    target: 'select',
                     actions: assign({
                       words: (ctx, event) => event.data
                     })
                   },
                   onError: {
-                    target: '..error',
+                    target: '#wereword.error',
                     actions: assign({
                       error: (ctx, event) => event.data
                     })
@@ -141,7 +162,7 @@ export function createWerewordMachine({
                 entry: assign({leftSeconds: nightTime}),
                 invoke: {src: tick()},
                 always: {
-                  target: '..xianzhi',
+                  target: '#wereword.night.xianzhi',
                   cond: ctx => ctx.leftSeconds <= 0
                 }
               },
@@ -151,7 +172,7 @@ export function createWerewordMachine({
             entry: assign({leftSeconds: nightTime}),
             invoke: {src: tick()},
             always: {
-              target: '.langren',
+              target: 'langren',
               cond: ctx => ctx.leftSeconds <= 0
             }
           },
@@ -159,7 +180,7 @@ export function createWerewordMachine({
             entry: assign({leftSeconds: nightTime}),
             invoke: {src: tick()},
             always: {
-              target: '.end',
+              target: 'end',
               cond: ctx => ctx.leftSeconds <= 0
             }
           },
@@ -167,51 +188,49 @@ export function createWerewordMachine({
             entry: assign({leftSeconds: nightTime}),
             invoke: {src: tick()},
             always: {
-              target: '..daytime',
+              target: '#wereword.daytime',
               cond: ctx => ctx.leftSeconds <= 0
             }
           }
         }
       },
       daytime: {
+        initial: 'running',
         entry: assign({leftSeconds: dayTime}),
         states: {
           running: {
             invoke: {src: tick()},
             always: {
-              target: '..find.langren',
+              target: '#wereword.find',
+              actions: assign({findAnswer: false} as Partial<WerewordContext>),
               cond: ctx => ctx.leftSeconds <= 0
             },
             on: {
-              RIGHT: '..find.xianzhi',
-              PAUSE: '.pause',
+              RIGHT: {
+                target: '#wereword.find',
+                actions: assign({findAnswer: true} as Partial<WerewordContext>),
+              },
+              WRONG: {
+                target: '#wereword.find',
+                actions: assign({findAnswer: false} as Partial<WerewordContext>),
+              },
+              PAUSE: 'pause',
             }
           },
           pause: {
             on: {
-              PAUSE: '.running',
+              PAUSE: 'running',
             }
           },
         }
       },
       find: {
         entry: assign({leftSeconds: guessTime}),
-        states: {
-          langren: {
-            invoke: {src: tick()},
-            always: {
-              target: '..over',
-              cond: ctx => ctx.leftSeconds <= 0
-            },
-          },
-          xianzhi: {
-            invoke: {src: tick()},
-            always: {
-              target: '..over',
-              cond: ctx => ctx.leftSeconds <= 0
-            },
-          },
-        }
+        invoke: {src: tick()},
+        always: {
+          target: 'over',
+          cond: ctx => ctx.leftSeconds <= 0
+        },
       },
       over: {
         on: {RESTART: 'waiting'}
@@ -225,6 +244,26 @@ export function createWerewordMachine({
           leftSeconds: c => c.leftSeconds - 1,
         })
       },
+      TICK_ALL: {
+        actions: assign({
+          leftSeconds: 0,
+        })
+      },
+      SELECT_WORD_SET: {
+        actions: assign((ctx, event) => {
+          const copy = [...ctx.wordSet];
+          const index = copy.indexOf(event.value)
+          if (index !== -1 && !event.check) {
+            copy.splice(index, 1)
+          }
+          if (index === -1 && event.check) {
+            copy.push(event.value)
+          }
+          return {
+            wordSet: copy
+          }
+        })
+      }
     }
   }, {});
 }
