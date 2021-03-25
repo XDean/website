@@ -18,6 +18,11 @@ export const ToolsView = () => {
             国标麻将算番器
           </MyLink>
         </li>
+        <li>
+          <MyLink href={'/tools/werewords.tsx'}>
+            狼人真言
+          </MyLink>
+        </li>
       </ul>
     </motion.div>
   )
