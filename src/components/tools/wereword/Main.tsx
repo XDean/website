@@ -9,7 +9,7 @@ export const WerewordMain = () => {
     <div className={'w-11/12 max-w-screen-md'}>
       <div className={'h-32 w-32 text-center m-auto bg-contain bg-no-repeat'}
            style={{backgroundImage: 'url(/tools/wereword/logo.webp)'}}/>
-      <div className={'text-5xl mb-4 text-center'}>狼人真言</div>
+      <div className={'text-5xl mb-4 mt-2 text-center'}>狼人真言</div>
       <div className={'text-2xl mb-4 text-center'}>请先购买正版《狼人真言》<br/>然后搭配使用本工具进行游戏</div>
       {state.matches('prepare') && (
         <div className={'flex flex-col items-center text-4xl'}>
@@ -23,9 +23,9 @@ export const WerewordMain = () => {
                   onClick={() => send('START')}>
             开始游戏
           </button>
-          <div className={'border my-4 p-2'}>
+          <div className={'border my-4 p-2 w-max m-auto'}>
             <div className={'text-2xl mb-1'}>选择词库</div>
-            <div>
+            <div className={'grid grid-cols-4'}>
               {state.context.allWordSet.map(s => (
                 <div key={s.id} className={'inline-flex items-center mx-2 my-1'}>
                   <input type="checkbox" checked={state.context.wordSet.indexOf(s) !== -1}
