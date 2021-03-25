@@ -31,9 +31,9 @@ categories:
 Node于2009年首次发行，距今已经12年了，距Deno首次发行的2018也有9年时间。
 在这些年里Javascript生态发展迅速，尤其是
 
-- Promise API (`await`/`async`)
 - ES Modules
 - Typescript
+- Promise API (`await`/`async`)
 
 这些新技术对于始于2009年的Node来说都是巨大的包袱，直进Node对他们的支持都不甚理想，需要额外的插件配置(例如Babel)。
 
@@ -173,6 +173,7 @@ Deno的存在也给了Node巨大的前进动力。
 
 - https://deno.land/
 - https://risingstars.js.org/2020/zh
+- https://www.ruanyifeng.com/blog/2020/01/deno-intro.html
 - https://www.youtube.com/watch?v=1gIiZfSbEAE
 - https://www.youtube.com/watch?v=puXyo1jGQys
 
