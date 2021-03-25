@@ -73,7 +73,7 @@ export function createWerewordMachine({
                                          nightTime = 5,
                                          dayTime = 240,
                                          guessTime = 60
-                                       }: { nightTime: number, dayTime: number, guessTime: number }) {
+                                       }: { nightTime?: number, dayTime?: number, guessTime?: number }) {
   return Machine<WerewordContext, WerewordSchema, WerewordEvent>({
     id: 'wereword',
     initial: 'waiting',
