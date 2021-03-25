@@ -7,7 +7,7 @@ export type WordSet = {
   name: string
 }
 
-export interface WerewordsContext {
+export interface WerewordContext {
   playerCount?: number
   wordSet?: WordSet[]
   words?: string[] //words to be selected
@@ -16,7 +16,7 @@ export interface WerewordsContext {
   error?: any
 }
 
-export interface WerewordsSchema extends StateSchema<WerewordsContext> {
+export interface WerewordSchema extends StateSchema<WerewordContext> {
   states: {
     waiting: {},
     night: {
@@ -51,7 +51,7 @@ export interface WerewordsSchema extends StateSchema<WerewordsContext> {
   }
 }
 
-export type WerewordsEvent =
+export type WerewordEvent =
   { type: 'START', playCount: number, wordSets: WordSet[] } |
   { type: 'CHANGE_WORD' } |
   { type: 'SELECT_WORD', value: string } |
@@ -62,20 +62,20 @@ export type WerewordsEvent =
   { type: 'STOP' } |
   { type: 'PAUSE' }
 
-function tick(): InvokeCreator<WerewordsContext, WerewordsEvent, any> {
+function tick(): InvokeCreator<WerewordContext, WerewordEvent, any> {
   return () => cb => {
     const interval = setInterval(() => cb('TICK'), 1000);
     return () => clearInterval(interval);
   };
 }
 
-export function createWerewordsMachine({
+export function createWerewordMachine({
                                          nightTime = 5,
                                          dayTime = 240,
                                          guessTime = 60
                                        }: { nightTime: number, dayTime: number, guessTime: number }) {
-  return Machine<WerewordsContext, WerewordsSchema, WerewordsEvent>({
-    id: 'werewords',
+  return Machine<WerewordContext, WerewordSchema, WerewordEvent>({
+    id: 'wereword',
     initial: 'waiting',
     context: {
       playerCount: 5,

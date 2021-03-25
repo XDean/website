@@ -1,4 +1,4 @@
-export const WerewordsMain = ()=>{
+export const WerewordMain = ()=>{
   return (
     <div>
 

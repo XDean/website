@@ -19,7 +19,7 @@ export const ToolsView = () => {
           </MyLink>
         </li>
         <li>
-          <MyLink href={'/tools/werewords.tsx'}>
+          <MyLink href={'/tools/wereword'}>
             狼人真言
           </MyLink>
         </li>
