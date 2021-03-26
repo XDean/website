@@ -22,30 +22,38 @@ export interface WerewordContext {
 
 export interface WerewordSchema extends StateSchema<WerewordContext> {
   states: {
-    prepare: {},
-    waiting: {},
-    night: {
+    setup: {
       states: {
-        start: {},
-        cunzhang: {
-          states: {
-            select: {},
-            loading: {},
-            confirm: {},
-          }
-        },
-        xianzhi: {},
-        langren: {},
-        end: {},
-      },
-    },
-    daytime: {
-      states: {
-        running: {},
-        pause: {},
+        prepare: {},
+        waiting: {},
       }
     },
-    find: {},
+    play: {
+      states: {
+        night: {
+          states: {
+            start: {},
+            cunzhang: {
+              states: {
+                select: {},
+                loading: {},
+                confirm: {},
+              }
+            },
+            xianzhi: {},
+            langren: {},
+            end: {},
+          },
+        },
+        daytime: {
+          states: {
+            running: {},
+            pause: {},
+          }
+        },
+        find: {},
+      }
+    },
     over: {},
     error: {},
   }
@@ -79,7 +87,7 @@ export function createWerewordMachine({
                                       }: { nightTime?: number, dayTime?: number, guessTime?: number }) {
   return Machine<WerewordContext, WerewordSchema, WerewordEvent>({
     id: 'wereword',
-    initial: 'prepare',
+    initial: 'setup',
     context: {
       playerCount: 5,
       leftSeconds: 0,
@@ -91,154 +99,170 @@ export function createWerewordMachine({
       findPerson: false,
     },
     states: {
-      prepare: {
-        invoke: {
-          src: (context, event) => fetch(`/api/word/set`).then(res => res.json()),
-          onDone: {
-            target: 'waiting',
-            actions: assign((ctx, event) => ({
-              allWordSet: event.data,
-              wordSet: (event.data as WordSet[]).filter(w => w.default)
-            }))
-          },
-        }
-      },
-      waiting: {
-        on: {
-          START: {
-            target: 'night',
-            actions: assign((ctx, event) => ({
-              playerCount: event.playCount,
-            }))
-          }
-        }
-      },
-      night: {
-        initial: 'start',
+      setup: {
+        initial: 'prepare',
         states: {
-          start: {
-            entry: assign({leftSeconds: nightTime}),
-            invoke: {src: tick()},
-            always: {
-              target: 'cunzhang',
-              cond: ctx => ctx.leftSeconds <= 0
+          prepare: {
+            invoke: {
+              src: (context, event) => fetch(`/api/word/set`).then(res => res.json()),
+              onDone: {
+                target: 'waiting',
+                actions: assign((ctx, event) => ({
+                  allWordSet: event.data,
+                  wordSet: (event.data as WordSet[]).filter(w => w.default)
+                }))
+              },
+              onError: {
+                target: '#wereword.error',
+                actions: assign({
+                  error: (ctx, event) => '加载失败，请尝试刷新'
+                })
+              }
             }
           },
-          cunzhang: {
-            initial: 'loading',
+          waiting: {
+            on: {
+              START: {
+                target: '#wereword.play',
+                actions: assign((ctx, event) => ({
+                  playerCount: event.playCount,
+                }))
+              }
+            }
+          },
+        }
+      },
+      play: {
+        initial: 'night',
+        states: {
+          night: {
+            initial: 'start',
             states: {
-              select: {
-                on: {
-                  CHANGE_WORD: 'loading',
-                  SELECT_WORD: {
-                    target: 'confirm',
-                    actions: assign({
-                      answer: (ctx, event) => event.value
-                    })
-                  }
-                }
-              },
-              loading: {
-                invoke: {
-                  src: (context, event) =>
-                    fetch(`/api/word/random?set=${context.wordSet.map(w => w.id).join(',')}`)
-                      .then(res => res.json()),
-                  onDone: {
-                    target: 'select',
-                    actions: assign({
-                      words: (ctx, event) => event.data
-                    })
-                  },
-                  onError: {
-                    target: '#wereword.error',
-                    actions: assign({
-                      error: (ctx, event) => event.data
-                    })
-                  }
-                },
-                entry: () => console.log('loading word data...')
-              },
-              confirm: {
+              start: {
                 entry: assign({leftSeconds: nightTime}),
                 invoke: {src: tick()},
                 always: {
-                  target: '#wereword.night.xianzhi',
+                  target: 'cunzhang',
                   cond: ctx => ctx.leftSeconds <= 0
                 }
               },
+              cunzhang: {
+                initial: 'loading',
+                states: {
+                  select: {
+                    on: {
+                      CHANGE_WORD: 'loading',
+                      SELECT_WORD: {
+                        target: 'confirm',
+                        actions: assign({
+                          answer: (ctx, event) => event.value
+                        })
+                      }
+                    }
+                  },
+                  loading: {
+                    invoke: {
+                      src: (context, event) =>
+                        fetch(`/api/word/random?set=${context.wordSet.map(w => w.id).join(',')}`)
+                          .then(res => res.json()),
+                      onDone: {
+                        target: 'select',
+                        actions: assign({
+                          words: (ctx, event) => event.data
+                        })
+                      },
+                      onError: {
+                        target: '#wereword.error',
+                        actions: assign({
+                          error: (ctx, event) => event.data
+                        })
+                      }
+                    },
+                    entry: () => console.log('loading word data...')
+                  },
+                  confirm: {
+                    entry: assign({leftSeconds: nightTime}),
+                    invoke: {src: tick()},
+                    always: {
+                      target: '..xianzhi',
+                      cond: ctx => ctx.leftSeconds <= 0
+                    }
+                  },
+                },
+              },
+              xianzhi: {
+                entry: assign({leftSeconds: nightTime}),
+                invoke: {src: tick()},
+                always: {
+                  target: 'langren',
+                  cond: ctx => ctx.leftSeconds <= 0
+                }
+              },
+              langren: {
+                entry: assign({leftSeconds: nightTime}),
+                invoke: {src: tick()},
+                always: {
+                  target: 'end',
+                  cond: ctx => ctx.leftSeconds <= 0
+                }
+              },
+              end: {
+                entry: assign({leftSeconds: nightTime}),
+                invoke: {src: tick()},
+                always: {
+                  target: '..daytime',
+                  cond: ctx => ctx.leftSeconds <= 0
+                }
+              }
+            }
+          },
+          daytime: {
+            initial: 'running',
+            entry: assign({leftSeconds: dayTime}),
+            states: {
+              running: {
+                invoke: {src: tick()},
+                always: {
+                  target: '..find',
+                  actions: assign({findAnswer: false} as Partial<WerewordContext>),
+                  cond: ctx => ctx.leftSeconds <= 0
+                },
+                on: {
+                  RIGHT: {
+                    target: '..find',
+                    actions: assign({findAnswer: true} as Partial<WerewordContext>),
+                  },
+                  WRONG: {
+                    target: '..find',
+                    actions: assign({findAnswer: false} as Partial<WerewordContext>),
+                  },
+                  PAUSE: 'pause',
+                }
+              },
+              pause: {
+                on: {
+                  PAUSE: 'running',
+                }
+              },
+            }
+          },
+          find: {
+            entry: assign({leftSeconds: guessTime}),
+            invoke: {src: tick()},
+            always: {
+              target: '..over',
+              cond: ctx => ctx.leftSeconds <= 0
             },
           },
-          xianzhi: {
-            entry: assign({leftSeconds: nightTime}),
-            invoke: {src: tick()},
-            always: {
-              target: 'langren',
-              cond: ctx => ctx.leftSeconds <= 0
-            }
-          },
-          langren: {
-            entry: assign({leftSeconds: nightTime}),
-            invoke: {src: tick()},
-            always: {
-              target: 'end',
-              cond: ctx => ctx.leftSeconds <= 0
-            }
-          },
-          end: {
-            entry: assign({leftSeconds: nightTime}),
-            invoke: {src: tick()},
-            always: {
-              target: '#wereword.daytime',
-              cond: ctx => ctx.leftSeconds <= 0
-            }
-          }
         }
-      },
-      daytime: {
-        initial: 'running',
-        entry: assign({leftSeconds: dayTime}),
-        states: {
-          running: {
-            invoke: {src: tick()},
-            always: {
-              target: '#wereword.find',
-              actions: assign({findAnswer: false} as Partial<WerewordContext>),
-              cond: ctx => ctx.leftSeconds <= 0
-            },
-            on: {
-              RIGHT: {
-                target: '#wereword.find',
-                actions: assign({findAnswer: true} as Partial<WerewordContext>),
-              },
-              WRONG: {
-                target: '#wereword.find',
-                actions: assign({findAnswer: false} as Partial<WerewordContext>),
-              },
-              PAUSE: 'pause',
-            }
-          },
-          pause: {
-            on: {
-              PAUSE: 'running',
-            }
-          },
-        }
-      },
-      find: {
-        entry: assign({leftSeconds: guessTime}),
-        invoke: {src: tick()},
-        always: {
-          target: 'over',
-          cond: ctx => ctx.leftSeconds <= 0
-        },
       },
       over: {
-        on: {RESTART: 'waiting'}
+        on: {RESTART: 'setup.waiting'}
       },
       error: {},
     },
     on: {
-      STOP: 'waiting',
+      STOP: 'setup.waiting',
       TICK: {
         actions: assign({
           leftSeconds: c => c.leftSeconds - 1,
