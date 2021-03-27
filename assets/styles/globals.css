@@ -2,9 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    button {
+        @apply font-semibold py-2 px-4 rounded-lg shadow-md border bg-0-0;
+    }
+    button:hover {
+        @apply bg-0-100;
+    }
+
+    button:focus {
+        @apply outline-none ring-2 ring-0-400 ring-opacity-75;
+    }
+}
 
 @layer components {
-    .btn-blue {
-        @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+    .btn-contain {
+        @apply bg-1-500 text-white;
+    }
+
+    .btn-contain:hover {
+        @apply bg-1-700;
+    }
+
+    .btn-contain:focus {
+        @apply ring-1-400;
+    }
+
+    .btn-outline {
+        @apply bg-transparent text-1-700 border border-1-500
+    }
+
+    .btn-outline:hover {
+        @apply bg-1-300 text-white border-transparent;
     }
 }

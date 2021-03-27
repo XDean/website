@@ -9,14 +9,17 @@ export type WordSet = {
 }
 
 export interface WerewordContext {
-  playerCount: number
   allWordSet: WordSet[]
   wordSet: WordSet[]
   words: string[] //words to be selected
   answer: string
+
+  correct: boolean
+  noToken: boolean
+
   leftSeconds: number
-  findAnswer: boolean
-  findPerson: boolean
+  pause: boolean
+
   error?: any
 }
 
@@ -47,11 +50,10 @@ export interface WerewordSchema extends StateSchema<WerewordContext> {
         },
         daytime: {
           states: {
-            running: {},
-            pause: {},
+            guess: {},
+            find: {},
           }
         },
-        find: {},
       }
     },
     over: {},
@@ -60,13 +62,13 @@ export interface WerewordSchema extends StateSchema<WerewordContext> {
 }
 
 export type WerewordEvent =
-  { type: 'START', playCount: number } |
+  { type: 'START' } |
   { type: 'SELECT_WORD_SET', value: WordSet, check: boolean } |
   { type: 'CHANGE_WORD' } |
   { type: 'SELECT_WORD', value: string } |
   { type: 'SET_TIME', value: number } |
-  { type: 'RIGHT' } |
-  { type: 'WRONG' } |
+  { type: 'CORRECT' } |
+  { type: 'NO_TOKEN' } |
   { type: 'TICK' } |
   { type: 'TICK_ALL' } |
   { type: 'RESTART' } |
@@ -88,16 +90,6 @@ export function createWerewordMachine({
   return Machine<WerewordContext, WerewordSchema, WerewordEvent>({
     id: 'wereword',
     initial: 'setup',
-    context: {
-      playerCount: 5,
-      leftSeconds: 0,
-      allWordSet: [],
-      wordSet: [],
-      words: [],
-      answer: '',
-      findAnswer: false,
-      findPerson: false,
-    },
     states: {
       setup: {
         initial: 'prepare',
@@ -118,16 +110,20 @@ export function createWerewordMachine({
                   error: (ctx, event) => '加载失败，请尝试刷新'
                 })
               }
-            }
+            },
           },
           waiting: {
+            entry: assign(c => ({
+              leftSeconds: 0,
+              words: [],
+              answer: '',
+              answerCorrect: false,
+              tokenUsed: false,
+              pause: false,
+              error: undefined,
+            })),
             on: {
-              START: {
-                target: '#wereword.play',
-                actions: assign((ctx, event) => ({
-                  playerCount: event.playCount,
-                }))
-              }
+              START: '#wereword.play'
             }
           },
         }
@@ -184,7 +180,7 @@ export function createWerewordMachine({
                     entry: assign({leftSeconds: nightTime}),
                     invoke: {src: tick()},
                     always: {
-                      target: '..xianzhi',
+                      target: '#wereword.play.night.xianzhi',
                       cond: ctx => ctx.leftSeconds <= 0
                     }
                   },
@@ -210,49 +206,42 @@ export function createWerewordMachine({
                 entry: assign({leftSeconds: nightTime}),
                 invoke: {src: tick()},
                 always: {
-                  target: '..daytime',
+                  target: '#wereword.play.daytime',
                   cond: ctx => ctx.leftSeconds <= 0
                 }
               }
             }
           },
           daytime: {
-            initial: 'running',
+            initial: 'guess',
             entry: assign({leftSeconds: dayTime}),
             states: {
-              running: {
+              guess: {
                 invoke: {src: tick()},
                 always: {
-                  target: '..find',
-                  actions: assign({findAnswer: false} as Partial<WerewordContext>),
+                  target: '#wereword.play.daytime.find',
                   cond: ctx => ctx.leftSeconds <= 0
                 },
                 on: {
-                  RIGHT: {
-                    target: '..find',
-                    actions: assign({findAnswer: true} as Partial<WerewordContext>),
+                  CORRECT: {
+                    target: '#wereword.play.daytime.find',
+                    actions: assign({correct: true} as Partial<WerewordContext>),
                   },
-                  WRONG: {
-                    target: '..find',
-                    actions: assign({findAnswer: false} as Partial<WerewordContext>),
+                  NO_TOKEN: {
+                    target: '#wereword.play.daytime.find',
+                    actions: assign({noToken: true} as Partial<WerewordContext>),
                   },
-                  PAUSE: 'pause',
                 }
               },
-              pause: {
-                on: {
-                  PAUSE: 'running',
-                }
+              find: {
+                entry: assign({leftSeconds: guessTime}),
+                invoke: {src: tick()},
+                always: {
+                  target: '#wereword.over',
+                  cond: ctx => ctx.leftSeconds <= 0
+                },
               },
             }
-          },
-          find: {
-            entry: assign({leftSeconds: guessTime}),
-            invoke: {src: tick()},
-            always: {
-              target: '..over',
-              cond: ctx => ctx.leftSeconds <= 0
-            },
           },
         }
       },
@@ -262,10 +251,20 @@ export function createWerewordMachine({
       error: {},
     },
     on: {
-      STOP: 'setup.waiting',
+      PAUSE: {
+        actions: assign({
+          pause: c => !c.pause
+        })
+      },
+      STOP: {
+        target: 'setup.waiting',
+        actions: assign({
+          leftSeconds: c => 0
+        })
+      },
       TICK: {
         actions: assign({
-          leftSeconds: c => c.leftSeconds - 1,
+          leftSeconds: c => c.pause ? c.leftSeconds : (c.leftSeconds - 1),
         })
       },
       TICK_ALL: {
