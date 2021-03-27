@@ -1,4 +1,4 @@
-import {assign, Machine, StateSchema} from 'xstate'
+import {assign, Interpreter, Machine, StateSchema} from 'xstate'
 import {InvokeCreator} from "xstate/lib/types";
 
 
@@ -74,6 +74,8 @@ export type WerewordEvent =
   { type: 'RESTART' } |
   { type: 'STOP' } |
   { type: 'PAUSE' }
+
+export type WerewordService = Interpreter<WerewordContext, WerewordSchema, WerewordEvent>
 
 function tick(): InvokeCreator<WerewordContext, WerewordEvent, any> {
   return () => cb => {

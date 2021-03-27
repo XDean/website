@@ -32,6 +32,7 @@
     "react-utterances": "^0.6.4",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0",
+    "use-sound": "^2.0.1",
     "uslug": "^1.0.4",
     "xstate": "^4.17.0"
   },

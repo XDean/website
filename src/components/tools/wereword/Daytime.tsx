@@ -3,9 +3,16 @@ import {WerewordContext, WerewordEvent, WerewordSchema} from "./machine";
 import {useService} from "@xstate/react";
 import {WerewordImages} from './Images'
 import {WerewordToolbar} from "./Toolbar";
+import {useBindSound} from "../../util/hooks";
 
 export const WerewordDayTime = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service)
+  const bindSound = useBindSound([state])
+
+  const prefix = '/tools/wereword/sound/man'
+  bindSound(`${prefix}/day_guess.mp3`, () => state.matches('play.daytime.guess'))
+  bindSound(`${prefix}/find_xianzhi.mp3`, () => state.matches('play.daytime.find') && state.context.correct)
+  bindSound(`${prefix}/find_langren.mp3`, () => state.matches('play.daytime.find') && !state.context.correct)
   return (
     <>
       <div className={'w-max m-auto relative'}>
@@ -20,8 +27,8 @@ export const WerewordDayTime = ({service}: { service: Interpreter<WerewordContex
             <div className={'text-center text-5xl my-4'}>
               猜词阶段
             </div>
-            <div className={'text-center text-3xl mb-4'}>
-              剩余({state.context.leftSeconds}秒)
+            <div className={'text-center text-4xl mb-4'}>
+              剩余 {state.context.leftSeconds} 秒
             </div>
             <div className={'flex items-center justify-evenly'}>
               <div className={''} onClick={() => send('CORRECT')}>

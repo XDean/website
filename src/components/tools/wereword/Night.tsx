@@ -4,10 +4,13 @@ import {WerewordContext, WerewordEvent, WerewordSchema} from "./machine";
 import {useService} from "@xstate/react";
 import {WerewordImages} from './Images'
 import {WerewordToolbar} from "./Toolbar";
-import {PropsWithChildren, useCallback} from "react";
+import {PropsWithChildren, useCallback, useEffect, useState} from "react";
+import {useBindSound} from "../../util/hooks";
+import type {ReturnedValue} from 'use-sound/dist/types'
 
 export const WerewordNight = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service)
+  const [lastPlay, setLastPlay] = useState<ReturnedValue>()
 
   const ImageWithTool = useCallback(({children}: PropsWithChildren<{}>) => (
     <div className={'w-max m-auto relative'}>
@@ -17,6 +20,16 @@ export const WerewordNight = ({service}: { service: Interpreter<WerewordContext,
       {children}
     </div>
   ), [service])
+
+  const bindSound = useBindSound([state])
+
+  const prefix = '/tools/wereword/sound/man'
+  bindSound(`${prefix}/night_start.mp3`, () => state.matches('play.night.start'))
+  bindSound(`${prefix}/cunzhang_select.mp3`, () => state.matches('play.night.cunzhang.select'))
+  bindSound(`${prefix}/cunzhang_confirm.mp3`, () => state.matches('play.night.cunzhang.confirm'))
+  bindSound(`${prefix}/xianzhi.mp3`, () => state.matches('play.night.xianzhi'))
+  bindSound(`${prefix}/langren.mp3`, () => state.matches('play.night.langren'))
+  bindSound(`${prefix}/night_end.mp3`, () => state.matches('play.night.end'))
 
   const AnswerView = useCallback(() => (
     <div className={'text-6xl h-64 mx-4 text-center'}>
