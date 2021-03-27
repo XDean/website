@@ -2,6 +2,8 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 const myColor = {
+    bg: colors.white,
+    text: colors.black,
     0: {0: colors.white, ...colors.coolGray},
     1: {0: colors.white, ...colors.blue},
     2: {0: colors.white, ...colors.green},
