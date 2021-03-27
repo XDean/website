@@ -4,13 +4,13 @@ import useSound from "use-sound";
 
 export const useBindSound = (deps?: any[]) => {
   const [lastPlay, setLastPlay] = useState<ReturnedValue>()
+  useEffect(() => () => lastPlay && lastPlay[1].stop(), [lastPlay])
   return (url: string, match: () => boolean, moreDeps?: any[]) => {
     const sound = useSound(url)
     useEffect(() => {
       if ((!lastPlay || lastPlay[0] != sound[0]) && match() && !sound[1].isPlaying) {
-        lastPlay && lastPlay[1].stop()
-        sound[0]()
         setLastPlay(sound)
+        sound[0]()
       }
     }, [...(deps || []), ...(moreDeps || []), sound[0]])
   }

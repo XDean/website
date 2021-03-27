@@ -1,11 +1,13 @@
 import {Interpreter} from "xstate";
 import {WerewordContext, WerewordEvent, WerewordSchema} from "./machine";
 import {useService} from "@xstate/react";
-import {WerewordToolbar} from "./Toolbar";
 import {WerewordImages} from "./Images";
+import {useBindSound} from "../../util/hooks";
 
 export const WerewordOver = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service)
+  const bindSound = useBindSound([state])
+  bindSound(`/tools/wereword/sound/man/over.mp3`, () => true)
   return (
     <>
       <div className={'w-max m-auto relative'}>
