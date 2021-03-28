@@ -1,19 +1,21 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {promises as fs} from "fs";
+import {WordSets} from "../../../src/components/tools/wereword/words";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const set = singleToArray(req.query['set']).flatMap(s => s.split(','))
+  let sets = singleToArray(req.query['sets'])
+    .flatMap(s => s.split(','))
+    .map(s => WordSets.find(ws => ws.id === s))
+    .filter(s => !!s)
   const count = Number(req.query['count']) || 5
   const result = []
-  if (set.length === 0) {
-    set.push('easy')
+  if (sets.length === 0) {
+    sets = WordSets.filter(s => s.default)
   }
-  for (let s of set) {
+  for (let set of sets) {
     try {
-      const lines = (await fs.readFile(`assets/words/${s}.txt`, 'utf-8')).split('\n')
-      result.push(...randomItem(lines, count))
+      result.push(...randomItem(set.words, count))
     } catch (e) {
-      return res.status(404).json({message: `no such word set '${s}'`})
+      return res.status(404).json({message: `no such word set '${set.id}'`})
     }
   }
   return res.status(200).json(randomItem(result, count))
