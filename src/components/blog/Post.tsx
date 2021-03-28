@@ -7,7 +7,7 @@ import gfm from 'remark-gfm'
 import innerText from 'react-innertext';
 import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import {PrismAsyncLight as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {idea as syntaxStyle} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import {MyLink} from "../util/Link";
 import {GithubComment} from "../util/GithubComment";
@@ -19,7 +19,6 @@ import {motion} from 'framer-motion'
 import {Toc} from "./components/post/Toc";
 import {PostNav} from "./components/post/Nav";
 import {PostHeader} from "./components/post/Header";
-import {NextSeo} from "next-seo";
 import {PostSEO} from "./components/post/Seo";
 
 export type PostProps = {

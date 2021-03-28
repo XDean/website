@@ -4,7 +4,7 @@ import {WerewordContext, WerewordEvent, WerewordSchema} from "./machine";
 import {useService} from "@xstate/react";
 import {WerewordImages} from './Images'
 import {WerewordToolbar} from "./Toolbar";
-import {PropsWithChildren, useCallback, useEffect, useState} from "react";
+import {PropsWithChildren, useCallback, useState} from "react";
 import {useBindSound} from "../../util/hooks";
 import type {ReturnedValue} from 'use-sound/dist/types'
 import {AnswerView} from "./Answer";
