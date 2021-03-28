@@ -7,7 +7,7 @@ export const HeaderView = () => {
   return (
     <div className={'pl-2 md:pl-6 py-1 md:py-2 shadow-lg bg-bg text-text flex flex-row items-center'}>
       <div className={'inline w-8 h-8 md:w-12 md:h-12 mr-2 md:mr-8 bg-contain bg-no-repeat'}
-           style={{backgroundImage: logoHover ? `url('/xd.png')` : `url('/favicon.ico')`}}
+           style={{backgroundImage: logoHover ? `url('/xd.webp')` : `url('/favicon.webp')`}}
            onMouseEnter={() => setLogoHover(true)} onMouseLeave={() => setLogoHover(false)}/>
       <div className={'flex flex-row flex-grow items-center text-xl md:text-3xl'}>
         <MyLink href={'/'} className={'mr-3 md:mr-8'}>
