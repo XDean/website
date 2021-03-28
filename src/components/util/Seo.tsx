@@ -6,7 +6,7 @@ export const MySeo = (props: NextSeoProps) => {
   const router = useRouter()
 
   const copy = JSON.parse(JSON.stringify(props)) as NextSeoProps
-  const url = `https://xdean.cn${router.route}`
+  const url = `https://xdean.cn${router.asPath}`
   const og = copy.openGraph;
   if (!!og) {
     if (!!og.url) {
