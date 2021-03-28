@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import {WordSets} from "../../../src/components/tools/wereword/words";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  let sets = singleToArray(req.query['sets'])
+  let sets = singleToArray(req.query['set'])
     .flatMap(s => s.split(','))
     .map(s => WordSets.find(ws => ws.id === s))
     .filter(s => !!s)
