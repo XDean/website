@@ -1,15 +1,9 @@
 import {PostMeta, PostMetaGroup, PostMetaGroupType} from "./domain";
-import {promises as fs} from "fs";
 import path from "path";
-
-let global: PostMeta[] = []
+import metaJson from '../../public/blog/meta.json'
 
 export async function getPostMetas(): Promise<PostMeta[]> {
-  if (global.length === 0) {
-    const raw = await fs.readFile(path.join(process.cwd(), 'public', 'blog', 'meta.json'), 'utf-8')
-    global = JSON.parse(raw) as PostMeta[]
-  }
-  return global
+  return metaJson
 }
 
 export async function getPostMetaByLink(link: string): Promise<PostMeta> {

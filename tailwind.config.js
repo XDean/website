@@ -1,18 +1,21 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+
+const myColor = {
+    bg: colors.white,
+    text: colors.black,
+    0: {0: colors.white, ...colors.coolGray},
+    1: {0: colors.white, ...colors.blue},
+    2: {0: colors.white, ...colors.green},
+}
 
 module.exports = {
     purge: ['./pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
     darkMode: false,
     theme: {
         extend: {
-            colors: {
-                p: '#fafafa',
-                s: '#f1f1f5',
-            },
-            textColor: {
-                p: 'rgba(0, 0, 0)',
-                s: 'rgb(85, 85, 85)',
-            },
+            colors: myColor,
+            textColor: myColor,
             minWidth: {
                 ...defaultTheme.spacing,
             },
