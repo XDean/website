@@ -1,14 +1,11 @@
 import {PostMeta} from "../../posts/domain";
 import React, {ReactElement} from "react";
 import 'github-markdown-css/github-markdown.css'
-import 'highlight.js/styles/stackoverflow-light.css'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import innerText from 'react-innertext';
 import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
-import {PrismAsyncLight as SyntaxHighlighter} from 'react-syntax-highlighter'
-import {idea as syntaxStyle} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import {MyLink} from "../util/Link";
 import {GithubComment} from "../util/GithubComment";
 import uslug from 'uslug'
@@ -20,6 +17,16 @@ import {Toc} from "./components/post/Toc";
 import {PostNav} from "./components/post/Nav";
 import {PostHeader} from "./components/post/Header";
 import {PostSEO} from "./components/post/Seo";
+import * as Prism from 'prismjs'
+import 'prismjs/components/prism-bash.min'
+import 'prismjs/components/prism-java.min'
+import 'prismjs/components/prism-go.min'
+import 'prismjs/components/prism-python.min'
+import 'prismjs/components/prism-sql.min'
+import 'prismjs/components/prism-yaml.min'
+import 'prismjs/components/prism-scala.min'
+import 'prismjs/components/prism-json.min'
+import 'prismjs/themes/prism.css'
 
 export type PostProps = {
   content: string
@@ -57,7 +64,10 @@ export const PostView = (props: PostProps) => {
                              }, props.children)
                            },
                            code: ({language, value}) => {
-                             return <SyntaxHighlighter style={syntaxStyle} language={language} children={value}/>
+                             const grammar = Prism.languages[language];
+                             const html = !!grammar ? Prism.highlight(value, grammar, language) : value;
+                             return <pre className={`language-${language}`}><code
+                               dangerouslySetInnerHTML={{__html: html}}/></pre>
                            },
                            math: props => <MathJax.Node formula={props.value}/>,
                            list: props => <ul className={clsx(props.ordered ? 'list-decimal' : 'list-disc')}>
