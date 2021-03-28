@@ -85,7 +85,7 @@ function tick(): InvokeCreator<WerewordContext, WerewordEvent, any> {
 }
 
 export function createWerewordMachine({
-                                        nightTime = 3,
+                                        nightTime = 4,
                                         dayTime = 240,
                                         guessTime = 60
                                       }: { nightTime?: number, dayTime?: number, guessTime?: number }) {
@@ -179,7 +179,7 @@ export function createWerewordMachine({
                     entry: () => console.log('loading word data...')
                   },
                   confirm: {
-                    entry: assign({leftSeconds: nightTime}),
+                    entry: assign({leftSeconds: 3 + nightTime}),
                     invoke: {src: tick()},
                     always: {
                       target: '#wereword.play.night.xianzhi',
@@ -189,7 +189,7 @@ export function createWerewordMachine({
                 },
               },
               xianzhi: {
-                entry: assign({leftSeconds: nightTime}),
+                entry: assign({leftSeconds: 5 + nightTime}),
                 invoke: {src: tick()},
                 always: {
                   target: 'langren',
@@ -197,7 +197,7 @@ export function createWerewordMachine({
                 }
               },
               langren: {
-                entry: assign({leftSeconds: nightTime}),
+                entry: assign({leftSeconds: 5 + nightTime}),
                 invoke: {src: tick()},
                 always: {
                   target: 'end',
