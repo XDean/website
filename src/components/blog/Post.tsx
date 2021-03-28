@@ -69,7 +69,7 @@ export const PostView = (props: PostProps) => {
                            link: props => {
                              let href = props.href
                              if (isURL(href)) {
-                               return <a {...props}/>
+                               return <a rel={'noopener'} {...props}/>
                              } else {
                                if (href.endsWith('.md')) {
                                  href = href.substring(0, href.length - 3)

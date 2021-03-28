@@ -47,7 +47,8 @@ export const AboutView = () => {
                        image: props => <img {...props} className={'w-10 mr-2 inline'} alt={props.src}/>,
                        list: props => <ul className={clsx(props.ordered ? 'list-decimal' : 'list-disc')}>
                          {props.children}
-                       </ul>
+                       </ul>,
+                       link: props => <a rel={'noopener'} {...props}/>,
                      }}
       />
       <GithubComment/>
