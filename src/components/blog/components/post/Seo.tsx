@@ -7,6 +7,7 @@ export const PostSEO = ({meta}: { meta: PostMeta }) => {
     <MySeo
       title={meta.title}
       description={meta.summary.join('\n')}
+      noindex={false}
       openGraph={{
         type: 'article',
         images: [{

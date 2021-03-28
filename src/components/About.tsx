@@ -12,6 +12,7 @@ export const AboutView = () => {
     <motion.div className={'w-11/12 max-w-screen-lg my-4'} {...OpacityInOut}>
       <MySeo
         title={'关于我'}
+        noindex={false}
         openGraph={{
           type: 'profile',
           images: [{

@@ -89,6 +89,7 @@ export const GuoBiaoMainView = () => {
       <MySeo
         title={'国标麻将算番器'}
         description={'国标麻将在线算番工具'}
+        noindex={false}
         openGraph={{
           type: 'website',
           images: [{
