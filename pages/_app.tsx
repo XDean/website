@@ -11,7 +11,8 @@ function MyApp({Component, pageProps, router}: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
+        <meta name='viewport'
+              content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover'/>
         <title>XDean</title>
         <GAScrips id={GA_TRACKING_ID} router={router}/>
       </Head>
