@@ -5,15 +5,21 @@ import {AnimatePresence} from 'framer-motion';
 import {DefaultLayout} from "../src/components/layout/Default";
 import {GAScrips} from "../src/components/util/GA";
 import '../assets/styles/globals.css'
+import {DefaultSeo} from "next-seo";
 
 function MyApp({Component, pageProps, router}: AppProps) {
   const Layout = (Component as any).Layout || DefaultLayout
+  // noinspection HtmlRequiredTitleElement
   return (
     <>
+      <DefaultSeo
+        defaultTitle={'XDean的个人网站'}
+        titleTemplate={'%s | XDean'}
+        description={'XDean的个人网站'}
+      />
       <Head>
         <meta name='viewport'
               content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover'/>
-        <title>XDean</title>
         <GAScrips id={GA_TRACKING_ID} router={router}/>
       </Head>
       <Layout>

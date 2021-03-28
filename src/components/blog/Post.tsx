@@ -14,12 +14,12 @@ import {GithubComment} from "../util/GithubComment";
 import uslug from 'uslug'
 import {isURL} from "../../util/util";
 import clsx from "clsx";
-import Head from "next/head";
 import {OpacityInOut} from "../../motion/OpacityInOut";
 import {motion} from 'framer-motion'
 import {Toc} from "./components/post/Toc";
 import {PostNav} from "./components/post/Nav";
 import {PostHeader} from "./components/post/Header";
+import {NextSeo} from "next-seo";
 
 export type PostProps = {
   content: string
@@ -31,9 +31,20 @@ export type PostProps = {
 export const PostView = (props: PostProps) => {
   return (
     <motion.div className={'w-11/12 max-w-screen-lg my-4'} {...OpacityInOut}>
-      <Head>
-        <title>{props.meta.title} - XDean's Blog</title>
-      </Head>
+      <NextSeo
+        title={props.meta.title}
+        description={props.meta.summary.join('\n')}
+        openGraph={{
+          type: 'article',
+          locale: 'zh',
+          title: props.meta.title,
+          description: props.meta.summary.join('\n'),
+          site_name: 'XDean的个人网站',
+          images: [{
+            url: props.meta.image,
+          }]
+        }}
+      />
       {props.meta.toc !== false && <Toc content={props.content}/>}
       <div className={'overflow-y-hidden'}>
         <div className={'mb-4'}>
