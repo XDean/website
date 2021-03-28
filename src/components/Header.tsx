@@ -24,7 +24,7 @@ export const HeaderView = () => {
         </MyLink>
       </div>
       <div className={'mr-1 md:mr-4'}>
-        <a href={'https://github.com/XDean/website'} target={'_blank'}>
+        <a href={'https://github.com/XDean/website'} target={'_blank'} rel={'noopener'}>
           <GithubLogo className={'h-7 w-7 text-gray-500'}/>
         </a>
       </div>
