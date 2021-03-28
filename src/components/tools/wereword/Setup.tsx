@@ -3,6 +3,7 @@ import {useService} from "@xstate/react";
 import {WerewordImages} from "./Images";
 import {WerewordContext, WerewordEvent, WerewordSchema} from "./machine";
 import {Interpreter} from "xstate";
+import {GithubComment} from "../../util/GithubComment";
 
 export const WerewordSetup = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service)
@@ -39,6 +40,7 @@ export const WerewordSetup = ({service}: { service: Interpreter<WerewordContext,
           </div>
         </div>
       )}
+      <GithubComment/>
     </>
   )
 }
