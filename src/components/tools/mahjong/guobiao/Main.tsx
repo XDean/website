@@ -10,6 +10,7 @@ import {OptionView} from "./Option";
 import {GithubComment} from "../../../util/GithubComment";
 import {motion} from "framer-motion";
 import {OpacityInOut} from "../../../../motion/OpacityInOut";
+import {NextSeo} from "next-seo";
 
 type Mode = {
   name: string
@@ -86,9 +87,17 @@ export const GuoBiaoMainView = () => {
 
   return (
     <motion.div className={'w-max max-w-screen-lg'} {...OpacityInOut}>
-      <Head>
-        <title>国标麻将算番器 - XDean</title>
-      </Head>
+      {typeof window !=='undefined'&&<NextSeo
+        title={'国标麻将算番器'}
+        description={'国标麻将在线算番工具'}
+        openGraph={{
+          type: 'website',
+          url: window.location.href,
+          images: [{
+            url: new URL('/tools/mahjong/logo.webp', window.location.href).toString(),
+          }],
+        }}
+      />}
       <h1 className={'text-4xl text-center mb-2 md:mb-4'}>
         国标麻将算番器
       </h1>

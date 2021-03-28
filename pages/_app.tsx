@@ -15,7 +15,10 @@ function MyApp({Component, pageProps, router}: AppProps) {
       <DefaultSeo
         defaultTitle={'XDean的个人网站'}
         titleTemplate={'%s | XDean'}
-        description={'XDean的个人网站'}
+        openGraph={{
+          locale: 'zh',
+          site_name: 'XDean的个人网站',
+        }}
       />
       <Head>
         <meta name='viewport'

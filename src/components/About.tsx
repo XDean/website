@@ -5,10 +5,26 @@ import React from "react";
 import clsx from "clsx";
 import {motion} from "framer-motion";
 import {OpacityInOut} from "../motion/OpacityInOut";
+import {NextSeo} from "next-seo";
 
 export const AboutView = () => {
   return (
     <motion.div className={'w-11/12 max-w-screen-lg my-4'} {...OpacityInOut}>
+      {typeof window !=='undefined' &&<NextSeo
+        title={'关于我'}
+        openGraph={{
+          type: 'profile',
+          url: window.location.href,
+          images: [{
+            url: new URL('/icons/192.webp', window.location.href).toString(),
+          }],
+          profile: {
+            firstName: 'Dean',
+            lastName: 'Xu',
+            username: 'XDean'
+          }
+        }}
+      />}
       <ReactMarkdown className={'markdown-body'} source={`
 ## 我是谁
 

@@ -12,14 +12,17 @@ export const PostSEO = ({meta}: { meta: PostMeta }) => {
       description={meta.summary.join('\n')}
       openGraph={{
         type: 'article',
-        locale: 'zh',
-        title: meta.title,
-        description: meta.summary.join('\n'),
-        site_name: 'XDean的个人网站',
         url: window.location.href,
         images: [{
           url: new URL(meta.image, window.location.href).toString(),
-        }]
+        }],
+        article: {
+          authors: [meta.author],
+          publishedTime: meta.created,
+          modifiedTime: meta.updated,
+          tags: meta.tags,
+          section: meta.categories.length > 0 ? meta.categories[0] : '',
+        },
       }}
     />
   )
