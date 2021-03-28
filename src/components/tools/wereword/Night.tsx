@@ -7,6 +7,7 @@ import {WerewordToolbar} from "./Toolbar";
 import {PropsWithChildren, useCallback, useEffect, useState} from "react";
 import {useBindSound} from "../../util/hooks";
 import type {ReturnedValue} from 'use-sound/dist/types'
+import {AnswerView} from "./Answer";
 
 export const WerewordNight = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service)
@@ -30,18 +31,6 @@ export const WerewordNight = ({service}: { service: Interpreter<WerewordContext,
   bindSound(`${prefix}/xianzhi.mp3`, () => state.matches('play.night.xianzhi'))
   bindSound(`${prefix}/langren.mp3`, () => state.matches('play.night.langren'))
   bindSound(`${prefix}/night_end.mp3`, () => state.matches('play.night.end'))
-
-  const AnswerView = useCallback(() => (
-    <div className={'text-6xl h-64 mx-4 text-center'}>
-      <div className={'float-left'} style={{textOrientation: 'sideways', writingMode: 'vertical-rl'}}>
-        {state.context.answer}
-      </div>
-      <div className={'float-right transform rotate-180'}
-           style={{textOrientation: 'sideways', writingMode: 'vertical-rl'}}>
-        {state.context.answer}
-      </div>
-    </div>
-  ), [state.context.answer])
 
   return (
     <div className={'flex-grow w-full relative'}>
@@ -90,7 +79,7 @@ export const WerewordNight = ({service}: { service: Interpreter<WerewordContext,
               <div className={'text-center text-3xl mb-3'}>
                 确认魔法咒语<br/>({state.context.leftSeconds}秒)
               </div>
-              <AnswerView/>
+              <AnswerView answer={state.context.answer}/>
             </>
           )}
         </>
@@ -103,7 +92,7 @@ export const WerewordNight = ({service}: { service: Interpreter<WerewordContext,
           <div className={'text-center text-5xl w-max m-auto my-2'}>
             先知阶段<br/>({state.context.leftSeconds}秒)
           </div>
-          <AnswerView/>
+          <AnswerView answer={state.context.answer}/>
         </>
       )}
       {state.matches('play.night.langren') && (
@@ -114,7 +103,7 @@ export const WerewordNight = ({service}: { service: Interpreter<WerewordContext,
           <div className={'text-center text-5xl w-max m-auto my-2'}>
             狼人阶段<br/>({state.context.leftSeconds}秒)
           </div>
-          <AnswerView/>
+          <AnswerView answer={state.context.answer}/>
         </>
       )}
       {state.matches('play.night.end') && (

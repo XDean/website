@@ -4,6 +4,7 @@ import {useService} from "@xstate/react";
 import {WerewordImages} from './Images'
 import {WerewordToolbar} from "./Toolbar";
 import {useBindSound} from "../../util/hooks";
+import {AnswerView} from "./Answer";
 
 export const WerewordDayTime = ({service}: { service: Interpreter<WerewordContext, WerewordSchema, WerewordEvent> }) => {
   const [state, send] = useService(service)
@@ -43,13 +44,14 @@ export const WerewordDayTime = ({service}: { service: Interpreter<WerewordContex
         )}
         {state.matches('play.daytime.find') && (
           <div>
-            <div className={'text-center text-5xl my-4'}>
+            <div className={'text-center text-5xl my-2'}>
               投票阶段
             </div>
-            <div className={'text-center text-3xl my-4 leading-normal'}>
+            <div className={'text-center text-3xl my-2 leading-normal'}>
               {state.context.correct ? '狼人' : '村民'}请找出{state.context.correct ? '先知' : '狼人'}<br/>
               剩余 {state.context.leftSeconds} 秒
             </div>
+            <AnswerView answer={state.context.answer}/>
           </div>
         )}
       </div>

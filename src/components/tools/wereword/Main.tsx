@@ -13,7 +13,7 @@ import Head from "next/head";
 import {motion} from "framer-motion";
 
 export const WerewordMain = () => {
-  const [state, send, service] = useMachine(() => createWerewordMachine({nightTime: 1000}))
+  const [state, send, service] = useMachine(() => createWerewordMachine({}))
 
   return (
     <div className={'w-11/12 max-w-screen-md h-full flex flex-col'}>
