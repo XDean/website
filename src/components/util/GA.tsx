@@ -1,30 +1,34 @@
 import {useEffect} from "react";
-import * as gtag from "../../util/gtag";
 import {NextRouter} from "next/router";
+import ReactGA from 'react-ga'
 
-export const GAScrips = ({id, router}: { id: string, router: NextRouter }) => {
+const id = 'UA-145930182-1'
 
+export const useGA = (router: NextRouter) => {
   useEffect(() => {
-    const handleRouteChange = (url) => {
-      gtag.pageview(url)
-    }
+    service.init();
+    service.pageview(router.asPath)
+  }, [])
+  useEffect(() => {
+    const handleRouteChange = (url) => service.pageview(url)
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [router.events])
-
-  return (
-    <>
-      <script async src={`https://www.googletagmanager.com/gtag/js?id=${id}`}/>
-      <script dangerouslySetInnerHTML={{
-        __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', '${id}');`
-      }}/>
-    </>
-  )
 }
+
+const dev = {
+  init: () => {
+    console.info('[ga] init')
+  }, pageview: (url: string) => {
+    console.info('[ga] pageview', url)
+  }
+}
+
+const prod = {
+  init: () => ReactGA.initialize(id),
+  pageview: (url: string) => ReactGA.pageview(url)
+}
+
+const service = process.env.NODE_ENV === "production" ? prod : dev
