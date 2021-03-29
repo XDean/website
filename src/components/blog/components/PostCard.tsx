@@ -26,7 +26,7 @@ export const PostCard = (props: Props) => {
   return (
 
     <div
-      className={'bg-white hover:border-transparent hover:shadow-lg group block rounded-lg border border-gray-200l flex flex-row'}>
+      className={'bg-white hover:ring-2 hover:ring-0-200 hover:shadow-lg group block rounded-lg border border-gray-200l flex flex-row'}>
       <div className={'flex flex-col w-0 flex-grow-2 p-2 md:p-4'}>
         <div className={'text-xl md:text-3xl'}>
           <MyLink href={props.meta.link} next={{prefetch: false}}>
