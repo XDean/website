@@ -25,7 +25,7 @@ export const TileView = ({tile, scale = 0}: { tile: Tile | null, scale?: number 
   return (
     <div
       style={{
-        backgroundImage: 'url(/tools/mahjong/guobiao/tiles.webp)',
+        backgroundImage: 'url(/tools/guobiao/tiles.webp)',
         width: 50 * s,
         height: 72 * s,
         backgroundPositionX: offset * s,

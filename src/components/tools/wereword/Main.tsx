@@ -7,12 +7,17 @@ import {WerewordNight} from "./Night";
 import {WerewordOver} from "./Over";
 import {useRouter} from "next/router";
 import {MySeo} from "../../util/Seo";
+import Head from "next/head";
+import {motion} from "framer-motion";
 
 export const WerewordMain = () => {
   const [state, send, service] = useMachine(() => createWerewordMachine({}))
   const router = useRouter()
   return (
     <div className={'w-11/12 max-w-screen-md h-full flex flex-col'}>
+      <Head>
+        <link rel='manifest' href='/tools/wereword/manifest.json' />
+      </Head>
       <MySeo
         title={'狼人真言网页版'}
         description={'桌游 - 狼人真言 - 辅助工具 - 网页版App'}
@@ -20,7 +25,7 @@ export const WerewordMain = () => {
         openGraph={{
           type: 'website',
           images: [{
-            url: '/tools/wereword/logo.webp',
+            url: '/tools/wereword/logo_192.webp',
           }],
         }}
       />

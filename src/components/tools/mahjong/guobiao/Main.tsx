@@ -10,6 +10,7 @@ import {GithubComment} from "../../../util/GithubComment";
 import {motion} from "framer-motion";
 import {OpacityInOut} from "../../../../motion/OpacityInOut";
 import {MySeo} from "../../../util/Seo";
+import Head from 'next/head'
 
 type Mode = {
   name: string
@@ -86,6 +87,9 @@ export const GuoBiaoMainView = () => {
 
   return (
     <motion.div className={'w-max max-w-screen-lg'} {...OpacityInOut}>
+      <Head>
+        <link rel='manifest' href='/tools/mahjong/guobiao/manifest.json'/>
+      </Head>
       <MySeo
         title={'国标麻将算番器'}
         description={'国标麻将在线算番工具'}
@@ -93,7 +97,9 @@ export const GuoBiaoMainView = () => {
         openGraph={{
           type: 'website',
           images: [{
-            url: '/tools/mahjong/logo.webp',
+            url: '/tools/guobiao/logo_192.webp',
+            width: 192,
+            height: 192,
           }],
         }}
       />

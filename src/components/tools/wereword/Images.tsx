@@ -6,7 +6,7 @@ const TopImage = ({url, style}: { url: string, style?: CSSProperties }) => (
 )
 
 export const WerewordImages = {
-  Logo: () => <TopImage url={'/tools/wereword/logo.webp'}/>,
+  Logo: () => <TopImage url={'/tools/wereword/logo_192.webp'}/>,
   Cunzhang: () => <TopImage url={'/tools/wereword/cards.webp'} style={{
     backgroundColor: 'black',
     backgroundPositionX: 0,
