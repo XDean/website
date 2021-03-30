@@ -16,7 +16,7 @@ export const WerewordMain = () => {
   const router = useRouter()
 
   useEffect(() => register({
-    scope: '/tools/wereword',
+    scope: '/tools/wereword/',
     start_url: '/tools/wereword',
     sw: '/tools/wereword/sw.js',
   }), [])
