@@ -88,7 +88,7 @@ export const GuoBiaoMainView = () => {
   return (
     <motion.div className={'w-max max-w-screen-lg'} {...OpacityInOut}>
       <Head>
-        <link rel='manifest' href='/tools/mahjong/guobiao/manifest.json'/>
+        <link rel='manifest' href='/tools/guobiao/manifest.json'/>
       </Head>
       <MySeo
         title={'国标麻将算番器'}
