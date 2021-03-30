@@ -297,7 +297,7 @@ module.exports = withPlugins([
     sw: '/tools/guobiao-sw.js',
     publicIncludes: ['tools/guobiao/**/*'],
     navigateFallback: '/tools/guobiao',
-    additionalManifestEntries: ['tools/guobiao'],
+    additionalManifestEntries: ['/tools/guobiao'],
   })],
   [withPWA({
     disable: !prod,
@@ -305,7 +305,7 @@ module.exports = withPlugins([
     sw: '/tools/wereword-sw.js',
     publicIncludes: ['tools/wereword/**/*'],
     navigateFallback: '/tools/wereword',
-    additionalManifestEntries: ['tools/wereword'],
+    additionalManifestEntries: ['/tools/wereword'],
   })],
   {
     async rewrites() {
