@@ -20,6 +20,7 @@ module.exports = withPlugins([
     publicIncludes: ['tools/wereword/**/*'],
   })],
   {
+    future: { webpack5: true, },
     async rewrites() {
       return [
         {
