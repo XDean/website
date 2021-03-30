@@ -37,11 +37,11 @@ export const AboutView = () => {
 
 ## 联系方式 / 社交账号
 
-[![wechat](about/wechat.png)](/about/wechat-qr.jpg)
-[![github](about/github.png)](https://github.com/XDean)
-[![stackoverflow](about/stackoverflow.png)](https://stackoverflow.com/users/7803527/dean-xu)
-[![qqmail](about/qqmail.png)](mailto:373216024@qq.com)
-[![gmail](about/gmail.png)](mailto:xuda1107@gmail.com)
+[![wechat](about/wechat.webp)](/about/wechat-qr.webp)
+[![github](about/github.webp)](https://github.com/XDean)
+[![stackoverflow](about/stackoverflow.webp)](https://stackoverflow.com/users/7803527/dean-xu)
+[![qqmail](about/qqmail.webp)](mailto:373216024@qq.com)
+[![gmail](about/gmail.webp)](mailto:xuda1107@gmail.com)
 
 ## Coding
 
