@@ -5,8 +5,8 @@
   "orientation": "portrait",
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
-  "start_url": "/tools/guobiao/",
-  "scope": "/tools/guobiao/",
+  "start_url": "/tools/guobiao",
+  "scope": "/tools/guobiao",
   "icons": [
     {
       "src": "/tools/guobiao/logo_192.webp",

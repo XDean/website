@@ -68,9 +68,9 @@ export const GuoBiaoMainView = () => {
   const [disabledTiles, setDisabledTiles] = useState(new Tiles([]))
 
   useEffect(() => register({
-    scope: '/tools/guobiao/',
+    scope: '/tools/guobiao',
     start_url: '/tools/guobiao',
-    sw: '/tools/guobiao/sw.js',
+    sw: '/tools/guobiao-sw.js',
   }), [])
 
   useEffect(() => {

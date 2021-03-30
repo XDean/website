@@ -296,13 +296,13 @@ module.exports = withPlugins([
   [withPWA({
     disable: !prod,
     dest: 'public',
-    sw: '/tools/guobiao/sw.js',
+    sw: '/tools/guobiao-sw.js',
     publicIncludes: ['tools/guobiao/**/*'],
   })],
   [withPWA({
     disable: !prod,
     dest: 'public',
-    sw: '/tools/wereword/sw.js',
+    sw: '/tools/wereword-sw.js',
     publicIncludes: ['tools/wereword/**/*'],
   })],
   {
