@@ -1,5 +1,5 @@
 const withPlugins = require('next-compose-plugins');
-const withPWA = require('./build/pwa/index')
+const withPWA = require('./build/pwa')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -20,7 +20,6 @@ module.exports = withPlugins([
     publicIncludes: ['tools/wereword/**/*'],
   })],
   {
-    future: {webpack5: true,},
     async rewrites() {
       return [
         {
