@@ -11,6 +11,7 @@ import {motion} from "framer-motion";
 import {OpacityInOut} from "../../../../motion/OpacityInOut";
 import {MySeo} from "../../../util/Seo";
 import Head from 'next/head'
+import {register} from "../../../../util/register_workbox";
 
 type Mode = {
   name: string
@@ -65,6 +66,12 @@ export const GuoBiaoMainView = () => {
   const [mode, setMode] = useState(modes[0])
   const [disableAll, setDisableAll] = useState(false)
   const [disabledTiles, setDisabledTiles] = useState(new Tiles([]))
+
+  useEffect(() => register({
+    scope: '/tools/guobiao',
+    start_url: '/tools/guobiao',
+    sw: '/tools/guobiao/sw.js',
+  }), [])
 
   useEffect(() => {
     setDisableAll(mode.disableAll(hand))

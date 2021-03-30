@@ -1,5 +1,5 @@
 const withPlugins = require('next-compose-plugins');
-const withPWA = require('next-pwa')
+const withPWA = require('./build/pwa')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -7,13 +7,18 @@ const prod = process.env.NODE_ENV === 'production'
 
 module.exports = withPlugins([
   [withBundleAnalyzer],
-  [withPWA, {
-    pwa: {
-      disable: !prod,
-      dest: 'public',
-      navigateFallback: '/'
-    }
-  }],
+  [withPWA({
+    disable: !prod,
+    dest: 'public',
+    sw: '/tools/guobiao/sw.js',
+    publicExcludes: ['tools/guobiao/**/*'],
+  })],
+  [withPWA({
+    disable: !prod,
+    dest: 'public',
+    sw: '/tools/wereword/sw.js',
+    publicExcludes: ['tools/wereword/**/*'],
+  })],
   {
     async rewrites() {
       return [
