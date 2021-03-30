@@ -145,7 +145,7 @@ const withPWA = (pwa) => (nextConfig = {}) => ({
       sw = 'sw.js',
       subdomainPrefix = '',
       scope = '/',
-      additionalManifestEntries,
+      additionalManifestEntries = [],
       ignoreURLParametersMatching = [],
       importScripts = [],
       publicExcludes = [],
@@ -193,31 +193,29 @@ const withPWA = (pwa) => (nextConfig = {}) => ({
       )
 
       // precache files in public folder
-      let manifestEntries = additionalManifestEntries
-      if (!Array.isArray(manifestEntries)) {
-        manifestEntries = globby
-          .sync(
-            [
-              ...publicIncludes,
-              '!workbox-*.js',
-              '!workbox-*.js.map',
-              '!worker-*.js',
-              '!worker-*.js.map',
-              '!fallback-*.js',
-              '!fallback-*.js.map',
-              `!${sw.replace(/^\/+/, '')}`,
-              `!${sw.replace(/^\/+/, '')}.map`,
-              ...publicExcludes
-            ],
-            {
-              cwd: 'public'
-            }
-          )
-          .map(f => ({
-            url: path.posix.join(subdomainPrefix, `/${f}`),
-            revision: getRevision(`public/${f}`)
-          }))
-      }
+      const manifestEntries = [...additionalManifestEntries]
+      manifestEntries.push(...globby
+        .sync(
+          [
+            ...publicIncludes,
+            '!workbox-*.js',
+            '!workbox-*.js.map',
+            '!worker-*.js',
+            '!worker-*.js.map',
+            '!fallback-*.js',
+            '!fallback-*.js.map',
+            `!${sw.replace(/^\/+/, '')}`,
+            `!${sw.replace(/^\/+/, '')}.map`,
+            ...publicExcludes
+          ],
+          {
+            cwd: 'public'
+          }
+        )
+        .map(f => ({
+          url: path.posix.join(subdomainPrefix, `/${f}`),
+          revision: getRevision(`public/${f}`)
+        })))
 
       const prefix = config.output.publicPath ? `${config.output.publicPath}static/` : 'static/'
       const workboxCommon = {
@@ -298,14 +296,16 @@ module.exports = withPlugins([
     dest: 'public',
     sw: '/tools/guobiao-sw.js',
     publicIncludes: ['tools/guobiao/**/*'],
-    navigateFallback: '/tools/guobiao'
+    navigateFallback: '/tools/guobiao',
+    additionalManifestEntries: 'tools/guobiao',
   })],
   [withPWA({
     disable: !prod,
     dest: 'public',
     sw: '/tools/wereword-sw.js',
     publicIncludes: ['tools/wereword/**/*'],
-    navigateFallback: '/tools/wereword'
+    navigateFallback: '/tools/wereword',
+    additionalManifestEntries: 'tools/wereword',
   })],
   {
     async rewrites() {
