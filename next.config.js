@@ -10,7 +10,8 @@ module.exports = withPlugins([
   [withPWA, {
     pwa: {
       disable: !prod,
-      dest: 'public'
+      dest: 'public',
+      navigateFallback: '/'
     }
   }],
   {
