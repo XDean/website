@@ -11,13 +11,13 @@ module.exports = withPlugins([
     disable: !prod,
     dest: 'public',
     sw: '/tools/guobiao/sw.js',
-    publicExcludes: ['tools/guobiao/**/*'],
+    publicIncludes: ['tools/guobiao/**/*'],
   })],
   [withPWA({
     disable: !prod,
     dest: 'public',
     sw: '/tools/wereword/sw.js',
-    publicExcludes: ['tools/wereword/**/*'],
+    publicIncludes: ['tools/wereword/**/*'],
   })],
   {
     async rewrites() {
