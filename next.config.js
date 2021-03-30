@@ -298,12 +298,14 @@ module.exports = withPlugins([
     dest: 'public',
     sw: '/tools/guobiao-sw.js',
     publicIncludes: ['tools/guobiao/**/*'],
+    navigateFallback: '/tools/guobiao'
   })],
   [withPWA({
     disable: !prod,
     dest: 'public',
     sw: '/tools/wereword-sw.js',
     publicIncludes: ['tools/wereword/**/*'],
+    navigateFallback: '/tools/wereword'
   })],
   {
     async rewrites() {
