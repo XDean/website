@@ -6,7 +6,7 @@
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
   "start_url": "/tools/wereword",
-  "scope": "/tools/wereword",
+  "scope": "/tools/wereword/",
   "icons": [
     {
       "src": "/tools/wereword/logo_192.webp",
