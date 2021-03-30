@@ -1,10 +1,10 @@
 const withPlugins = require('next-compose-plugins');
-const withPWA = require(__dirname + '/build/pwa')
+const withPWA = require('./build/pwa/index')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 const prod = process.env.NODE_ENV === 'production'
-console.log(__dirname)
+
 module.exports = withPlugins([
   [withBundleAnalyzer],
   [withPWA({
