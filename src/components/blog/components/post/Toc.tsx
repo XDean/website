@@ -1,6 +1,6 @@
 import React from "react";
 import {MyLink} from "../../../util/Link";
-import css from '../../../../../assets/styles/post.module.css'
+import css from '../../../../../assets/styles/toc.module.css'
 import clsx from "clsx";
 
 export type TocProps = {

@@ -1,0 +1,95 @@
+.post h1:first-child {
+    display: none;
+}
+
+.post ol {
+    list-style: decimal;
+}
+
+.post ul {
+    list-style: disc;
+}
+
+.post {
+    @apply text-gray-900 leading-normal break-words;
+}
+
+.post > * + * {
+    @apply mt-0 mb-2;
+}
+
+.post li + li {
+    @apply mt-1;
+}
+
+.post li > p + p {
+    @apply mt-6;
+}
+
+.post strong {
+    @apply font-semibold;
+}
+
+.post a {
+    @apply text-blue-500 font-normal;
+}
+
+.post strong a {
+    @apply font-bold;
+}
+
+.post h1 {
+    @apply leading-tight border-b text-4xl font-semibold mb-4 -mt-14 pt-20 pb-2;
+}
+
+.post h2 {
+    @apply leading-tight border-b text-2xl font-semibold mb-4 -mt-14 pt-20 pb-2;
+}
+
+.post h3 {
+    @apply leading-snug text-lg font-semibold mb-4 -mt-14 pt-20;
+}
+
+.post h4 {
+    @apply leading-none text-base font-semibold mb-4 -mt-14 pt-20;
+}
+
+.post h5 {
+    @apply leading-tight text-sm font-semibold mb-4 mt-6;
+}
+
+.post h6 {
+    @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-6;
+}
+
+.post blockquote {
+    @apply text-base border-l-4 border-gray-300 pl-4 pr-4 text-gray-600;
+}
+
+.post code:not(pre code) {
+    @apply font-mono inline bg-gray-100 rounded px-1 py-0.5;
+}
+
+.post ul {
+    @apply text-base pl-8 list-disc;
+}
+
+.post ol {
+    @apply text-base pl-8 list-decimal;
+}
+
+.post kbd {
+    @apply text-xs inline-block rounded border px-1 py-0.5 align-middle font-normal font-mono shadow;
+}
+
+.post table {
+    @apply text-base border-gray-600;
+}
+
+.post th {
+    @apply border py-1 px-3;
+}
+
+.post td {
+    @apply border py-1 px-3;
+}

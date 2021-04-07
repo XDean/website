@@ -15,22 +15,15 @@ export async function markdownToHTML(content: string) {
   const res = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkExternalLinks)
     .use(remarkSlug)
     .use(remarkMath)
     .use(remarkPrism, {
       plugins: [
-        'autolinker',
-        'command-line',
-        'data-uri-highlight',
-        'diff-highlight',
-        'inline-color',
-        'keep-markup',
         'line-numbers',
-        'show-invisibles',
         'treeview',
       ]
     })
+    .use(remarkExternalLinks)
     .use(remarkRehype)
     .use(rehypeKatex)
     .use(rehypeStringify)

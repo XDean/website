@@ -1,6 +1,5 @@
 import {PostMeta} from "../../posts/domain";
 import React from "react";
-import 'github-markdown-css/github-markdown.css'
 import {GithubComment} from "../util/GithubComment";
 import {OpacityInOut} from "../../motion/OpacityInOut";
 import {motion} from 'framer-motion'
@@ -8,10 +7,11 @@ import {Toc} from "./components/post/Toc";
 import {PostNav} from "./components/post/Nav";
 import {PostHeader} from "./components/post/Header";
 import {PostSEO} from "./components/post/Seo";
-import css from '../../../assets/styles/post.module.css'
-import clsx from "clsx";
 import 'katex/dist/katex.min.css'
-import 'prismjs/themes/prism.css'
+import 'prismjs/themes/prism-coy.css'
+import 'prismjs/plugins/treeview/prism-treeview.css'
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
+import clsx from "clsx";
 
 export type PostProps = {
   content: string
@@ -30,7 +30,7 @@ export const PostView = (props: PostProps) => {
         <div className={'mb-4'}>
           <PostHeader meta={props.meta}/>
         </div>
-        <article dangerouslySetInnerHTML={{__html: props.content}} className={clsx('markdown-body', css.post)}/>
+        <article dangerouslySetInnerHTML={{__html: props.content}} className={clsx('markdown-body', 'post')}/>
         {(props.prev || props.next) && (
           <div className={'mt-2 md:mt-4'}>
             <PostNav prev={props.prev} next={props.next}/>
