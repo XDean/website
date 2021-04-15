@@ -370,7 +370,7 @@ export const SanSeSanTongShun = new FanCalc({
   name: '三色三同顺',
   match: c => {
     const tiles = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile));
-    return tiles.mostPoint[1] === 3 && tiles.distinctTypes.length === 3;
+    return tiles.mostPoint[1] >= 3 && tiles.distinctTypes.length === 3;
   },
   exclude: [XiXiangFeng, XiXiangFeng]
 })

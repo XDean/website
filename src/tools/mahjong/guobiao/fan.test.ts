@@ -928,3 +928,16 @@ expectFan({
   options: {quanfeng: 2, menfeng: 2},
   fans: [QuanFengKe, MenFengKe, WuMenQi]
 })
+
+// https://github.com/XDean/blog-comment/issues/5#issuecomment-820345670
+expectFan({
+  mians: [
+    new Shun(Tile.B[6], true),
+    new Shun(Tile.T[6], true),
+    new Shun(Tile.W[6], true),
+    new Shun(Tile.T[6]),
+    new Dui(Tile.T[5]),
+  ],
+  last: Tile.T[5],
+  fans: [DaYuWu, SanSeSanTongShun, PingHu, YiBanGao]
+})
