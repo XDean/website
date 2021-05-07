@@ -20,6 +20,9 @@ function MyApp({Component, pageProps, router}: AppProps) {
         openGraph={{
           locale: 'zh',
           site_name: 'XDean的个人网站',
+          images: [{
+            url: '/icons/192.webp',
+          }],
         }}
       />
       <Head>
