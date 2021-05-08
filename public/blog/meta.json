@@ -1,5 +1,29 @@
 [
 	{
+		"path": "public/blog/posts/topics/spark/barrier.md",
+		"link": "/blog/posts/topics/spark/barrier",
+		"title": "Spark Barrier Execution Mode 屏障执行模式",
+		"summary": [
+			"屏障执行模式(Barrier Execution Mode)是Spark 2.4版本引入的新的执行模式。\n旨在支持让Spark平台支持更多样化的工作类型，例如调度ML(机器学习)/DL(深度学习)训练任务。\n本文将带你了解什么是屏障执行模式，为什么Spark需要，以及如何使用。",
+			"MapReduce是大多数流行框架的执行模式，通过划分Map和Reduce阶段(Stage)，可以灵活的处理各种作业(Job)。",
+			"在MapReduce中",
+			"虽然MapReduce已经实践了很多年，但是在近几年流行的深度学习领域却无能为力。\n神经网络中的任务很难通过MapReduce模型进行抽象，一般通过MPI或其他模型。\n为了"
+		],
+		"image": "spark_big_data.jpg",
+		"author": "",
+		"contributors": [],
+		"created": "2021-05-08T00:00:00.000Z",
+		"updated": "",
+		"tags": [
+			"Deno",
+			"Typescript"
+		],
+		"categories": [
+			"Coding"
+		],
+		"date": "2021-05-08T00:00:00.000Z"
+	},
+	{
 		"path": "public/blog/posts/2021/distributed-computing/index.md",
 		"link": "/blog/posts/2021/distributed-computing/index",
 		"title": "大数据和分布式计算发展简史",
@@ -38,10 +62,11 @@
 		"image": "deno-logo.png",
 		"author": "dxu",
 		"contributors": [
-			"dxu"
+			"dxu",
+			"Dean Xu"
 		],
 		"created": "2021-03-09T00:00:00.000Z",
-		"updated": "Tue Mar 09 2021 17:06:46 GMT+0800 (China Standard Time)",
+		"updated": "Thu Mar 25 2021 08:38:10 GMT+0800 (China Standard Time)",
 		"tags": [
 			"Deno",
 			"Typescript"
@@ -474,7 +499,7 @@
 			"dxu"
 		],
 		"created": "2019-09-03T00:00:00.000Z",
-		"updated": "Sat Mar 06 2021 08:59:40 GMT+0800 (China Standard Time)",
+		"updated": "Wed Apr 07 2021 21:39:44 GMT+0800 (China Standard Time)",
 		"tags": [
 			"Java",
 			"Spring Boot"
