@@ -1,8 +1,7 @@
 ---
 date: 2021-05-08 
 tags:
-- Deno
-- Typescript 
+- Spark 
 categories:
 - Coding
 image: spark_big_data.jpg
