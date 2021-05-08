@@ -1,7 +1,6 @@
 import React from "react";
 import {MyLink} from "../../../util/Link";
-import css from '../../../../../assets/styles/toc.module.css'
-import clsx from "clsx";
+import {ProgressToc} from "../../../util/ProgressToc";
 
 export type TocProps = {
   toc: string
@@ -15,7 +14,7 @@ export const Toc = ({toc}: TocProps) => {
       <MyLink href={'#'} className={'text-xl'} next={false} onClick={() => window.scrollTo(0, 0)}>
         目录
       </MyLink>
-      <div className={clsx('text-gray-700 -ml-3 markdown-body', css.toc)} dangerouslySetInnerHTML={{__html: toc}}/>
+      <ProgressToc contentHTML={toc}/>
     </div>
   )
 }
