@@ -147,6 +147,26 @@ def run_mpi_task(rows):
 Horovod是一个分布式DL训练框架，支持TensorFlow, Keras, PyTorch, and Apache MXNet。
 该项目最初由Uber发起，后由[LF AI基金会](https://lfaidata.foundation/)维护。
 
+```python
+from tensorflow import keras
+import tensorflow as tf
+import horovod.spark.keras as hvd
+
+model = keras.models.Sequential()
+    .add(keras.layers.Dense(8, input_dim=2))
+    .add(keras.layers.Activation('tanh'))
+    .add(keras.layers.Dense(1))
+    .add(keras.layers.Activation('sigmoid'))
+
+optimizer = keras.optimizers.SGD(lr=0.1)
+loss = 'binary_crossentropy'
+
+keras_estimator = hvd.KerasEstimator(model, optimizer, loss)
+
+keras_model = keras_estimator.fit(train_df)
+predict_df = keras_model.transform(test_df)
+```
+
 更多细节，参阅[这里](https://github.com/horovod/horovod/blob/master/docs/spark.rst)
 
 **Tensorflow**
