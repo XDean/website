@@ -301,7 +301,7 @@ module.exports = withPlugins([
   )],
   [withBundleAnalyzer],
   [withPWA({
-    disable: !prod,
+    // disable: !prod,
     dest: 'public',
     sw: '/tools/guobiao-sw.js',
     publicIncludes: ['tools/guobiao/**/*'],
@@ -309,7 +309,7 @@ module.exports = withPlugins([
     additionalManifestEntries: ['/tools/guobiao'],
   })],
   [withPWA({
-    disable: !prod,
+    // disable: !prod,
     dest: 'public',
     sw: '/tools/wereword-sw.js',
     publicIncludes: ['tools/wereword/**/*'],

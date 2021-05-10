@@ -10,7 +10,7 @@ export function register(
     scope: string,
     start_url: string,
   }) {
-  if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     const wb = new Workbox(sw, {scope: scope})
     wb.register()
   }
