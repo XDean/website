@@ -11,8 +11,7 @@ export const WerewordSetup = ({service}: { service: Interpreter<WerewordContext,
   return (
     <>
       <WerewordImages.Logo/>
-      <div className={'text-5xl mb-4 mt-2 text-center'}>狼人真言</div>
-      <div className={'text-2xl mb-4 text-center'}>请先购买正版《狼人真言》<br/>然后搭配使用本工具进行游戏</div>
+      <div className={'text-2xl mb-4 mt-2 text-center'}>请先购买正版《狼人真言》<br/>然后搭配使用本工具进行游戏</div>
       {state.matches('setup.prepare') && (
         <div className={'flex flex-col items-center text-4xl'}>
           <div>正在加载</div>

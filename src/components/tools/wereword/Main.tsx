@@ -27,7 +27,7 @@ export const WerewordMain = () => {
         <link rel='manifest' href='/tools/wereword/manifest.json'/>
       </Head>
       <MySeo
-        title={'狼人真言网页版'}
+        title={'狼人真言'}
         description={'桌游 - 狼人真言 - 辅助工具 - 网页版App'}
         noindex={false}
         openGraph={{

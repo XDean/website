@@ -1,7 +1,7 @@
 {
   "name": "国标麻将算番器",
   "short_name": "国标算番",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",

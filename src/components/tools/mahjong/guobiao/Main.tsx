@@ -110,9 +110,6 @@ export const GuoBiaoMainView = () => {
           }],
         }}
       />
-      <h1 className={'text-4xl text-center mb-2 md:mb-4'}>
-        国标麻将算番器
-      </h1>
       <AllTilesView
         disableAll={disableAll}
         disabledTiles={disabledTiles}
