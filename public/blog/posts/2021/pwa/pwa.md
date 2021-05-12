@@ -1,4 +1,5 @@
 ---
+image: pwa.svg
 date: 2021-05-10
 tags:
 - PWA
@@ -7,8 +8,7 @@ categories:
 - Coding
 ---
 
-# [PWA] Progressive Web Apps 渐进式网页应用入门
-
+# Progressive Web Apps 渐进式网页应用入门
 
 ## PWA简介
 
@@ -71,43 +71,18 @@ PWA通过一系列指导意见帮助我们设计Web应用，并提供相应的�
 
 ### Core
 
-**快速**
-
-速度是至关重要的指标，与用户粘性息息相关。其中尤为重要的是首屏显示速度。
-
-**响应式布局**
-
-用户可以在任意尺寸的屏幕上进行访问。
-
-**可离线响应**
-
-在离线状态下，显示应用页面而非浏览器的空白页。
-
-**可安装**
-
-可以将应用安装到本地环境。这将使得用户可以更加便捷地与应用互动。
+- **快速** 速度是至关重要的指标，与用户粘性息息相关。其中尤为重要的是首屏显示速度。
+- **响应式布局** 用户可以在任意尺寸的屏幕上进行访问。
+- **可离线响应** 在离线状态下，显示应用页面而非浏览器的空白页。
+- **可安装** 可以将应用安装到本地环境。这将使得用户可以更加便捷地与应用互动。
 
 ### Optimal
 
-**可离线使用**
-
-在离线状态下，对于非网络相关的功能，依然能够正常使用。
-
-**可通过搜索发现**
-
-应用内容可以被搜索引擎发现并正确索引。
-
-**适配任何输入设备**
-
-主要包括鼠标，键盘和触摸屏。
-
-**需要时请求权限**
-
-当需要使用额外权限时，询问用户。(例如GPS，通知)
-
-**完全可访问**
-
-满足[WCAG 2.0](https://www.w3.org/TR/WCAG20/)可访问性要求
+- **可离线使用** 在离线状态下，对于非网络相关的功能，依然能够正常使用。
+- **可通过搜索发现** 应用内容可以被搜索引擎发现并正确索引。
+- **适配任何输入设备** 主要包括鼠标，键盘和触摸屏。
+- **需要时请求权限** 当需要使用额外权限时，询问用户。(例如GPS，通知)
+- **完全可访问** 满足[WCAG 2.0](https://www.w3.org/TR/WCAG20/)可访问性要求
 
 ## PWA技术
 
@@ -115,13 +90,187 @@ PWA是一种标准而不是不是一项技术，但是一些PWA标准技术可�
 
 ### Web Manifest
 
-[Web Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
+[Web Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)是一个JSON文件，它提供了应用的安装信息，使得应用可以被安装到本地。
+
+要使用Manifest只需要添加链接标记到HTML head:
+
+```html
+<head>
+<link rel="manifest" href="/manifest.json">
+</head>
+```
+
+一个典型的Manifest文件如下:
+
+```json
+{
+  "name": "HackerWeb",
+  "short_name": "HackerWeb",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A simply readable Hacker News app.",
+  "icons": [
+    {
+      "src": "images/touch/homescreen48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }, {
+      "src": "images/touch/homescreen192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Today's agenda",
+      "url": "/today",
+      "description": "List of events planned for today"
+    },
+  ]
+}
+```
 
 ### Service Worker
 
+[Service Worker](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API)
+是一个充当Web应用和网络之间的代理服务器的JS脚本。
+其拦截网络请求并根据网络是否可用来采取适当的动作，读取缓存或是请求服务器，这使得应用可以离线使用。
+
+要使用Service Worker，你需要将你的脚本进行注册。
+注册成功后Service Worker会运行在Web Worker中，所以没有DOM访问权限。
+
+```javascript
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
+    // registration worked
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+  }).catch(function(error) {
+    // registration failed
+    console.log('Registration failed with ' + error);
+  });
+}
+```
+
+在`sw.js`脚本中，我们可以监听`install`事件来加载缓存:
+
+```javascript
+this.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open('v1').then(function(cache) {
+      return cache.addAll([
+        '/sw-test/index.html',
+        '/sw-test/style.css',
+        '/sw-test/app.js',
+        '/sw-test/star-wars-logo.jpg',
+      ]);
+    })
+  );
+});
+```
+
+另一方面，我们还要监听`fetch`事件来拦截网络请求，并尝试命中缓存:
+
+```javascript
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(resp) {
+      return resp || fetch(event.request).then(function(response) {
+        return caches.open('v1').then(function(cache) {
+          cache.put(event.request, response.clone());
+          return response;
+        });
+      });
+    })
+  );
+});
+```
+
+现在，你的应用会在打开时自动安装Service Worker并下载预定义的缓存项，并且会拦截网络请求尝试使用缓存项。
+
 ### WorkBox
 
+虽然有了Service Worker，我们已经可以控制离线缓存。
+但是使用起来有些繁琐，回看刚刚的例子，一个简单的缓存逻辑需要写多行代码，而现实应用中的缓存逻辑显然要复杂很多。
+为此，Google推出[WorkBox库](https://developers.google.com/web/tools/workbox)，可以帮助我们简单快速地管理缓存。
+
+例如，对于JS和CSS这类更新不敏感的内容，可以命中并刷新
+
+```javascript
+registerRoute(
+  ({request}) => request.destination === 'script' ||
+                 request.destination === 'style',
+  new StaleWhileRevalidate()
+);
+```
+
+对于图片资源，可以总是命中缓存，但是设置缓存期限，以减少存储消耗
+
+```javascript
+registerRoute(
+  ({request}) => request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'images',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+      }),
+    ],
+  }),
+);
+```
+
+在离线时，返回默认的离线页面而不是浏览器错误页：
+
+```javascript
+setCatchHandler(async ({ event }) => {
+  if (event.request.destination === 'document') {
+    return matchPrecache('/offline.html');
+  }
+  return Response.error();
+});
+```
+
+如果你使用webpack，还可以自动生成`sw.js`:
+
+```javascript
+// webpack.config.js
+module.exports = {
+  plugins: [
+    new GenerateSW()
+  ]
+};
+```
+
+当然，WorkBox的能力远不止这些，更多内容可参看官方文档。
+
 ## 例子
+
+说了这么多，想必你已经对PWA有了一定的认识。
+下面给出一些示例网站，你可以打开并尝试安装到本地。
+
+- [Squoosh](https://squoosh.app/)，Google开源，使用WebAssembly的图片压缩工具，可离线使用
+- [国标算番](https://xdean.cn/tools/guobiao)，笔者做的小工具，可离线使用
+- [星巴克](https://app.starbucks.com/)
+- [Printeret](https://www.pinterest.com/)
+
+### 安装方法
+
+**桌面浏览器 (Chrome/Edge)**
+
+点击地址栏右侧的安装图标
+
+![desktop-install](./chrome-desktop-install.png)
+
+**手机Chrome**
+
+选择`菜单 => 添加到主屏幕`
+
+![mobile-install](./chrome-mobile-install.jpeg)
 
 ## Reference
 

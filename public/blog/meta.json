@@ -1,5 +1,30 @@
 [
 	{
+		"path": "public/blog/posts/2021/pwa/pwa.md",
+		"link": "/blog/posts/2021/pwa/pwa",
+		"title": "Progressive Web Apps 渐进式网页应用入门",
+		"summary": [
+			"渐进式网页应用(简称PWA)是一种Web应用标准。\n通过使用一系列新兴技术让你的Web应用快速，安全，可安装，可离线使用，可适配各种设备，使其拥有不亚于原生应用的使用体验。\n主要技术包括App Manifest, Service Worker, Web Push等",
+			"PWA最早由Google于2015年发起，同年Chrome支持Service Worker。\n之后，Safari和Edge也相继在2018年和2019年提供支持。",
+			"随着十多年来智能手机的发展和普及，人们访问互联网的方式已经改变，移动互联网的使用率已超过传统互联网。\n数据显示，终端用户有87%的时间花费在手机应用上，相对的，网页只占到不足"
+		],
+		"image": "./pwa.svg",
+		"author": "dxu",
+		"contributors": [
+			"dxu"
+		],
+		"created": "2021-05-10T00:00:00.000Z",
+		"updated": "",
+		"tags": [
+			"PWA",
+			"Web"
+		],
+		"categories": [
+			"Coding"
+		],
+		"date": "2021-05-10T00:00:00.000Z"
+	},
+	{
 		"path": "public/blog/posts/topics/spark/barrier.md",
 		"link": "/blog/posts/topics/spark/barrier",
 		"title": "Spark Barrier Execution Mode 屏障执行模式",
