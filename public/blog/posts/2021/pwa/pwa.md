@@ -272,6 +272,16 @@ module.exports = {
 
 ![mobile-install](./chrome-mobile-install.jpeg)
 
+## 后记
+
+在我成文的一周后，微信团队宣布自2021年5月19日起停止小程序打开App的技术服务。
+
+如今许多应用在网页端都会或强制或提示跳转到APP继续，甚至还有许多应用压根就没有网页端。
+然而微信又用一个套壳网页把各家应用锁在了微信里。
+再回想桌面端Web应用和原生应用的较量，不得不叹息这历史的倒车，亦或感叹历史是个圆圈圈。
+
+这个问题有解吗？我不知道PWA能不能算一个解，但我希望能有解，能重见开放包容的互联网。
+
 ## Reference
 
 - https://developers.google.com/web/ilt/pwa/why-build-pwa
