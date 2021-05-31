@@ -10,7 +10,7 @@ const myColor = {
 }
 
 module.exports = {
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx,md,mdx}', './src/components/**/*.{js,ts,jsx,tsx,md,mdx}'],
   darkMode: false,
   theme: {
     extend: {
