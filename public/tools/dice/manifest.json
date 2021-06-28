@@ -1,0 +1,22 @@
+{
+  "name": "骰子",
+  "short_name": "骰子",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/tools/dice",
+  "scope": "/tools/dice",
+  "icons": [
+    {
+      "src": "/tools/dice/logo_192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/tools/dice/logo_512.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

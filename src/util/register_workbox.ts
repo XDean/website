@@ -12,6 +12,6 @@ export function register(
   }) {
   if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
     const wb = new Workbox(sw, {scope: scope})
-    wb.register()
+    wb.register().catch(e => console.error(e))
   }
 }

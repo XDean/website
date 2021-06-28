@@ -316,6 +316,14 @@ module.exports = withPlugins([
     navigateFallback: '/tools/wereword',
     additionalManifestEntries: ['/tools/wereword'],
   })],
+  [withPWA({
+    disable: !prod,
+    dest: 'public',
+    sw: '/tools/dice-sw.js',
+    publicIncludes: ['tools/dice/**/*'],
+    navigateFallback: '/tools/dice',
+    additionalManifestEntries: ['/tools/dice'],
+  })],
   {
     pageExtensions: ['mdx', 'jsx', 'js', 'ts', 'tsx'],
     async rewrites() {
