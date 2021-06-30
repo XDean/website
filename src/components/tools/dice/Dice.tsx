@@ -2,6 +2,7 @@ import {useCallback, useMemo, useState} from "react";
 import {createFairRandomContext, diceNumberToArray} from "./domain";
 import {Die} from "./Die";
 import useSound from "use-sound";
+import random from "random";
 
 export const Dice = () => {
   const [count, setCount] = useState(2)
@@ -15,8 +16,17 @@ export const Dice = () => {
     const value = context.next();
     const res = diceNumberToArray(count, value)
     playSound()
-    setDice(res)
-    setHistory(h => [...h, res])
+    let times = 0
+    const intervalId = setInterval(() => {
+      times++
+      if (times < 10) {
+        setDice(diceNumberToArray(count, random.int(0, Math.pow(6, count))))
+      } else {
+        clearInterval(intervalId)
+        setDice(res)
+        setHistory(h => [...h, res])
+      }
+    }, 50)
   }, [playSound, context, count])
 
   return (

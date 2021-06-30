@@ -9,7 +9,6 @@ export function diceNumberToArray(count: number, dice: number): number[] {
   return res
 }
 
-
 /**
  * @param count
  * @param factor 0 means random, 1 means absolute fair
