@@ -1,6 +1,6 @@
 {
-  "name": "骰子",
-  "short_name": "骰子",
+  "name": "公平的骰子",
+  "short_name": "公平的骰子",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#FFFFFF",

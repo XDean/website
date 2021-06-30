@@ -25,7 +25,7 @@ export const ToolsView = () => {
         </li>
         <li>
           <MyLink href={'/tools/dice'}>
-            骰子
+            公平的骰子
           </MyLink>
         </li>
       </ul>

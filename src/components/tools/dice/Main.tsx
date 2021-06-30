@@ -5,6 +5,8 @@ import {OpacityInOut} from "../../../motion/OpacityInOut";
 import Head from "next/head";
 import {MySeo} from "../../util/Seo";
 import {Dice} from "./Dice";
+import {FanView} from "../mahjong/guobiao/Fan";
+import {GithubComment} from "../../util/GithubComment";
 
 export const DiceMain = () => {
 
@@ -20,8 +22,8 @@ export const DiceMain = () => {
         <link rel='manifest' href='/tools/dice/manifest.json'/>
       </Head>
       <MySeo
-        title={'骰子'}
-        description={'骰子模拟器'}
+        title={'公平的骰子'}
+        description={'公平的骰子'}
         noindex={false}
         openGraph={{
           type: 'website',
@@ -33,6 +35,8 @@ export const DiceMain = () => {
         }}
       />
       <Dice/>
+      <hr className={'mt-4'}/>
+      <GithubComment/>
     </motion.div>
   )
 }
