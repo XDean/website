@@ -1,16 +1,21 @@
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {createFairRandomContext, diceNumberToArray} from "./domain";
 import {Die} from "./Die";
 import useSound from "use-sound";
 import random from "random";
+import {DiceTable} from "./DiceTable";
 
 export const Dice = () => {
   const [count, setCount] = useState(2)
   const [fairFactor, setFairFactor] = useState(0)
   const [dice, setDice] = useState([0, 0])
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState<number[][]>([])
   const [playSound, soundState] = useSound('/tools/dice/die.mp3')
   const context = useMemo(() => createFairRandomContext(Math.pow(6, count), fairFactor / 100), [fairFactor, count])
+
+  useEffect(() => {
+    setHistory([])
+  }, [count])
 
   const roll = useCallback(() => {
     const value = context.next();
@@ -65,6 +70,7 @@ export const Dice = () => {
           </div>
         ))}
       </div>
+      <DiceTable values={history}/>
     </div>
   )
 }

@@ -1,6 +1,13 @@
-export const Die = ({value}: { value: number }) => {
+import clsx from "clsx";
+
+export type DieProps = {
+  value: number
+  className?: string
+}
+
+export const Die = ({value, className}: DieProps) => {
   return (
-    <div className={'w-16 h-16 border-2 border-black rounded-lg'}>
+    <div className={clsx('border-2 border-black rounded-lg', className ?? 'w-16 h-16')}>
       <svg viewBox={'0 0 100 100'} filter={'drop-shadow(1px 1px 1px rgb(0 0 0 / 0.3))'}>
         {function () {
           switch (value) {
