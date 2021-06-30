@@ -23,6 +23,11 @@ export const ToolsView = () => {
             狼人真言
           </MyLink>
         </li>
+        <li>
+          <MyLink href={'/tools/dice'}>
+            骰子
+          </MyLink>
+        </li>
       </ul>
     </motion.div>
   )

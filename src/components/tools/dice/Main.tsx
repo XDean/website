@@ -4,8 +4,9 @@ import {motion} from "framer-motion";
 import {OpacityInOut} from "../../../motion/OpacityInOut";
 import Head from "next/head";
 import {MySeo} from "../../util/Seo";
+import {Dice} from "./Dice";
 
-export const DiceMain = ()=>{
+export const DiceMain = () => {
 
   useEffect(() => register({
     scope: '/tools/dice',
@@ -31,9 +32,7 @@ export const DiceMain = ()=>{
           }],
         }}
       />
-      <div>
-
-      </div>
+      <Dice/>
     </motion.div>
   )
 }
