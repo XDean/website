@@ -1,9 +1,11 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {createFairRandomContext, diceNumberToArray} from "./domain";
 import {Die} from "./Die";
 import useSound from "use-sound";
 import random from "random";
 import {DiceTable} from "./DiceTable";
+import {DiceChart} from "./DiceChart";
+import {motion} from "framer-motion";
 
 export const Dice = () => {
   const [count, setCount] = useState(2)
@@ -35,7 +37,7 @@ export const Dice = () => {
   }, [playSound, context, count])
 
   return (
-    <div className={'w-md'}>
+    <div className={'w-full flex flex-col items-center'}>
       <div className={'grid grid-cols-1 gap-y-2 text-2xl'}>
         <div className={'flex flex-row items-center'}>
           <div>骰子数量：{' '}</div>
@@ -70,7 +72,15 @@ export const Dice = () => {
           </div>
         ))}
       </div>
-      <DiceTable values={history}/>
+      <hr className={'mt-2'}/>
+      <div className={'flex flex-row w-full h-64 lg:h-96 justify-center'}>
+        <div className={'min-w-24'}>
+          <DiceTable values={history}/>
+        </div>
+        <div className={'flex-grow max-w-md w-0'}>
+          <DiceChart values={history}/>
+        </div>
+      </div>
     </div>
   )
 }

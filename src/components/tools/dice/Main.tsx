@@ -17,7 +17,7 @@ export const DiceMain = () => {
   }), [])
 
   return (
-    <motion.div className={'w-max max-w-screen-lg'} {...OpacityInOut}>
+    <motion.div className={'w-full'} {...OpacityInOut}>
       <Head>
         <link rel='manifest' href='/tools/dice/manifest.json'/>
       </Head>
