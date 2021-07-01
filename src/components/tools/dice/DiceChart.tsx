@@ -20,6 +20,9 @@ export const DiceChart = React.memo(({values}: { values: number[][] }) => {
     }
     return res
   }, [values])
+  if (values.length === 0) {
+    return null
+  }
   return (
     <div className={'w-full h-full'}>
       <ResponsiveContainer width="100%" height="100%">
