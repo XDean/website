@@ -3,7 +3,7 @@ import {Logo} from "../util/Logo";
 import {MyLink} from "../util/Link";
 
 type Props = {
-  title: string
+  title: React.ReactNode
 }
 
 export const AppLayout = (props: Props) => ({children}: PropsWithChildren<{}>) => {

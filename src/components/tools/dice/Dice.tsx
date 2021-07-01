@@ -14,9 +14,6 @@ export const Dice = () => {
   const [playSound, soundState] = useSound('/tools/dice/die.mp3')
   const context = useMemo(() => createFairRandomContext(Math.pow(6, count), fairFactor / 100), [fairFactor, count])
 
-  useEffect(() => {
-    setHistory([])
-  }, [count])
 
   const roll = (total: number = 1) => {
     playSound()
