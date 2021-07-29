@@ -14,7 +14,7 @@ export function diceNumberToArray(count: number, dice: number): number[] {
  * @param factor 0 means random, 1 means absolute fair
  */
 export function createFairRandomContext(count: number, factor: number) {
-  factor = 1 - Math.min(1, Math.max(factor, 0))
+  factor = 1 - Math.sqrt(Math.min(1, Math.max(factor, 0)))
 
   let possibilities = Array(count).fill(1)
 
@@ -40,7 +40,6 @@ export function createFairRandomContext(count: number, factor: number) {
       } else if (newTotalPossibility < count * 0.01) {
         possibilities = possibilities.map(e => e * 2)
       }
-
       return res
     },
   }
