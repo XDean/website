@@ -9,8 +9,9 @@ export type MyLinkProps = {
 } & Partial<DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>>
 
 export const MyLink = ({href, next, children, ...rest}: PropsWithChildren<MyLinkProps>) => {
+  const {className, ...aProps} = rest
   const Link = (
-    <a className={clsx(`cursor-pointer hover:underline`, rest.className)} href={href}>
+    <a className={clsx(`cursor-pointer hover:underline`, className)} href={href} {...aProps}>
       {children}
     </a>
   )
