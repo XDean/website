@@ -1,5 +1,29 @@
 [
 	{
+		"path": "public/blog/posts/2021/typescript/types.md",
+		"link": "/blog/posts/2021/typescript/types",
+		"title": "Typescript 类型详解",
+		"summary": [
+			"自2012年诞生至今已有10个年头，Typescript已然成为Javascript项目的标配。\nTypescript的类型系统是笔者学过的几门语言中表现力最强的，同时也兼顾了可读性易用性。",
+			"本文将介绍Typescript的类型系统的各种(高级)用法，帮助你在需要时定义更贴合业务的强大类型。",
+			"关于基础知识，在这里不做赘述，如有需要请自行阅读官方文档。主要包括",
+			"Typescript的类型可以通过逻辑与或进行组合，这种方式被称为联合类型",
+			"Playground Link: Provided"
+		],
+		"image": "",
+		"author": "",
+		"contributors": [],
+		"created": "2021-06-19T00:00:00.000Z",
+		"updated": "",
+		"tags": [
+			"Typescript"
+		],
+		"categories": [
+			"Coding"
+		],
+		"date": "2021-06-19T00:00:00.000Z"
+	},
+	{
 		"path": "public/blog/posts/2021/pwa/pwa.md",
 		"link": "/blog/posts/2021/pwa/pwa",
 		"title": "Progressive Web Apps 渐进式网页应用入门",
@@ -8,13 +32,13 @@
 			"PWA最早由Google于2015年发起，同年Chrome支持Service Worker。\n之后，Safari和Edge也相继在2018年和2019年提供支持。",
 			"随着十多年来智能手机的发展和普及，人们访问互联网的方式已经改变，移动互联网的使用率已超过传统互联网。\n数据显示，终端用户有87%的时间花费在手机应用上，相对的，网页只占到不足"
 		],
-		"image": "./pwa.svg",
+		"image": "pwa.svg",
 		"author": "dxu",
 		"contributors": [
 			"dxu"
 		],
 		"created": "2021-05-10T00:00:00.000Z",
-		"updated": "",
+		"updated": "Wed May 19 2021 08:49:02 GMT+0800 (China Standard Time)",
 		"tags": [
 			"PWA",
 			"Web"

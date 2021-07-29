@@ -1,5 +1,5 @@
 import MarkdownToc from 'markdown-toc-unlazy'
-import uslug from 'uslug'
+import { GithubSlugger } from 'github-slugger-typescript';
 import rehypeStringify from "rehype-stringify";
 import remarkRehype from "remark-rehype";
 import remarkGfm from "remark-gfm";
@@ -33,7 +33,7 @@ export async function markdownToHTML(content: string) {
 
 export async function extractMarkdownToc(content: string) {
   const toc = MarkdownToc(content, {
-    slugify: uslug,
+    slugify: s=>new GithubSlugger().slug(s),
     maxdepth: 2,
     firsth1: false,
   });
