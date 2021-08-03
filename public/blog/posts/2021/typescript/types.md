@@ -260,6 +260,17 @@ type Array3<T> = [T] extends any ? T[] : never;
 // Array3<string | number> = (string | number)[]
 ```
 
+### 递归类型 (v4.1)
+
+条件类型可以进行递归引用，从而实现某些递归逻辑。
+
+例如，对于前面出现过的`Flatten`类型，利用递归类型可以获得真正的扁平数组
+
+```typescript
+type Flatten<T> = T extends (infer E)[] ? (E extends any[] ? Flatten<E> : E[]) : T;
+// Flatten<number[][][][]> => number[]
+```
+
 ## 内置工具类型
 
 Typescript提供了一系列工具类型，方便我们日常使用而不需要自己去单独定义。
