@@ -18,13 +18,13 @@ Typescript的类型系统是笔者学过的几门语言中表现力最强的，�
 
 关于基础知识，在这里不做赘述，如有需要请自行阅读[官方文档][1]。主要包括
 
-- 基本类型：`string // `number // `boolean`
-- 数组类型：`T[]` or `Array<T>`
+- 基本类型：`string`, `number`, `boolean`
+- 数组类型：`T[]`, `Array<T>`
 - 元组类型：`[number, number]`
 - 对象类型：`{id: number, title?: string}`
 - 函数类型：`() => void`
 - 通用类型： `any`, `null`, `undefined`, `void`, `never`
-- 联合(交叉)类型：`string | number // `Foo & Bar`
+- 联合(交叉)类型：`string | number`, `Foo & Bar`
 - 泛型
 
 ## 接口和类型别名
@@ -40,7 +40,8 @@ type Point = {
 type ID = string | number
 ```
 
-注意，类型别名仅仅只是别名，与一些其他语言(如go)不同。使用时完全等价，不需要额外的类型转换。
+注意，类型别名仅仅只是别名，这与一些其他语言(如Go)不同。
+类型别名在使用上和原类型完全等价，不需要额外的类型转换。
 
 对于对象类型，另一种声明方式是interface接口。如
 
@@ -166,9 +167,9 @@ type Dict = {
 }
 ```
 
-此处键值必须是string或者number类型。
+键值必须是string或者number类型。
 
-另一种形式是可以定义键值为迭代器，一般结合泛型使用。例如下面的例子将给定类型的值全都包成Promise：
+另一种形式是可以定义键值为迭代器，即`in xxx`，一般结合泛型使用。例如下面的例子将给定类型的值全都包成Promise：
 
 ```typescript
 type Promised<T> = {
@@ -248,7 +249,7 @@ type ReturnType<T extends Function> = T extends (...args: any) => infer R ? R : 
 ### 联合类型分配律
 
 在对联合类型进行条件判断后，其类型先分配后联合，而非直接联合。
-如果要阻止这一行为，可以把先转换成数组类型，即用方括号包起来。
+如果要阻止这一行为，可以把先转换成元组类型，即用方括号包起来。
 例如
 
 ```typescript
@@ -322,11 +323,11 @@ type Uncapitalize<S extends string> = intrinsic;
 
 练习1：Getter
 
-- 构造一个类型`Getter<T>`，其包含T所有属性的getter方法
+- 构造一个类型`Getter<T>`，其包含`T`所有属性的Getter方法
 - 对于`T`中的每一个**非函数**成员`abc`，`Getter<T>`有对应的`getter`方法(即一个无参数方法，返回类型为abc的类型)
     - 如果其类型为`boolean`，则方法名为`isAbc`
     - 如果其类型不为`boolean`，则方法名为`getAbc`
-    
+
 示例：
 
 ```typescript
@@ -344,18 +345,18 @@ Getter<{
 }
 ```
 
-练习2：Property
+练习2：PropertyName
 
-- 构造一个类型`Property<T>`，其联合T的所有属性的名字
+- 构造一个类型`PropertyName<T>`，其联合`T`的所有属性的名字
 - 对于`T`中的每个**函数**成员
-    - 如果其是一个getter方法(参考上一个练习)，获得属性的名字
+    - 如果其是一个Getter方法(定义参考上一个练习)，获得属性的名字
     - 如果不是，舍弃
 - 对于`T`中的非函数成员，获得其名字
 
 示例：
 
 ```typescript
-Property<{
+PropertyName<{
     id: number,
     valid: boolean,
     getName(): string,
