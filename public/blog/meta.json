@@ -2,7 +2,7 @@
 	{
 		"path": "public/blog/posts/2021/typescript/types.md",
 		"link": "/blog/posts/2021/typescript/types",
-		"title": "Typescript 类型详解",
+		"title": "Typescript 高级类型",
 		"summary": [
 			"自2012年诞生至今已有10个年头，Typescript已然成为Javascript项目的标配。\nTypescript的类型系统是笔者学过的几门语言中表现力最强的，同时也兼顾了可读性易用性。",
 			"本文将介绍Typescript的类型系统的各种(高级)用法，帮助你在需要时定义更贴合业务的强大类型。",

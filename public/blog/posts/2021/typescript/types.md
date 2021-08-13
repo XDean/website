@@ -7,7 +7,7 @@ categories:
   - Coding
 ---
 
-# Typescript 高级类型详解
+# Typescript 高级类型
 
 自2012年诞生至今已有10个年头，Typescript已然成为Javascript项目的标配。
 Typescript的类型系统是笔者学过的几门语言中表现力最强的，同时也兼顾了可读性易用性。
