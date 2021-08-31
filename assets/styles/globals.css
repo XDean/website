@@ -18,6 +18,10 @@
 }
 
 @layer components {
+    .link {
+        @apply underline text-blue-600 hover:text-blue-800;
+    }
+
     .btn-contain {
         @apply bg-1-500 text-white;
     }

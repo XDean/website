@@ -191,7 +191,7 @@ type NoOptional<T> = { [K in keyof T]-?: T[K] }
 ### `as`重映射 (v4.1)
 
 4.1版本中添加了类型重映射功能，可以在映射类型对键进行变换。
-例如下面的例子展示了从泛型T得到访问类型`Accessor<T> // 其包含了所有的getter, setter方法。
+例如下面的例子展示了从泛型T得到访问类型`Accessor<T>`，其包含了所有的getter, setter方法。
 
 ```typescript
 type Getter<T> = { [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K] };

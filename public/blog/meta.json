@@ -1,14 +1,14 @@
 [
 	{
-		"path": "public/blog/posts/2021/typescript/types.md",
-		"link": "/blog/posts/2021/typescript/types",
+		"path": "public/blog/posts/2021/typescript/advanced-types.md",
+		"link": "/blog/posts/2021/typescript/advanced-types",
 		"title": "Typescript 高级类型",
 		"summary": [
 			"自2012年诞生至今已有10个年头，Typescript已然成为Javascript项目的标配。\nTypescript的类型系统是笔者学过的几门语言中表现力最强的，同时也兼顾了可读性易用性。",
 			"本文将介绍Typescript的类型系统的各种(高级)用法，帮助你在需要时定义更贴合业务的强大类型。",
 			"关于基础知识，在这里不做赘述，如有需要请自行阅读官方文档。主要包括",
-			"Typescript的类型可以通过逻辑与或进行组合，这种方式被称为联合类型",
-			"Playground Link: Provided"
+			"我们可以通过type关键字来定义类型别名，这可以简化我们的类型注解，不需要在每一处写冗长的类型。",
+			"注意，类型别名仅仅只是别名，这与一些其他语言(如Go)不同。\n类型别名在使用上和原类型完全等价，不需要额外的类型转换。"
 		],
 		"image": "ts.webp",
 		"author": "",
@@ -24,8 +24,8 @@
 		"date": "2021-06-19T00:00:00.000Z"
 	},
 	{
-		"path": "public/blog/posts/2021/pwa/pwa.md",
-		"link": "/blog/posts/2021/pwa/pwa",
+		"path": "public/blog/posts/2021/pwa/index.md",
+		"link": "/blog/posts/2021/pwa/index",
 		"title": "Progressive Web Apps 渐进式网页应用入门",
 		"summary": [
 			"渐进式网页应用(简称PWA)是一种Web应用标准。\n通过使用一系列新兴技术让你的Web应用快速，安全，可安装，可离线使用，可适配各种设备，使其拥有不亚于原生应用的使用体验。\n主要技术包括App Manifest, Service Worker, Web Push等",
@@ -33,12 +33,10 @@
 			"随着十多年来智能手机的发展和普及，人们访问互联网的方式已经改变，移动互联网的使用率已超过传统互联网。\n数据显示，终端用户有87%的时间花费在手机应用上，相对的，网页只占到不足"
 		],
 		"image": "pwa.svg",
-		"author": "dxu",
-		"contributors": [
-			"dxu"
-		],
+		"author": "",
+		"contributors": [],
 		"created": "2021-05-10T00:00:00.000Z",
-		"updated": "Wed May 19 2021 08:49:02 GMT+0800 (China Standard Time)",
+		"updated": "",
 		"tags": [
 			"PWA",
 			"Web"

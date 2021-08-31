@@ -1,56 +1,51 @@
 import {GetStaticPaths, GetStaticProps} from 'next'
-import path from "path";
-import {promises as fs} from "fs";
-import gm from 'gray-matter'
-import {getPostMetaByLink, getPostMetaRel, getPostMetas} from "../../../src/posts/service";
-import {PostProps, PostView} from "../../../src/components/blog/Post";
-import {extractMarkdownToc, markdownToHTML} from "../../../src/posts/util";
+import {useEffect, useMemo} from "react";
+import {useRouter} from "next/router";
 
-type Params = {
-  path: string[]
-}
+const Post = () => {
+  const router = useRouter()
+  const newUrl = useMemo(() => {
+    if (router.isReady) {
+      const blogPath = router.asPath.substring('blog/posts/'.length)
+      let newUrl = `https://blog.xdean.cn/posts/${blogPath}`
+      if (newUrl.endsWith('/index')) {
+        newUrl = newUrl.substring(0, newUrl.length - 6)
+      }
+      return newUrl
+    }
+    return ''
+  }, [router])
 
-const Post = (props: PostProps) => {
+  useEffect(() => {
+    if (!!newUrl) {
+      window.location.href = newUrl
+    }
+  }, [newUrl])
+
   return (
-    <>
-      <PostView {...props}/>
-    </>
+    <div className={'text-center'}>
+      <div>
+        博客已重构，将自动重定向到新页面
+      </div>
+      {newUrl && (
+        <div>
+          如未自动跳转，请点击：<a className={'link'} href={newUrl}>{newUrl}</a>
+        </div>
+      )}
+    </div>
   )
 }
 
-export const getStaticProps: GetStaticProps<PostProps, Params> = async ctx => {
-  const postMeta = await getPostMetaByLink(path.join('/blog/posts', ...ctx.params.path))
-  const postFile = path.join(process.cwd(), postMeta.path)
-  const raw = await fs.readFile(postFile, 'utf-8')
-  const {content} = gm(raw) // remove front matter
-
-  const props: PostProps = {
-    content: await markdownToHTML(content),
-    meta: postMeta,
-    toc: await extractMarkdownToc(content),
-  }
-  if (postMeta.prev) {
-    props.prev = await getPostMetaRel(postMeta, postMeta.prev)
-  }
-  if (postMeta.next) {
-    props.next = await getPostMetaRel(postMeta, postMeta.next)
-  }
+export const getStaticProps: GetStaticProps = async () => {
   return {
-    props: props,
+    props: {}
   }
 }
 
-export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const metas = await getPostMetas()
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: metas.map(m => {
-      return ({
-        params: {
-          path: m.link.substring('/blog/posts/'.length).split('/')
-        }
-      });
-    }),
-    fallback: false,
+    paths: [],
+    fallback: true,
   }
 }
 
