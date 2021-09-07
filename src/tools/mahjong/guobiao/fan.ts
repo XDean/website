@@ -22,7 +22,7 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
       }
     }
   }
-  if (res.length === 0) {
+  if (res.filter(e => e !== Hua).length === 0) {
     res.push(WuFanHu)
   }
   return res

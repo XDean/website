@@ -941,3 +941,19 @@ expectFan({
   last: Tile.T[5],
   fans: [DaYuWu, SanSeSanTongShun, PingHu, YiBanGao]
 })
+
+// https://github.com/XDean/blog-comment/issues/5#issuecomment-914003099
+expectFan({
+  mians: [
+    new Ke(Tile.B[6], true),
+    new Shun(Tile.T[0]),
+    new Shun(Tile.W[6]),
+    new Shun(Tile.T[4]),
+    new Dui(Tile.F[0]),
+  ],
+  last: Tile.T[4],
+  options: {
+    hua: 2
+  },
+  fans: [WuFanHu, Hua, Hua]
+})
