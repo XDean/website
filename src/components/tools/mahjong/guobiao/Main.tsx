@@ -32,11 +32,13 @@ const modes: Mode[] = [
     label: '吃',
     add: (h, t) => h.mings.push(new Chi(t)),
     disableAll: hand => hand.count >= 12,
-    disable: hand => new Tiles([...Tile.Z, ...hand.usedTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
-      .flatMap(t => [0, 1, 2]
-        .map(d => t.point - d)
-        .filter(p => p > 0)
-        .map(p => new Tile(t.type, p as TilePoint)))])
+    disable: hand => new Tiles([...Tile.Z,
+      ...Tile.All.filter(e => e.point >= 7),
+      ...hand.usedTiles.filterType(...TileNumberTypes).filterMoreThan(3).tiles
+        .flatMap(t => [0, 1, 2]
+          .map(d => t.point - d)
+          .filter(p => p > 0)
+          .map(p => new Tile(t.type, p as TilePoint)))])
   },
   {
     name: 'peng',
