@@ -13,9 +13,17 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
       }
       for (let i = 0; i < match; i++) {
         for (let e of fan.exclude || []) {
-          const idx = res.indexOf(e)
-          if (idx !== -1) {
-            res.splice(idx, 1)
+          let ex: Fan[];
+          if (typeof e === 'function') {
+            ex = e(res, comb, hand)
+          } else {
+            ex = [e]
+          }
+          for (let f of ex) {
+            const idx = res.indexOf(f)
+            if (idx !== -1) {
+              res.splice(idx, 1)
+            }
           }
         }
         res.push(fan)
@@ -30,18 +38,20 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
 
 const allFans: FanCalc[] = []
 
+type FanExclude = Fan | ((fans: Fan[], comb: Combination, hand: Hand) => Fan[])
+
 class FanCalc implements Fan {
   readonly name: string;
   readonly score: number;
   readonly match: (comb: Combination, hand: Hand) => boolean | number
-  readonly exclude?: Fan[]
+  readonly exclude?: FanExclude[]
 
   constructor(
     props: {
       name: string;
       score: number;
       match(comb: Combination, hand: Hand): boolean | number
-      exclude?: Fan[]
+      exclude?: FanExclude[]
     }
   ) {
     this.name = props.name
@@ -191,14 +201,18 @@ export const QuanFengKe = new FanCalc({
   score: 2,
   name: '圈风刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.tile.type === 'z' && m.tile.point === h.option.quanfeng).length === 1,
-  exclude: [YaoJiuKe]
+  exclude: [
+    fans => fans.indexOf(MenFengKe) === -1 && fans.indexOf(YaoJiuKe) !== -1 ? [YaoJiuKe] : []
+  ]
 })
 
 export const MenFengKe = new FanCalc({
   score: 2,
   name: '门风刻',
   match: (c, h) => c.mians.filter(m => m.type === 'ke' && m.tile.type === 'z' && m.tile.point === h.option.menfeng).length === 1,
-  exclude: [YaoJiuKe]
+  exclude: [
+    fans => fans.indexOf(QuanFengKe) === -1 && fans.indexOf(YaoJiuKe) !== -1 ? [YaoJiuKe] : []
+  ]
 })
 
 export const MenQianQing = new FanCalc({

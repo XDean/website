@@ -957,3 +957,21 @@ expectFan({
   },
   fans: [WuFanHu, Hua, Hua]
 })
+
+// https://github.com/XDean/blog-comment/issues/5#issuecomment-917601166
+expectFan({
+  name:'bug: 门风+圈风导致幺九刻少计',
+  mians: [
+    new Ke(Tile.B[0]),
+    new Ke(Tile.B[8]),
+    new Ke(Tile.W[0]),
+    new Ke(Tile.F[0]),
+    new Dui(Tile.T[4]),
+  ],
+  last: Tile.T[4],
+  options: {
+    menfeng: 1,
+    quanfeng: 1,
+  },
+  fans: [SiAnKe, SanTongKe, QuanFengKe, MenFengKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, DanDiaoJiang]
+})
