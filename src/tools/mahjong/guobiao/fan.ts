@@ -551,7 +551,7 @@ export const SanTongKe = new FanCalc({
   score: 16,
   name: '三同刻',
   match: c => {
-    const kes = new Tiles(c.mians.filter(m => m.type === 'ke').map(m => (m as Ke).tile))
+    const kes = new Tiles(c.mians.filter(m => m.type === 'ke' && m.tile.type !== 'z').map(m => (m as Ke).tile))
     for (let triple of kes.triples()) {
       if (new Tiles(triple).hasDiff(0)) {
         return true

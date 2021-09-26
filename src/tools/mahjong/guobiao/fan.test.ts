@@ -960,7 +960,7 @@ expectFan({
 
 // https://github.com/XDean/blog-comment/issues/5#issuecomment-917601166
 expectFan({
-  name:'bug: 门风+圈风导致幺九刻少计',
+  name: 'bug: 门风+圈风导致幺九刻少计',
   mians: [
     new Ke(Tile.B[0]),
     new Ke(Tile.B[8]),
@@ -973,5 +973,19 @@ expectFan({
     menfeng: 1,
     quanfeng: 1,
   },
-  fans: [SiAnKe, SanTongKe, QuanFengKe, MenFengKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, DanDiaoJiang]
+  fans: [SiAnKe, ShuangTongKe, QuanFengKe, MenFengKe, YaoJiuKe, YaoJiuKe, YaoJiuKe, DanDiaoJiang]
+})
+
+// https://github.com/XDean/blog-comment/issues/5#issuecomment-926930315
+expectFan({
+  name: 'bug: 字牌计同刻',
+  mians: [
+    new Ke(Tile.W[2], true),
+    new Ke(Tile.F[2], true),
+    new Ke(Tile.T[0], true),
+    new Ke(Tile.B[2]),
+    new Dui(Tile.Y[1]),
+  ],
+  last: Tile.B[2],
+  fans: [ShuangTongKe, YaoJiuKe, YaoJiuKe, WuMenQi, PengPengHu]
 })
