@@ -1,6 +1,6 @@
-import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from "./type";
-import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes,} from "./tile";
-import assert from "assert";
+import assert from 'assert';
+import {Tile, TileNumberTypes, TilePoint, TileType, TileTypes} from './tile';
+import {Combination, Dui, Fan, Hand, Ke, QiDui, Shun, Tiles} from './type';
 
 export function calcFan(hand: Hand, comb: Combination): Fan[] {
   assert(comb.toTiles.length === 14, '和牌必须14张')
@@ -31,9 +31,15 @@ export function calcFan(hand: Hand, comb: Combination): Fan[] {
     }
   }
   if (res.filter(e => e !== Hua).length === 0) {
-    res.push(WuFanHu)
+    res.push(WuFanHu);
   }
-  return res
+  if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === YiBanGao).length === 1) {
+    res.splice(res.indexOf(XiXiangFeng), 1)
+  }
+  if (res.filter(e => e === XiXiangFeng).length === 2 && res.filter(e => e === LaoShaoFu).length === 2) {
+    res.splice(res.indexOf(XiXiangFeng), 1)
+  }
+  return res;
 }
 
 const allFans: FanCalc[] = []
@@ -384,7 +390,11 @@ export const SanSeSanTongShun = new FanCalc({
   name: '三色三同顺',
   match: c => {
     const tiles = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile));
-    return tiles.mostPoint[1] >= 3 && tiles.distinctTypes.length === 3;
+    for (let triple of tiles.triples()) {
+      const t = new Tiles(triple)
+      return t.mostPoint[1] >= 3 && t.distinctTypes.length === 3;
+    }
+    return false;
   },
   exclude: [XiXiangFeng, XiXiangFeng]
 })
