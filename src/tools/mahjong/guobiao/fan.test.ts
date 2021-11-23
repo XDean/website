@@ -68,7 +68,8 @@ import {
   WuZi,
   XiaoSanYuan,
   XiaoSiXi,
-  XiaoYuWu, XiXiangFeng,
+  XiaoYuWu,
+  XiXiangFeng,
   YaoJiuKe,
   YiBanGao,
   YiSeSanBuGao,
@@ -164,7 +165,7 @@ expectFan({
   ],
   last: Tile.T[1],
   options: {hua: 3, gangShang: true},
-  fans: [LvYiSe, YiBanGao, MingGang, HunYiSe, JianKe, Hua, Hua, Hua],
+  fans: [LvYiSe, YiBanGao, MingGang, JianKe, Hua, Hua, Hua],
 });
 
 expectFan({
@@ -1014,4 +1015,29 @@ expectFan({
   ],
   last: Tile.B[5],
   fans: [DanDiaoJiang, XiXiangFeng, PingHu, LaoShaoFu, LaoShaoFu, MenQianQing],
+});
+
+expectFan({
+  name: 'bug: 十三幺不求人',
+  mians: [
+    new Yao13(Tile.T[0]),
+  ],
+  last: Tile.T[0],
+  options: {
+    zimo: true,
+  },
+  fans: [ShiSanYao, ZiMo],
+});
+
+expectFan({
+  name: 'bug: 绿一色混一色',
+  mians: [
+    new Shun(Tile.T[1]),
+    new Shun(Tile.T[1]),
+    new Shun(Tile.T[1]),
+    new Ke(Tile.T[7], true),
+    new Dui(Tile.T[5]),
+  ],
+  last: Tile.T[1],
+  fans: [LvYiSe, YiSeSanTongShun, QingYiSe, DuanYao],
 });
