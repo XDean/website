@@ -673,10 +673,10 @@ expectFan({
 
 expectFan({
   mians: [
+    new Shun(Tile.B[6]),
     new Shun(Tile.T[0], true),
     new Shun(Tile.B[0], true),
     new Shun(Tile.W[0], true),
-    new Shun(Tile.B[6]),
     new Dui(Tile.B[4]),
   ],
   last: Tile.B[6],

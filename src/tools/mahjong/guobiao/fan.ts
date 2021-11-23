@@ -392,7 +392,9 @@ export const SanSeSanTongShun = new FanCalc({
     const tiles = new Tiles(c.mians.filter(m => m.type === 'shun').map(m => (m as Shun).tile));
     for (let triple of tiles.triples()) {
       const t = new Tiles(triple);
-      return t.mostPoint[1] >= 3 && t.distinctTypes.length === 3;
+      if (t.mostPoint[1] === 3 && t.distinctTypes.length === 3) {
+        return true;
+      }
     }
     return false;
   },
@@ -417,7 +419,7 @@ export const SanSeSanJieGao = new FanCalc({
 export const WuFanHu = new FanCalc({
   score: 8,
   name: '无番和',
-  match: c => false,
+  match: _ => false,
 });
 
 export const MiaoShouHuiChun = new FanCalc({
