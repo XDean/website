@@ -1,8 +1,22 @@
-import {GuoBiaoMainView} from '../../src/components/tools/mahjong/guobiao/Main'
-import {AppLayout} from "../../src/components/layout/AppLayout";
+import {useEffect} from 'react';
 
-(GuoBiaoMainView as any).Layout = AppLayout({
-  title: '国标麻将算番'
-})
+const newUrl = 'https://tool.xdean.cn/tool/guobiao';
+const Page = () => {
 
-export default GuoBiaoMainView
+  useEffect(() => {
+    window.location.href = newUrl;
+  }, []);
+
+  return (
+    <div className={'text-center'}>
+      <div>
+        域名换了，将自动重定向到新页面
+      </div>
+      <div>
+        如未自动跳转，请点击：<a className={'link'} href={newUrl}>这里</a>
+      </div>
+    </div>
+  );
+};
+
+export default Page;
