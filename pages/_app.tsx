@@ -13,13 +13,13 @@ function MyApp({Component, pageProps, router}: AppProps) {
   return (
     <>
       <DefaultSeo
-        defaultTitle={'XDean的个人网站'}
+        defaultTitle={'XDean的主页'}
         titleTemplate={'%s | XDean'}
         noindex={true}
         nofollow={false}
         openGraph={{
           locale: 'zh',
-          site_name: 'XDean的个人网站',
+          site_name: 'XDean的主页',
           images: [{
             url: '/icons/192.webp',
           }],

@@ -1,7 +1,7 @@
 import Document, {Html, Head, Main, NextScript, DocumentContext} from 'next/document'
 
 const APP_NAME = 'XDean'
-const APP_DESCRIPTION = 'XDean的个人网站'
+const APP_DESCRIPTION = 'XDean的主页'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
