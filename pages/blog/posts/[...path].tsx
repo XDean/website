@@ -2,6 +2,7 @@ import {GetStaticPaths, GetStaticProps} from 'next'
 import {useEffect, useMemo} from "react";
 import {useRouter} from "next/router";
 
+// backward compatibility
 const Post = () => {
   const router = useRouter()
   const newUrl = useMemo(() => {

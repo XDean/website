@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 
+// backward compatibility
 const newUrl = 'https://tool.xdean.cn/tool/guobiao';
 const Page = () => {
 
