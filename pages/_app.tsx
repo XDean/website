@@ -1,41 +1,11 @@
-import Head from "next/head";
-import {AppProps} from "next/dist/pages/_app";
-import {AnimatePresence} from 'framer-motion';
-import {DefaultLayout} from "../src/components/layout/Default";
-import {useGA} from "../src/components/util/GA";
-import '../assets/styles/globals.css'
-import {DefaultSeo} from "next-seo";
+import { AppProps } from 'next/dist/pages/_app';
+import '../assets/styles/globals.css';
 
 function MyApp({Component, pageProps, router}: AppProps) {
-  const Layout = (Component as any).Layout || DefaultLayout
-  useGA(router)
-  // noinspection HtmlRequiredTitleElement
+  // useGA(router);
   return (
-    <>
-      <DefaultSeo
-        defaultTitle={'XDean的主页'}
-        titleTemplate={'%s | XDean'}
-        noindex={true}
-        nofollow={false}
-        openGraph={{
-          locale: 'zh',
-          site_name: 'XDean的主页',
-          images: [{
-            url: '/icons/192.webp',
-          }],
-        }}
-      />
-      <Head>
-        <meta name='viewport'
-              content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover'/>
-      </Head>
-      <Layout>
-        <AnimatePresence exitBeforeEnter>
-          <Component {...pageProps} key={router.route}/>
-        </AnimatePresence>
-      </Layout>
-    </>
-  )
+    <Component {...pageProps}/>
+  );
 }
 
-export default MyApp
+export default MyApp;

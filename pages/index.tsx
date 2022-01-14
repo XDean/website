@@ -1,4 +1,3 @@
-const Page = () => {
-  return '施工中...';
-};
-export default Page;
+import { Index } from '../components/Index';
+
+export default Index;
