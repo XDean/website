@@ -4,10 +4,17 @@
 }
 
 .links a {
-    @apply text-gray-700 hover:underline;
+    @apply hover:underline;
 }
 
-.links a:not(:last-child):after {
-    content: '';
-    @apply inline-block w-2 h-2 bg-black ml-4 rounded-full align-middle;
+.page {
+    @apply h-screen flex flex-col items-center justify-center space-y-8 snap-center;
+}
+
+.page1 {
+    @apply bg-black text-white;
+}
+
+.page2 {
+    @apply bg-white;
 }
