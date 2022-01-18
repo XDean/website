@@ -14,22 +14,24 @@ import { Dot } from './Dot';
 import { IconLink } from './IconLink';
 import css from './index.module.css';
 import { Wheel } from './Wheel';
+import {Quotes} from './Quotes';
+import {CodeQuotes} from './data';
 
 const birth = new Date('1995-11-07');
 
 export const Index = () => {
   return (
-    <div className={'h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth'}>
+    <div className={'h-screen overflow-y-scroll snap-y scroll-smooth'}>
       <div className={clsx(css.page)}>
         <Image src={logo} width={180} className={'rounded-full shadow overflow-hidden'}/>
         <div className={css.links}>
+          <a href={'#about'}>关于我</a>
+          <Dot/>
           <a href={'https://blog.xdean.cn'}>博客</a>
           <Dot/>
           <a href={'https://tutorial.xdean.cn'}>教程</a>
           <Dot/>
-          <a href={'https://tools.xdean.cn'}>工具</a>
-          <Dot/>
-          <a href={'#about'}>关于</a>
+          <a href={'https://tool.xdean.cn'}>工具</a>
         </div>
       </div>
       <div id={'about'} className={clsx(css.page)}>
@@ -79,7 +81,6 @@ export const Index = () => {
               'Next.js',
               'Spark',
               'Spring Boot',
-              'Python',
               '42',
               'Git',
               'Github',
@@ -91,6 +92,7 @@ export const Index = () => {
               'thinking',
               <span className={'line-through'}>Python</span>,
             ], [])}/></div>
+          <Quotes quotes={CodeQuotes}/>
         </div>
       </div>
     </div>

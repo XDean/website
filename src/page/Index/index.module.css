@@ -1,5 +1,5 @@
 .links {
-    @apply flex items-center space-x-4 text-3xl;
+    @apply flex flex-col lg:flex-row items-center space-y-2 lg:space-x-4 text-3xl;
 
 }
 

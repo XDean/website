@@ -3,7 +3,7 @@ export type Quote = {
   zh: string
   by: string
 }
-export const CoderQuotes: Quote[] = [
+export const CodeQuotes: Quote[] = [
   {
     en: 'UNIX is simple. But It just needs a genius to understand its simplicity.',
     zh: 'UNIX很简单(只针对那些有天赋的人)。',
@@ -73,20 +73,5 @@ export const CoderQuotes: Quote[] = [
     en: `The trouble with the world is that the stupid are cocksure and the intelligent full of doubt.`,
     zh: '这个世界的一个问题是，愚者信誓旦旦，智者保持怀疑。',
     by: 'Bertrand Russell',
-  },
-  {
-    en: ``,
-    zh: '',
-    by: '',
-  },
-  {
-    en: ``,
-    zh: '',
-    by: '',
-  },
-  {
-    en: ``,
-    zh: '',
-    by: '',
   },
 ];
