@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { VscCode } from 'react-icons/vsc';
 import { Image } from '../../../common/components/Image';
 import logo from '../../../common/resources/logo.ico';
@@ -12,6 +13,7 @@ import avatar from './avatar.jpg';
 import { Dot } from './Dot';
 import { IconLink } from './IconLink';
 import css from './index.module.css';
+import { Wheel } from './Wheel';
 
 const birth = new Date('1995-11-07');
 
@@ -64,10 +66,31 @@ export const Index = () => {
         </div>
       </div>
       <div id={'about'} className={clsx(css.page)}>
-        <div className={'flex flex-col items-center'}>
+        <div className={'flex flex-col items-center font-mono'}>
           <VscCode size={180} className={'rounded-full shadow overflow-hidden'}/>
           <div className={css.helloWorld}>Hello World!</div>
-          <div>I like Typescript</div>
+          <div className={'flex flex-row items-center space-x-2 text-xl'}>
+            <div>I like</div>
+            <Wheel words={useMemo(()=>[
+              'Typescript',
+              'Java',
+              'RxJava',
+              'React',
+              'Next.js',
+              'Spark',
+              'Spring Boot',
+              'Python',
+              '42',
+              'Git',
+              'Github',
+              'Vercel',
+              'swr',
+              'Tailwind CSS',
+              'Golang',
+              'IDEA',
+              'thinking',
+              <span className={'line-through'}>Python</span>,
+            ], [])}/></div>
         </div>
       </div>
     </div>
