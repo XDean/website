@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { VscCode } from 'react-icons/vsc';
 import { Image } from '../../../common/components/Image';
 import logo from '../../../common/resources/logo.ico';
 import githubIcon from '../../../public/about/github.webp';
@@ -17,7 +18,7 @@ const birth = new Date('1995-11-07');
 export const Index = () => {
   return (
     <div className={'h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth'}>
-      <div className={clsx(css.page, css.page1)}>
+      <div className={clsx(css.page)}>
         <Image src={logo} width={180} className={'rounded-full shadow overflow-hidden'}/>
         <div className={css.links}>
           <a href={'https://blog.xdean.cn'}>博客</a>
@@ -29,7 +30,7 @@ export const Index = () => {
           <a href={'#about'}>关于</a>
         </div>
       </div>
-      <div id={'about'} className={clsx(css.page, css.page2)}>
+      <div id={'about'} className={clsx(css.page)}>
         <div className={'flex flex-col lg:flex-row items-center space-y-4 lg:space-x-4'}>
           <Image src={avatar} width={180} className={'rounded-full shadow overflow-hidden'}/>
           <ul className={'text-xl list-disc pl-8 leading-8'}>
@@ -60,6 +61,13 @@ export const Index = () => {
           <IconLink href={'mailto:xuda1107@gmail.com'}
                     src={gmailIcon}
                     width={48}/>
+        </div>
+      </div>
+      <div id={'about'} className={clsx(css.page)}>
+        <div className={'flex flex-col items-center'}>
+          <VscCode size={180} className={'rounded-full shadow overflow-hidden'}/>
+          <div className={css.helloWorld}>Hello World!</div>
+          <div>I like Typescript</div>
         </div>
       </div>
     </div>
