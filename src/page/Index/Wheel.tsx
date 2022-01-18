@@ -1,25 +1,33 @@
 import clsx from 'clsx';
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import {ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 
 type Props = {
   words: ReactNode[]
+  fix?: number
+  shuffle?: boolean
 }
 export const Wheel = (props: Props) => {
-  const {words: rawWords} = props;
+  const {words: rawWords, fix, shuffle} = props;
   const [current, setCurrent] = useState(0);
-  const words = useMemo(() => rawWords.map(e => ({value: e, sort: Math.random()}))
+  const words = useMemo(() => shuffle ? rawWords.map(e => ({value: e, sort: Math.random()}))
     .sort((a, b) => a.sort - b.sort)
-    .map(e => e.value), [rawWords]);
+    .map(e => e.value) : rawWords, [rawWords]);
   const hover = useRef(false);
 
   useEffect(() => {
     const id = setInterval(() => {
-      if (!hover.current) {
+      if (fix === undefined && !hover.current) {
         setCurrent(c => (c - 1 + words.length) % words.length);
       }
     }, 1500);
     return () => clearInterval(id);
-  }, [words]);
+  }, [fix, words]);
+
+  useEffect(() => {
+    if (fix !== undefined){
+      setCurrent(fix);
+    }
+  }, [fix]);
 
   return (
     <div className={'inline-block relative my-12 text-center p-1 border rounded'}

@@ -41,12 +41,12 @@ export const CodeQuotes: Quote[] = [
   },
   {
     en: `Whenever possible, steal code.`,
-    zh: '君子善假于物也',
+    zh: '君子善假于物也。',
     by: 'Tom Duff',
   },
   {
     en: `Furious activity is no substitute for understanding.`,
-    zh: '磨刀不误砍柴工',
+    zh: '磨刀不误砍柴工。',
     by: 'H. H. Williams',
   },
   {
@@ -56,7 +56,7 @@ export const CodeQuotes: Quote[] = [
   },
   {
     en: `There are only two kinds of programming languages out there. The ones people complain about and the ones no one uses.`,
-    zh: '世界上只有两类编程语言：被人骂的，和没人用的',
+    zh: '世界上只有两类编程语言：被人骂的，和没人用的。',
     by: 'Dean Joke',
   },
   {

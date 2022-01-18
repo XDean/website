@@ -1,19 +1,19 @@
 import clsx from 'clsx';
-import { useMemo } from 'react';
-import { VscCode } from 'react-icons/vsc';
-import { Image } from '../../../common/components/Image';
+import {useMemo} from 'react';
+import {VscCode} from 'react-icons/vsc';
+import {Image} from '../../../common/components/Image';
 import logo from '../../../common/resources/logo.ico';
 import githubIcon from '../../../public/about/github.webp';
 import gmailIcon from '../../../public/about/gmail.webp';
 import qqmailIcon from '../../../public/about/qqmail.webp';
 import stackoverflowIcon from '../../../public/about/stackoverflow.webp';
 import wechatIcon from '../../../public/about/wechat.webp';
-import { Age } from './Age';
+import {Age} from './Age';
 import avatar from './avatar.jpg';
-import { Dot } from './Dot';
-import { IconLink } from './IconLink';
+import {Dot} from './Dot';
+import {IconLink} from './IconLink';
 import css from './index.module.css';
-import { Wheel } from './Wheel';
+import {Wheel} from './Wheel';
 import {Quotes} from './Quotes';
 import {CodeQuotes} from './data';
 
@@ -37,14 +37,16 @@ export const Index = () => {
       <div id={'about'} className={clsx(css.page)}>
         <div className={'flex flex-col lg:flex-row items-center space-y-4 lg:space-x-4'}>
           <Image src={avatar} width={180} className={'rounded-full shadow overflow-hidden'}/>
-          <ul className={'text-xl list-disc pl-8 leading-8'}>
-            <li>许德安 (XDean)</li>
-            <li><Age birth={birth}/> 岁</li>
-            <li>一只程序员</li>
-            <li>一枚桌游爱好者</li>
-            <li>半个游戏玩家(前朝遗老)</li>
-            <li>一棵芦苇</li>
-          </ul>
+          <div>
+            <div className={'text-3xl mb-3'}>许德安 (XDean)</div>
+            <ul className={'text-xl list-disc pl-8 leading-8'}>
+              <li><Age birth={birth}/> 岁</li>
+              <li>一只程序员</li>
+              <li>一枚桌游爱好者</li>
+              <li>半个游戏玩家(前朝遗老)</li>
+              <li>一棵芦苇</li>
+            </ul>
+          </div>
         </div>
         <div className={'flex items-center space-x-4'}>
           <IconLink href={'/about/wechat-qr.webp'}
@@ -73,7 +75,7 @@ export const Index = () => {
           <div className={css.helloWorld}>Hello World!</div>
           <div className={'flex flex-row items-center space-x-2 text-xl'}>
             <div>I like</div>
-            <Wheel words={useMemo(()=>[
+            <Wheel shuffle words={useMemo(() => [
               'Typescript',
               'Java',
               'RxJava',
