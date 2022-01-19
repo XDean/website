@@ -11,9 +11,6 @@ export const Age = (props: Props) => {
       const now = new Date();
       const year = now.getFullYear() - birth.getFullYear();
       now.setFullYear(birth.getFullYear());
-      if (now.getTime() < birth.getTime()) {
-        now.setFullYear(birth.getFullYear() + 1);
-      }
       setAge(year + (now.getTime() - birth.getTime()) / 1000 / 60 / 60 / 24 / 365);
     }, 100);
     return () => clearInterval(id);
