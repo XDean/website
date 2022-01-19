@@ -1,5 +1,5 @@
 .page {
-    @apply h-screen flex flex-col items-center justify-center space-y-8 snap-center;
+    @apply h-screen flex flex-col items-center justify-center space-y-8;
 }
 
 .page:nth-child(odd) {
