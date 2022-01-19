@@ -1,0 +1,7 @@
+.list {
+    @apply text-xl list-disc pl-8 leading-8;
+}
+
+.list li a {
+    @apply underline underline-offset-2 pl-1;
+}

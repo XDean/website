@@ -1,0 +1,8 @@
+.links {
+    @apply flex flex-col lg:flex-row items-center space-y-2 lg:space-x-4 text-3xl;
+
+}
+
+.links a {
+    @apply hover:underline;
+}

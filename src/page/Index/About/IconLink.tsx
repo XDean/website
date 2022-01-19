@@ -1,5 +1,5 @@
-import Image from '../../../common/components/Image';
-import { PropsOf } from '../../../common/util/react';
+import Image from 'common/components/Image';
+import { PropsOf } from 'common/util/react';
 
 type Props = {
   href: string

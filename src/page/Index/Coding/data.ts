@@ -3,6 +3,7 @@ export type Quote = {
   zh: string
   by: string
 }
+
 export const CodeQuotes: Quote[] = [
   {
     en: 'UNIX is simple. But It just needs a genius to understand its simplicity.',
