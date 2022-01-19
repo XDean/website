@@ -1,28 +1,28 @@
 import clsx from 'clsx';
-import {useMemo} from 'react';
-import {VscCode} from 'react-icons/vsc';
-import {Image} from '../../../common/components/Image';
+import { useMemo } from 'react';
+import { VscCode } from 'react-icons/vsc';
+import { Image } from '../../../common/components/Image';
 import logo from '../../../common/resources/logo.ico';
 import githubIcon from '../../../public/about/github.webp';
 import gmailIcon from '../../../public/about/gmail.webp';
 import qqmailIcon from '../../../public/about/qqmail.webp';
 import stackoverflowIcon from '../../../public/about/stackoverflow.webp';
 import wechatIcon from '../../../public/about/wechat.webp';
-import {Age} from './Age';
+import { Age } from './Age';
 import avatar from './avatar.jpg';
-import {Dot} from './Dot';
-import {IconLink} from './IconLink';
+import { CodeQuotes } from './data';
+import { Dot } from './Dot';
+import { IconLink } from './IconLink';
 import css from './index.module.css';
-import {Wheel} from './Wheel';
-import {Quotes} from './Quotes';
-import {CodeQuotes} from './data';
+import { Quotes } from './Quotes';
+import { Wheel } from './Wheel';
 
 const birth = new Date('1995-11-07');
 
 export const Index = () => {
   return (
     <div className={'h-screen overflow-y-scroll snap-y scroll-smooth'}>
-      <div className={clsx(css.page)}>
+      <div id={'home'} className={clsx(css.page)}>
         <Image src={logo} width={180} className={'rounded-full shadow overflow-hidden'}/>
         <div className={css.links}>
           <a href={'#about'}>关于我</a>
@@ -34,17 +34,17 @@ export const Index = () => {
           <a href={'https://tool.xdean.cn'}>工具</a>
         </div>
       </div>
-      <div id={'about'} className={clsx(css.page)}>
+      <div id={'about'} className={clsx(css.page, css.about)}>
         <div className={'flex flex-col lg:flex-row items-center space-y-4 lg:space-x-4'}>
           <Image src={avatar} width={180} className={'rounded-full shadow overflow-hidden'}/>
           <div>
             <div className={'text-3xl mb-3'}>许德安 (XDean)</div>
             <ul className={'text-xl list-disc pl-8 leading-8'}>
               <li><Age birth={birth}/> 岁</li>
-              <li>一只程序员</li>
-              <li>一枚桌游爱好者</li>
-              <li>半个游戏玩家(前朝遗老)</li>
-              <li>一棵芦苇</li>
+              <li>一只<a href={'#program'}>程序员</a></li>
+              <li>一枚<a href={'#board-game'}>桌游爱好者</a></li>
+              <li>半个<a href={'#game'}>游戏玩家</a></li>
+              <li>一棵<a>芦苇</a></li>
             </ul>
           </div>
         </div>
@@ -69,7 +69,7 @@ export const Index = () => {
                     width={48}/>
         </div>
       </div>
-      <div id={'about'} className={clsx(css.page)}>
+      <div id={'program'} className={clsx(css.page)}>
         <div className={'flex flex-col items-center font-mono'}>
           <VscCode size={180} className={'rounded-full shadow overflow-hidden'}/>
           <div className={css.helloWorld}>Hello World!</div>
@@ -96,6 +96,10 @@ export const Index = () => {
             ], [])}/></div>
           <Quotes quotes={CodeQuotes}/>
         </div>
+      </div>
+      <div id={'board-game'} className={clsx(css.page)}>
+      </div>
+      <div id={'game'} className={clsx(css.page)}>
       </div>
     </div>
   );
