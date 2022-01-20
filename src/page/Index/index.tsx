@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { easeInOut, smoothScroll } from '../../../common/util/dom';
 import { About } from './About';
+import { BoardGame } from './BoardGame';
 import { Coding } from './Coding';
 import { Home } from './Home';
 import css from './index.module.css';
@@ -74,6 +75,7 @@ export const Index = () => {
         <Coding/>
       </div>
       <div id={'board-game'} className={css.page}>
+        <BoardGame/>
       </div>
       <div id={'game'} className={css.page}>
       </div>

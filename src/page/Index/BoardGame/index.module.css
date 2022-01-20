@@ -1,0 +1,25 @@
+.meepleContainer {
+    @apply flex flex-row items-center;
+}
+
+.meeple1 {
+    @apply w-32 h-32;
+}
+
+.meeple2 {
+    @apply w-48 h-48;
+    animation: meeple2 3s infinite ease-in-out alternate;
+}
+
+.meeple3 {
+    @apply w-32 h-32;
+}
+
+@keyframes meeple2 {
+    0% {
+        @apply w-32 h-32;
+    }
+    100% {
+        @apply w-64 h-64;
+    }
+}
