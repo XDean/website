@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { smoothScroll } from '../../../common/util/dom';
+import { easeInOut, smoothScroll } from '../../../common/util/dom';
 import { About } from './About';
 import { Coding } from './Coding';
 import { Home } from './Home';
@@ -17,13 +17,13 @@ export const Index = () => {
       let scrollDown = true;
       let scrolling = false;
       let taskId: Timeout;
-      const listener = (e: Event) => {
-        if (scrolling) {
-          e.preventDefault();
-          return;
-        }
+      const listener = () => {
         scrollDown = root.scrollTop > lastPos;
         lastPos = root.scrollTop;
+        if (scrolling) {
+          return;
+        }
+        clearTimeout(taskId);
         let target: Element;
         for (let i = 0; i < root.children.length; i++) {
           const c = root.children.item(i);
@@ -41,16 +41,16 @@ export const Index = () => {
         }
         if (target) {
           const targetPos = root.scrollTop + target.getBoundingClientRect().y;
-          clearTimeout(taskId);
           taskId = setTimeout(() => {
             scrolling = true;
-            history.replaceState(null, null, `#${target.id}`)
+            history.replaceState(null, null, `#${target.id}`);
             smoothScroll({
               element: root,
               from: lastPos,
               to: targetPos,
-              onDone: () => scrolling = false,
-              duration: 300,
+              onFinal: () => scrolling = false,
+              duration: 500,
+              stepFunc: easeInOut,
             });
           }, 500);
         }
