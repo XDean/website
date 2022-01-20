@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
-import { easeInOut, smoothScroll } from '../../../common/util/dom';
-import { About } from './About';
-import { BoardGame } from './BoardGame';
-import { Coding } from './Coding';
-import { Home } from './Home';
+import {useEffect, useRef} from 'react';
+import {easeInOut, smoothScroll} from '../../../common/util/dom';
+import {About} from './About';
+import {BoardGame} from './BoardGame';
+import {Coding} from './Coding';
+import {Home} from './Home';
 import css from './index.module.css';
 import Timeout = NodeJS.Timeout;
 
@@ -32,7 +32,11 @@ export const Index = () => {
           if (offset === 0) {
             return;
           } else if (offset > 0) {
-            if (scrollDown) {
+            if (offset > window.innerHeight / 4 * 3) {
+              target = c.previousElementSibling!;
+            } else if (offset < window.innerHeight / 4) {
+              target = c;
+            } else if (scrollDown) {
               target = c;
             } else {
               target = c.previousElementSibling!;

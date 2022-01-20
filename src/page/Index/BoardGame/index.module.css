@@ -3,16 +3,16 @@
 }
 
 .meeple1 {
-    @apply w-32 h-32;
+    @apply w-32 h-32 text-red-500;
 }
 
 .meeple2 {
-    @apply w-48 h-48;
-    animation: meeple2 3s infinite ease-in-out alternate;
+    @apply w-32 h-32 text-blue-500;
+    //animation: meeple2 3s infinite ease-in-out alternate;
 }
 
 .meeple3 {
-    @apply w-32 h-32;
+    @apply w-32 h-32 text-yellow-500;
 }
 
 @keyframes meeple2 {
