@@ -4,7 +4,7 @@ export const NotFoundView = () => {
       <div className={'flex items-center w-max'}>
         <div className={'text-2xl md:text-4xl border-r-4 pr-2 mr-2 border-gray-700'}>404</div>
         <div className={'text-xl md:text-3xl'}>
-          页面找不到
+          页面不见了
         </div>
       </div>
     </div>
