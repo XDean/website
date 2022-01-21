@@ -3,17 +3,79 @@
 }
 
 .meeple {
-    @apply w-32 h-32 transition;
+    @apply w-32 h-32 transition-all cursor-pointer;
+    filter: drop-shadow(4px 5px 3px #000a);
 }
 
-.m1 {
-    @apply text-red-500;
+.anim1 {
+    animation: anim1 1s infinite ease-in-out alternate;
 }
 
-.m2 {
-    @apply text-blue-500;
+@keyframes anim1 {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-.m3 {
-    @apply text-yellow-500;
+.anim2 {
+    animation: anim2 1s infinite ease-in-out alternate;
+}
+
+@keyframes anim2 {
+    from {
+        transform: scale(0.25);
+    }
+    to {
+        transform: scale(1.15);
+    }
+}
+
+.anim3 {
+    animation: anim3 1s infinite ease-in-out alternate;
+}
+
+@keyframes anim3 {
+    0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+.anim4 {
+    animation: anim4 1s infinite ease-in-out alternate;
+}
+
+@keyframes anim4 {
+    0%, 50%, 100% {
+        transform: skewX(0deg)
+    }
+    25% {
+        transform: skewX(10deg)
+    }
+    75% {
+        transform: skewX(-10deg)
+    }
+}
+
+.anim5 {
+    animation: anim5 1s infinite ease-in-out;
+}
+
+@keyframes anim5 {
+    0%, 50%, 100% {
+        transform: skewY(0deg)
+    }
+    25% {
+        transform: skewY(10deg)
+    }
+    75% {
+        transform: skewY(-10deg)
+    }
 }
