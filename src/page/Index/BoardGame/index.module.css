@@ -3,7 +3,7 @@
 }
 
 .meeple {
-    @apply w-32 h-32 transition-all cursor-pointer;
+    @apply w-16 h-16 lg:w-32 lg:h-32 transition-all cursor-pointer;
     filter: drop-shadow(4px 5px 3px #000a);
 }
 
@@ -77,5 +77,31 @@
     }
     75% {
         transform: skewY(-10deg)
+    }
+}
+
+.anim6 {
+    animation: anim6 1s infinite ease-in-out alternate;
+}
+
+@keyframes anim6 {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.anim7 {
+    animation: anim7 2s infinite linear;
+}
+
+@keyframes anim7 {
+    from {
+        transform: rotateY(0);
+    }
+    to {
+        transform: rotateY(360deg);
     }
 }

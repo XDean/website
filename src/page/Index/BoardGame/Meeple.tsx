@@ -11,6 +11,8 @@ const anims = [
   css.anim3,
   css.anim4,
   css.anim5,
+  css.anim6,
+  css.anim7,
 ];
 
 type Props = {
