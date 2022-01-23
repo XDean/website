@@ -1,0 +1,8 @@
+.root {
+    @apply relative w-full h-full;
+    clip-path: inset(0);
+}
+
+.img {
+    @apply fixed inset-0
+}

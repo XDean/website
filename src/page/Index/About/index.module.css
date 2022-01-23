@@ -3,5 +3,5 @@
 }
 
 .list li a {
-    @apply underline underline-offset-2 pl-1;
+    @apply underline underline-offset-2;
 }

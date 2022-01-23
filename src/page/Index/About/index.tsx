@@ -20,10 +20,10 @@ export const About = () => {
           <div className={'text-3xl mb-3'}>许德安 (XDean)</div>
           <ul className={css.list}>
             <li><Age birth={birth}/> 岁</li>
-            <li>一只<a href={'#coding'}>程序员</a></li>
-            <li>一枚<a href={'#board-game'}>桌游爱好者</a></li>
-            <li>半个<a href={'#game'}>游戏玩家</a></li>
-            <li>一棵<a>芦苇</a></li>
+            <li><a href={'#coding'}>程序员</a></li>
+            <li><a href={'#board-game'}>桌游爱好者</a></li>
+            <li><a href={'#game'}>游戏玩家</a></li>
+            <li><a href={'#reed'}>芦苇</a></li>
           </ul>
         </div>
       </div>
