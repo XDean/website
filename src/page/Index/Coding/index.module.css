@@ -1,5 +1,5 @@
 .helloWorld {
-    @apply text-5xl bg-clip-text text-transparent;
+    @apply text-5xl bg-clip-text text-transparent cursor-pointer;
     background-image: linear-gradient(to right,
     rgba(255, 0, 0, 1) 0%,
     rgba(255, 154, 0, 1) 10%,
