@@ -1,5 +1,9 @@
+.root {
+}
+
 .page {
-    @apply h-screen flex flex-col items-center justify-center space-y-8;
+    @apply w-full h-screen relative;
+    clip-path: inset(0);
 }
 
 .page:nth-child(odd) {
@@ -8,4 +12,8 @@
 
 .page:nth-child(even) {
     @apply bg-white text-black;
+}
+
+.page > * {
+    @apply fixed inset-0 w-full h-screen flex flex-col items-center justify-center space-y-8 ;
 }

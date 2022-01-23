@@ -1,11 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { easeInOut, smoothScroll } from '../../../common/util/dom';
-import { About } from './About';
-import { BoardGame } from './BoardGame';
-import { Coding } from './Coding';
-import { Home } from './Home';
+import {useEffect, useRef} from 'react';
+import {easeInOut, smoothScroll} from '../../../common/util/dom';
+import {About} from './About';
+import {BoardGame} from './BoardGame';
+import {Coding} from './Coding';
+import {Home} from './Home';
 import css from './index.module.css';
 import Timeout = NodeJS.Timeout;
+import {Reed} from './Reed';
 
 
 export const Index = () => {
@@ -13,14 +14,14 @@ export const Index = () => {
 
   useEffect(() => {
     const root = rootRef.current;
-    if (root) {
-      let lastPos = root.scrollTop;
+    if (root && window) {
+      let lastPos = window.scrollY;
       let scrollDown = true;
       let scrolling = false;
       let taskId: Timeout;
       const listener = () => {
-        scrollDown = root.scrollTop > lastPos;
-        lastPos = root.scrollTop;
+        scrollDown = window.scrollY > lastPos;
+        lastPos = window.scrollY;
         if (scrolling) {
           return;
         }
@@ -46,43 +47,58 @@ export const Index = () => {
           }
         }
         if (target) {
-          const targetPos = root.scrollTop + target.getBoundingClientRect().y;
+          const targetPos = window.scrollY + target.getBoundingClientRect().y;
           taskId = setTimeout(() => {
             scrolling = true;
             history.replaceState(null, null, `#${target.id}`);
             smoothScroll({
-              element: root,
+              element: window,
               from: lastPos,
               to: targetPos,
               onFinal: () => scrolling = false,
               duration: Math.max(Math.min(500, (targetPos - lastPos) / 2), 100),
               stepFunc: easeInOut,
             });
-          }, 500);
+          }, 300);
         }
       };
-      root.addEventListener('scroll', listener);
+      window.addEventListener('scroll', listener);
       return () => {
-        root.removeEventListener('scroll', listener);
+        window.removeEventListener('scroll', listener);
       };
     }
   }, [rootRef]);
 
   return (
-    <div id={'root'} className={'h-screen overflow-y-scroll'} ref={rootRef}>
+    <div id={'root'} className={css.root} ref={rootRef}>
       <div id={'home'} className={css.page}>
-        <Home/>
+        <div>
+          <Home/>
+        </div>
       </div>
       <div id={'about'} className={css.page}>
-        <About/>
+        <div>
+          <About/>
+        </div>
       </div>
       <div id={'coding'} className={css.page}>
-        <Coding/>
+        <div>
+          <Coding/>
+        </div>
       </div>
       <div id={'board-game'} className={css.page}>
-        <BoardGame/>
+        <div>
+          <BoardGame/>
+        </div>
       </div>
       <div id={'game'} className={css.page}>
+        <div>
+        </div>
+      </div>
+      <div id={'reed'} className={css.page}>
+        <div>
+          <Reed/>
+        </div>
       </div>
     </div>
   );
