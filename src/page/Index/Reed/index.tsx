@@ -9,7 +9,9 @@ export const Reed = () => {
            backgroundImage: `url(${reed.src})`,
          }}
     >
-      <div className={'absolute left-auto lg:w[500px] right-0 top-8 px-8 text-white text-lg lg:text-2xl'}>
+      <div className={'absolute left-auto lg:w[500px] right-0 top-8 mx-4 px-4 py-2 text-white text-lg lg:text-2xl'}>
+        <div className={'absolute top-0 left-0 w-16 h-8 border-white border-t-4 border-l-4 border-double'}/>
+        <div className={'absolute bottom-0 right-0 w-16 h-8 border-white border-b-4 border-r-4 border-double'}/>
         <div>
           人，是会思考的芦苇。
         </div>
