@@ -1,16 +1,21 @@
-import {useEffect, useRef} from 'react';
-import {easeInOut, smoothScroll} from '../../../common/util/dom';
-import {About} from './About';
-import {BoardGame} from './BoardGame';
-import {Coding} from './Coding';
-import {Home} from './Home';
+import { useEffect, useRef } from 'react';
+import { easeInOut, smoothScroll } from '../../../common/util/dom';
+import { PropsOf } from '../../../common/util/react';
+import { About } from './About';
+import { BoardGame } from './BoardGame';
+import { Coding } from './Coding';
+import { Home } from './Home';
 import css from './index.module.css';
+import { Reed } from './Reed';
 import Timeout = NodeJS.Timeout;
-import {Reed} from './Reed';
 
+type Props = {
+  home: PropsOf<typeof Home>
+}
 
-export const Index = () => {
+export const Index = (props: Props) => {
   const rootRef = useRef<HTMLDivElement>();
+  const {home} = props;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -73,7 +78,7 @@ export const Index = () => {
     <div id={'root'} className={css.root} ref={rootRef}>
       <div id={'home'} className={css.page}>
         <div>
-          <Home/>
+          <Home {...home}/>
         </div>
       </div>
       <div id={'about'} className={css.page}>

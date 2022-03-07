@@ -16,5 +16,10 @@ module.exports = withPlugins([
   [withBundleAnalyzer],
   {
     pageExtensions: ['mdx', 'jsx', 'js', 'ts', 'tsx'],
+    images: {
+      domains: [
+        'www.bing.com'
+      ],
+    },
   }
 ]);
