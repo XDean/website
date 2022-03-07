@@ -6,6 +6,7 @@ import NextImage from 'next/image';
 import { BiLinkExternal } from 'react-icons/bi';
 import { Dot } from './Dot';
 import css from './index.module.css';
+import { Link } from './Link';
 
 type Props = {
   img: {
@@ -18,33 +19,48 @@ type Props = {
 export const Home = (props: Props) => {
   const {img} = props;
   return (
-    <div className={'h-full w-full relative'}>
+    <div className={'h-full w-full relative flex flex-col items-center justify-center'}>
       <NextImage src={img.url}
                  objectPosition={'center'}
                  objectFit={'cover'}
                  layout={'fill'}
       />
-      {img.title && <a className={'absolute z-50 left-2 bottom-2 text-gray-500 text-sm ' +
-      'transition hover:underline hover:text-gray-300 cursor-pointer'}
-                       href={img.link}
-                       target={'_blank'}
+      {img.title &&
+      <a className={'hidden md:block absolute z-50 left-2 bottom-2 px-1 text-sm opacity-60 text-gray-700 bg-gray-300 ' +
+      'transition hover:underline hover:text-gray-300 hover:bg-gray-700 hover:opacity-95 cursor-pointer ' +
+      'backdrop-opacity-50 backdrop-blur-3xl'}
+         href={img.link}
+         target={'_blank'}
       >
         {img.title}
         <BiLinkExternal className={'inline text-lg ml-2'}/>
       </a>}
-      <div className={'h-full w-full flex flex-col items-center justify-center space-y-8 relative'}>
+      <div className={clsx('flex flex-col items-center justify-center relative',
+        'p-4 rounded drop-shadow-2xl backdrop-opacity-50 backdrop-blur-3xl bg-white/10')}>
         <div className={css.logoContainer}>
           <Image src={xdean} className={clsx(css.logo, css.xdean)}/>
           <Image src={xd} className={clsx(css.logo, css.xd)}/>
         </div>
-        <div className={css.links}>
-          <a href={'#about'}>关于我</a>
+        <div className={'text-5xl pt-4 font-mono'}
+             style={{
+               textShadow: '0 0 2px white, 0 0 4px black',
+             }}>
+          许德安
+        </div>
+        <div className={'text-3xl pb-4 font-mono'}
+             style={{
+               textShadow: '0 0 2px white, 0 0 4px black',
+             }}>
+          XDean
+        </div>
+        <div className={'flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-4 text-3xl'}>
+          <Link link={'#about'} text={'关于我'}/>
           <Dot/>
-          <a href={'https://blog.xdean.cn'}>博客</a>
+          <Link link={'https://blog.xdean.cn'} text={'博客'}/>
           <Dot/>
-          <a href={'https://tutorial.xdean.cn'}>教程</a>
+          <Link link={'https://tutorial.xdean.cn'} text={'教程'}/>
           <Dot/>
-          <a href={'https://tool.xdean.cn'}>工具</a>
+          <Link link={'https://tool.xdean.cn'} text={'百宝箱'}/>
         </div>
       </div>
     </div>

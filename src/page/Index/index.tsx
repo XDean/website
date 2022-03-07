@@ -97,7 +97,8 @@ export const Index = (props: Props) => {
         </div>
       </div>
       <div id={'game'} className={css.page}>
-        <div>
+        <div className={'text-4xl'}>
+          TBD
         </div>
       </div>
       <div id={'reed'} className={css.page}>
