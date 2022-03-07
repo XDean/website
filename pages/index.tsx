@@ -32,9 +32,9 @@ export const getStaticProps: GetStaticProps<PropsOf<typeof Index>> = async () =>
     props: {
       home: {
         img: {
-          url: '',
-          title: '',
-          link: '',
+          url: '/bg.jpeg',
+          title: '雷尼尔山上空的银河星系，美国华盛顿州 (© Brad Goldpaint/Cavan)',
+          link: 'https://www.bing.com/search?q=%E9%9B%B7%E5%B0%BC%E5%B0%94%E5%B1%B1&form=hpcapt&mkt=zh-cn',
         },
       },
     },
