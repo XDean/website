@@ -15,5 +15,9 @@ export const Age = (props: Props) => {
     }, 100);
     return () => clearInterval(id);
   }, [birth]);
-  return <span>{age.toFixed(10)}</span>;
+  return (
+    <div className={'inline-block px-1'}>
+      {age.toFixed(10)}
+    </div>
+  );
 };

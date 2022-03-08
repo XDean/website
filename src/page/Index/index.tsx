@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { easeInOut, smoothScroll } from '../../../common/util/dom';
 import { PropsOf } from '../../../common/util/react';
 import { About } from './About';
@@ -14,11 +14,10 @@ type Props = {
 }
 
 export const Index = (props: Props) => {
-  const rootRef = useRef<HTMLDivElement>();
+  const [root, setRoot] = useState<HTMLDivElement>();
   const {home} = props;
 
   useEffect(() => {
-    const root = rootRef.current;
     if (root && window) {
       let lastPos = window.scrollY;
       let scrollDown = true;
@@ -72,10 +71,28 @@ export const Index = (props: Props) => {
         window.removeEventListener('scroll', listener);
       };
     }
-  }, [rootRef]);
+  }, [root]);
+
+  const scrollTo = useCallback((id: string) => {
+    if (root) {
+      for (let i = 0; i < root.children.length; i++) {
+        const c = root.children.item(i);
+        if (c.id === id) {
+          smoothScroll({
+            element: window,
+            from: window.scrollY,
+            to: window.scrollY + c.getBoundingClientRect().y,
+            duration: 500,
+            stepFunc: easeInOut,
+            force: true,
+          });
+        }
+      }
+    }
+  }, [root]);
 
   return (
-    <div id={'root'} className={css.root} ref={rootRef}>
+    <div id={'root'} className={css.root} ref={setRoot}>
       <div id={'home'} className={css.page}>
         <div>
           <Home {...home}/>

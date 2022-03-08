@@ -4,10 +4,11 @@ import gmailIcon from 'public/about/gmail.webp';
 import qqmailIcon from 'public/about/qqmail.webp';
 import stackoverflowIcon from 'public/about/stackoverflow.webp';
 import wechatIcon from 'public/about/wechat.webp';
-import { IconLink } from './IconLink';
 import { Age } from './Age';
 import avatar from './avatar.jpg';
+import { IconLink } from './IconLink';
 import css from './index.module.css';
+import { Link } from './Link';
 
 const birth = new Date('1995-11-07');
 
@@ -20,10 +21,10 @@ export const About = () => {
           <div className={'text-3xl mb-3'}>许德安 (XDean)</div>
           <ul className={css.list}>
             <li><Age birth={birth}/> 岁</li>
-            <li><a href={'#coding'}>程序员</a></li>
-            <li><a href={'#board-game'}>桌游爱好者</a></li>
-            <li><a href={'#game'}>游戏玩家</a></li>
-            <li><a href={'#reed'}>芦苇</a></li>
+            <li><Link link={'#coding'} text={'程序员'}/></li>
+            <li><Link link={'#board-game'} text={'桌游爱好者'}/></li>
+            <li><Link link={'#game'} text={'游戏玩家'}/></li>
+            <li><Link link={'#reed'} text={'芦苇'}/></li>
           </ul>
         </div>
       </div>
