@@ -24,6 +24,7 @@ export const Home = (props: Props) => {
                  objectPosition={'center'}
                  objectFit={'cover'}
                  layout={'fill'}
+                 className={'pointer-events-none select-none'}
       />
       {img.title &&
       <a className={'hidden md:block absolute z-50 left-2 bottom-2 px-1 text-sm opacity-60 text-gray-700 bg-gray-300 ' +
