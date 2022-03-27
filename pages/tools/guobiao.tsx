@@ -1,23 +1,12 @@
-import {useEffect} from 'react';
+import {Redirect} from '../../common/components/Redirect';
 
-// backward compatibility
-const newUrl = 'https://tool.xdean.cn/tool/guobiao';
-const Page = () => {
-
-  useEffect(() => {
-    window.location.href = newUrl;
-  }, []);
-
-  return (
-    <div className={'text-center'}>
-      <div>
-        域名换了，将自动重定向到新页面
-      </div>
-      <div>
-        如未自动跳转，请点击：<a className={'link'} href={newUrl}>这里</a>
-      </div>
-    </div>
-  );
-};
+const Page = () => (
+  <div className={'h-[90vh] flex flex-col justify-center'}>
+    <Redirect url={'https://tool.xdean.cn/tool/guobiao'}
+              delay={3000}
+              text={'国标算番器已经迁移到了新的域名'}
+    />
+  </div>
+);
 
 export default Page;
