@@ -22,8 +22,8 @@ export const About = () => {
           <ul className={css.list}>
             <li><Age birth={birth}/> 岁</li>
             <li><Link link={'#coding'} text={'程序员'}/></li>
-            <li><Link link={'#board-game'} text={'桌游爱好者'}/></li>
-            <li><Link link={'#game'} text={'游戏玩家'}/></li>
+            <li><Link link={'#board-game'} text={'桌游玩家'}/></li>
+            <li><Link link={'#cook'} text={'美食爱好者'}/></li>
             <li><Link link={'#reed'} text={'芦苇'}/></li>
           </ul>
         </div>

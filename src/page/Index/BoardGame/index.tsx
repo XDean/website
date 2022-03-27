@@ -1,10 +1,6 @@
 import clsx from 'clsx';
-import Image from 'next/image';
-import bg from 'public/bg.jpeg';
-import bg2 from 'public/bg2.jpg';
-import { FlipSlide } from '../../../../common/components/flipslide';
 import css from './index.module.css';
-import { Meeple } from './Meeple';
+import {Meeple} from './Meeple';
 
 export const BoardGame = () => {
   return (
@@ -22,15 +18,6 @@ export const BoardGame = () => {
           <li>嘴炮发动机</li>
           <li>闲鱼冤大头</li>
         </ul>
-      </div>
-      <div className={'w-[256px] h-[256px]'}>
-        <FlipSlide front={<Image src={bg}
-                                 layout={'fill'}
-                                 objectFit={'cover'}/>}
-                   back={<Image src={bg2}
-                                layout={'fill'}
-                                objectFit={'cover'}/>}
-        />
       </div>
     </div>
   );

@@ -109,11 +109,11 @@ export const Index = (props: Props) => {
         </div>
       </div>
       <div id={'board-game'} className={css.page}>
-        <div>
-          <BoardGame/>
+        <div className={'text-4xl'}>
+          TBD
         </div>
       </div>
-      <div id={'game'} className={css.page}>
+      <div id={'cook'} className={css.page}>
         <div className={'text-4xl'}>
           TBD
         </div>

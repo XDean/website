@@ -56,11 +56,11 @@ export const Home = (props: Props) => {
         <div className={'flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-4 text-3xl'}>
           <Link link={'#about'} text={'关于我'}/>
           <Dot/>
-          <Link link={'https://blog.xdean.cn'} text={'博客'}/>
+          <Link link={'https://blog.xdean.cn'} targetBlank text={'博客'}/>
           <Dot/>
-          <Link link={'https://tutorial.xdean.cn'} text={'教程'}/>
+          <Link link={'https://tutorial.xdean.cn'} targetBlank text={'教程'}/>
           <Dot/>
-          <Link link={'https://tool.xdean.cn'} text={'百宝箱'}/>
+          <Link link={'https://tool.xdean.cn'} targetBlank text={'百宝箱'}/>
         </div>
       </div>
     </div>

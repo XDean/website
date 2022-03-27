@@ -1,12 +1,23 @@
-import { GetStaticProps } from 'next';
-import { PropsOf } from '../common/util/react';
-import { Index } from '../src/page/Index';
+import {GetStaticProps} from 'next';
+import {PropsOf} from '../common/util/react';
+import {Index} from '../src/page/Index';
+import Head from 'next/head';
 
-export default Index;
+
+export default function Page(props: PropsOf<typeof Index>) {
+  return (
+    <>
+      <Head>
+        <title>XDean的主页</title>
+      </Head>
+      <Index {...props}/>
+    </>
+  );
+};
 
 export const getStaticProps: GetStaticProps<PropsOf<typeof Index>> = async () => {
   try {
-    const res = await fetch(`https://www.bing.com/HPImageArchive.aspx?format=js&idx=${new Date().getHours() % 10}&n=1&mkt=zh-cn`);
+    const res = await fetch(`https://www.bing.com/HPImageArchive.aspx?format=js&idx=${new Date().getMinutes() % 10}&n=1&mkt=zh-cn`);
     const json = await res.json();
     const url = json.images[0].url;
     const title = json.images[0].copyright || '';
