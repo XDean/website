@@ -2,8 +2,10 @@ import {AppProps} from 'next/dist/pages/_app';
 import '../assets/styles/globals.css';
 import Head from 'next/head';
 import {BaiduAnalytics} from '../common/util/analytics/baidu';
+import {useGA} from '../common/util/ga';
 
 function MyApp({Component, pageProps, router}: AppProps) {
+  useGA('G-VQ19SGY4PC');
   return (
     <>
       <Head>
