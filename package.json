@@ -51,6 +51,7 @@
     "remark-rehype": "^8.0.0",
     "remark-slug": "^6.0.0",
     "serverless-mysql": "^1.5.4",
+    "swr": "^1.2.2",
     "use-sound": "^2.0.1",
     "workbox-window": "^6.1.2",
     "xstate": "^4.17.0"
