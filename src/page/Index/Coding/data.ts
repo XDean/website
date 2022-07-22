@@ -150,4 +150,9 @@ export const CodeQuotes: Quote[] = [
     zh: '前90%的代码会花费90%的时间，剩下的10%的代码花费另外90%的时间。',
     by: '',
   },
+  {
+    en: 'There are only two hard things in Computer Science: cache invalidation and naming things.',
+    zh: '计算机科学仅有两大难题：缓存失效，和命名',
+    by: 'Phil Karlton',
+  }
 ];
